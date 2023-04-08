@@ -21,8 +21,8 @@ class NavBar extends Component {
               <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/"><AiOutlineHome /></Link></li>
               <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Display_Cars"><IoCarSportOutline /></Link></li>
               <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Contact"><TbMessageCircle /></Link></li>
-              <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Sign_Up"><AiOutlineUserAdd /></Link></li>
-              <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Sign_In"><CgProfile /></Link></li>
+              {/* <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Sign_Up"><AiOutlineUserAdd /></Link></li> */}
+              <li><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to="/Profile"><CgProfile /></Link></li>
           </ul>
         </nav>
       </header>

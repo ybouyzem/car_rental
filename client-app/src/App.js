@@ -8,6 +8,7 @@ import DisplayAllCars from './Components/Cars/DisplayAllCars';
 import Contact from './Components/Contact/Contact';
 import SignUp from './Components/Profiles/SignUp';
 import SignIn from './Components/Profiles/SignIn';
+import Profile from './Components/Profiles/Profile';
 import CarDetails from './Components/Cars/CarDetails';
 
 
@@ -27,8 +28,8 @@ function App() {
                 <Route path='Car_Details' element={<CarDetails />}></Route>
               </Route>
               <Route path='/Contact' element={<Contact />}></Route>
-              <Route path='/Sign_Up' element={<SignUp />}></Route>
-              <Route path='/Sign_In' element={<SignIn />}></Route>
+              {/* <Route path='/Sign_Up' element={<SignUp />}></Route> */}
+              <Route path='/Profile' element={<Profile />}></Route>
             </Routes>
           </div>
         </div>

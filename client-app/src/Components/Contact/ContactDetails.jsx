@@ -43,7 +43,7 @@ class ContactDetails extends Component {
         </div>
 
         <div className='w-[50%] h-full'>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26956.884658898685!2d-6.334645561417132!3d32.37599058109489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda385b063df23b5%3A0xe3f866349d17b14c!2sE.S.T%20beni%20mellal!5e0!3m2!1sen!2sma!4v1678565575764!5m2!1sen!2sma" width="100%" height="100%" style={{border:0}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26956.884658898685!2d-6.334645561417132!3d32.37599058109489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda385b063df23b5%3A0xe3f866349d17b14c!2sE.S.T%20beni%20mellal!5e0!3m2!1sen!2sma!4v1678565575764!5m2!1sen!2sma" width="100%" height="100%" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
     )
