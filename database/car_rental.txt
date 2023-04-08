@@ -1,0 +1,79 @@
+1-
+create database car_rental
+2-
+create table Employee (
+	  id int PRIMARY key,
+    nom varchar(50),
+    prenom varchar(50),
+    cin varchar(50),
+    numPost int,
+    nomPost varchar(50)
+)
+3-
+create table Admin (
+	id int primary key,
+    id_employee int,
+    email varchar(50),
+    password varchar(50),
+    foreign key(id_employee) references Employee(id)
+    )
+4-
+create table utilisateur (
+    id int primary key,
+    nom varchar(50),
+    prenom varchar(50),
+    email varchar(50),
+    password varchar(50)
+    )
+5-
+create table client ( 
+id int primary key , 
+id_utilisateur int, 
+phone int, 
+numero_permis int, 
+nationalite varchar(50), 
+numero_passport varchar(50), 
+ville varchar(50), 
+foreign key (id_utilisateur) references utilisateur(id) 
+);
+6-
+create table marque (
+    id int primary key,
+    libelle varchar(50)
+   	)
+	
+7-
+create table modele (
+	id int primary key,
+    id_marque int,
+    libelle varchar(50),
+    foreign key(id_marque) references marque(id)
+    )
+8-
+create table voiture (
+    id int primary key,
+    matricule varchar(50),
+    id_modele int,
+    status varchar(50),
+    prix_j float,
+    picture varchar(50),
+    carburant varchar(50),
+    nbr_places int,
+    dateDebut_assurance Date,
+    dateFin_assurance Date,
+    cout_assurance float,
+    description varchar(300),
+    boite_vitesse varchar(50),
+    foreign key(id_modele) references modele(id)
+    )
+9-
+create table reservation (
+    id int primary key,
+    id_voiture int,
+    id_client int,
+    date_location Date,
+    date_retour Date,
+    prolongation Date,
+    foreign key(id_voiture) references voiture(id),
+    FOREIGN key(id_client) references client(id)
+    )
