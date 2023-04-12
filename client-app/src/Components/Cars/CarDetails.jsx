@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 //React icons
 import {BsPerson} from 'react-icons/bs';
@@ -11,13 +11,13 @@ import {TbLicense} from 'react-icons/tb';
 import {GiPassport} from 'react-icons/gi';
 import {AiOutlineIdcard} from 'react-icons/ai';
 import {IoLocationOutline} from 'react-icons/io5';
+import {IoWarningOutline} from 'react-icons/io5';
 
 
 //Pics
 import PicTest from '../Pics/vecteezy_modern-car-isolated-on-transparent-background-3d-rendering_19763446_683.png';
 
-class CarDetails extends Component {
-  render() {
+function CarDetails({authorized}) {
     function Close(){
         // Description
         var desc = document.getElementById("Description");
@@ -29,6 +29,11 @@ class CarDetails extends Component {
         form.style.opacity = 0;
         form.style.zIndex = -10;
         form.style.scale = 0;
+        // Warning
+        var warning = document.getElementById("signInWarning");
+        warning.style.opacity = 0;
+        warning.style.zIndex = -10;
+        warning.style.scale = 0;
     };
     function OpenDescription(){
         var desc = document.getElementById("Description");
@@ -38,9 +43,16 @@ class CarDetails extends Component {
     };
     function OpenCheckout(){
         var form = document.getElementById("form");
-        form.style.opacity = 1;
-        form.style.zIndex = 10;
-        form.style.scale = 1;
+        var warning = document.getElementById("signInWarning");
+        if(authorized){
+            form.style.opacity = 1;
+            form.style.zIndex = 10;
+            form.style.scale = 1;
+        }else{
+            warning.style.opacity = 1;
+            warning.style.zIndex = 10;
+            warning.style.scale = 1;
+        }
     };
     return (
       <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
@@ -151,8 +163,15 @@ class CarDetails extends Component {
                 </div>
             </form>
         </div>
+        {/* Sign in warning */}
+        <div id="signInWarning" className='w-[40%] h-[30%] absolute right-0 bottom-0 bg-red-500/80 rounded-xl flex flex-col items-center justify-center py-2 opacity-0 -z-10 duration-300'>
+            <IoWarningOutline className='text-5xl text-yellow-400' />
+            <div className='w-full py-2 px-5 text-center'>
+                <span className='text-sm'>You can not do any operation now! Please Log into your account first.</span>
+            </div>
+            <button className='text-black' onClick={Close}>Got it</button>
+        </div>
       </div>
     )
-  }
 }
 export default CarDetails;

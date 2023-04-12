@@ -27,16 +27,16 @@ class ContactDetails extends Component {
             <div className="w-[50%] flex flex-col items-center gap-4">
                 <BsPhoneVibrate className='text-2xl text-red-500' />
                 <ul>
-                <li><a className='duration-300 hover:text-red-500' href="tel:+212620429392">(+212) 620 42 93 92</a></li>
-                <li><a className='duration-300 hover:text-red-500' href="tel:+212622538418">(+212) 622 53 84 18</a></li>
+                  <li><a className='duration-300 hover:text-red-500' href="tel:+212620429392">(+212) 620 42 93 92</a></li>
+                  <li><a className='duration-300 hover:text-red-500' href="tel:+212622538418">(+212) 622 53 84 18</a></li>
                 </ul>
             </div>
             {/* Address */}
             <div className="w-[50%] flex flex-col items-center gap-4">
                 <TfiEmail className='text-2xl text-red-500' />
                 <ul>
-                <li><a className='duration-300 hover:text-red-500' href="mailto:alahyane900@gmail.com">alahyane900@gmail.com</a></li>
-                <li><a className='duration-300 hover:text-red-500' href="mailto:alpha0110@hotmail.com">alpha0110@hotmail.com</a></li>
+                  <li><a className='duration-300 hover:text-red-500' href="mailto:alahyane900@gmail.com">alahyane.yo@gmail.com</a></li>
+                  <li><a className='duration-300 hover:text-red-500' href="mailto:alpha0110@hotmail.com">alpha0110@hotmail.com</a></li>
                 </ul>
             </div>
             </div>
