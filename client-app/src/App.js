@@ -10,6 +10,7 @@ import SignUp from './Components/Profiles/SignUp';
 import SignIn from './Components/Profiles/SignIn';
 import Profile from './Components/Profiles/Profile';
 import CarDetails from './Components/Cars/CarDetails';
+import Invoice from './Components/Invoice/Invoice';
 
 
 
@@ -23,6 +24,32 @@ function App() {
     setIsLoggedIn(false);
   }
 
+  // Filling out the invoice with data
+  const [pickUp, setPickUp] = useState('');
+  const [Return, setReturn] = useState('');
+  const [city, setCity] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  //set pick up value
+  function setPickUpValue(e){
+    setPickUp(e);
+  }
+
+  //set return value
+  function setReturnValue(e){
+    setReturn(e);
+  }
+
+  //set city value
+  function setCityValue(e){
+    setCity(e);
+  }
+
+  //set phone number value
+  function setPhoneNumberValue(e){
+    setPhoneNumber(e);
+  }
+
   return (
     <BrowserRouter>
         <div className='w-full h-[100vh] bg-gradient-to-r from-gray-900 to-gray-800 flex font-Poppins text-white selection:bg-red-400/80 selection:text-white'>
@@ -33,12 +60,13 @@ function App() {
             <Routes>
               <Route exact path='/' element={<Home />}></Route>
               <Route path='/Display_Cars' element={<DisplayAllCars />}>
-                <Route path='Car_Details' element={<CarDetails authorized={isLoggedIn} />}></Route>
+                <Route path='Car_Details' element={<CarDetails onPickUp={setPickUpValue} onReturn={setReturnValue} onCity={setCityValue} onPhoneNumber={setPhoneNumberValue} authorized={isLoggedIn} />}></Route>
               </Route>
               <Route path='/Contact' element={<Contact />}></Route>
               <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} />}></Route>
               <Route path='/Sign_In' element={<SignIn onLogin={handleLogIn} />}></Route>
               <Route path='/Profile' element={<Profile onLogout={handleLogOut} authorized={isLoggedIn} />}></Route>
+              <Route path='/Invoice' element={<Invoice pickUpValue={pickUp} returnValue={Return} cityValue={city} phoneNumberValue={phoneNumber} authorized={isLoggedIn} />}></Route>
             </Routes>
           </div>
         </div>

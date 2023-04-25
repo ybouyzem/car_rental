@@ -86,9 +86,9 @@ function SignIn ({onLogin}){
               <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id='Email' onChange={checkEmail} required />
             </div>
             {/* Email error */}
-            <div id='emailMsg' className='w-[70%] items-center gap-2 text-red-500 hidden'>
+            <div id='emailMsg' className='w-full items-center gap-2 text-red-500 hidden'>
               <BiMessageRoundedError className='text-xl text-red-500' />
-              <span className='text-xs'>Invalid email</span>
+              <span className='text-xs'>Invalid email / ex: xxxxxx@yyyy.zzz</span>
             </div>
           </div>
           {/* Password */}
@@ -98,12 +98,12 @@ function SignIn ({onLogin}){
               <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Password' id='Password' onChange={checkPassword} min="8" required />
             </div>
             {/* Password error */}
-            <div id='passMsg' className='w-[70%] items-center gap-2 text-red-500 hidden'>
+            <div id='passMsg' className='w-full items-center gap-2 text-red-500 hidden'>
               <BiMessageRoundedError className='text-xl text-red-500' />
-              <span className='text-xs'>Invalid Password</span>
+              <span className='text-xs'>Invalid Password / 8 characters long at least</span>
             </div>
             {/* error message */}
-            <div id='errMsg' className='w-[70%] items-center gap-2 text-red-500 hidden'>
+            <div id='errMsg' className='w-full items-center gap-2 text-red-500 hidden'>
               <BiMessageRoundedError className='text-xl text-red-500' />
               <span className='text-xs'>Incorrect email or password</span>
             </div>

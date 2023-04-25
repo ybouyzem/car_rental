@@ -112,7 +112,7 @@ function SignUp({onLogin}) {
               </div>
               {/* First Name error */}
               <div id='firstNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                <BiMessageRoundedError className='text-xl text-red-500' />
+                <BiMessageRoundedError className='text-xl' />
                 <span className='text-xs'>First Name is required</span>
               </div>
             </div>
@@ -124,7 +124,7 @@ function SignUp({onLogin}) {
               </div>
               {/* Last Name error */}
               <div id='lastNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                <BiMessageRoundedError className='text-xl text-red-500' />
+                <BiMessageRoundedError className='text-xl' />
                 <span className='text-xs'>Last Name is required</span>
               </div>
             </div>
@@ -137,8 +137,8 @@ function SignUp({onLogin}) {
             </div>
             {/* Email error */}
             <div id='emailMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-              <BiMessageRoundedError className='text-xl text-red-500' />
-              <span className='text-xs'>Invalid email</span>
+              <BiMessageRoundedError className='text-xl' />
+              <span className='text-xs'>Invalid email / ex: xxxxxx@yyyy.zzz</span>
             </div>
           </div>
           {/* Password */}
@@ -149,7 +149,7 @@ function SignUp({onLogin}) {
             </div>
             {/* Password error */}
             <div id='passMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-              <BiMessageRoundedError className='text-xl text-red-500' />
+              <BiMessageRoundedError className='text-xl' />
               <span className='text-xs'>Should be 8 characters long at least</span>
             </div>
           </div>
@@ -161,7 +161,7 @@ function SignUp({onLogin}) {
             </div>
             {/* Confirm Password error */}
             <div id='confirmPassMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-              <BiMessageRoundedError className='text-xl text-red-500' />
+              <BiMessageRoundedError className='text-xl' />
               <span className='text-xs'>There is a mistake in password!! Please check again</span>
             </div>
           </div>
