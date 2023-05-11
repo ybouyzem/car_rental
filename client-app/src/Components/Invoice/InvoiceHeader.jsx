@@ -7,7 +7,7 @@ import {RiSteeringFill} from 'react-icons/ri';
 
 // Pics
 
-function InvoiceHeader({city, phoneNumber}) {
+function InvoiceHeader({nom, prenom, email, city, phoneNumber}) {
   return (
     <div className='w-full flex flex-col gap-10'>
         {/* Logo */}
@@ -29,7 +29,7 @@ function InvoiceHeader({city, phoneNumber}) {
                 </div>
                 <div className='flex gap-2 text-sm'>
                     <span>Email:</span>
-                    <span>Alahyane.yo@gmail.com</span>
+                    <span>car_rental@company.net</span>
                 </div>
             </div>
             {/* Receiver */}
@@ -37,7 +37,7 @@ function InvoiceHeader({city, phoneNumber}) {
                 <span className='font-extrabold text-black'>To</span>
                 <div className='flex gap-2 text-sm'>
                     <span>Name:</span>
-                    <span>Bouyzem Younes</span>
+                    <span>{nom} {prenom}</span>
                 </div>
                 <div className='flex gap-2 text-sm'>
                     <span>City:</span>
@@ -49,7 +49,7 @@ function InvoiceHeader({city, phoneNumber}) {
                 </div>
                 <div className='flex gap-2 text-sm'>
                     <span>Email:</span>
-                    <span>alpha0110@hotmail.com</span>
+                    <span>{email}</span>
                 </div>
             </div>
         </div>

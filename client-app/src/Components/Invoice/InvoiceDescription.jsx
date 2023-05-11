@@ -6,17 +6,17 @@ import React from 'react'
 
 // Pics
 
-function InvoiceDescription({pickUp, Return}) {
+function InvoiceDescription({idCar, libelleMarque, libelleModele, price, pickUp, Return}) {
     var Description = [
-        {data: "15478"},
-        {data: "Car Model 1954"},
+        {data: idCar},
+        {data: `${libelleMarque} ${libelleModele}`},
         {data: pickUp},
         {data: Return},
-        {data: "600.00 MAD"},
+        {data: price+' MAD' },
     ];
-    const MyData = Description.map(item => {
+    const MyData = Description.map((item, key) => {
         return (
-            <td className='text-sm px-5 py-4 max-w-[150px]'>{item.data}</td>
+            <td key={key} className='text-sm px-5 py-4 max-w-[150px]'>{item.data}</td>
         )
     });
   return (

@@ -1,5 +1,6 @@
-import React from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import React, { useState } from 'react';             
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 //React icons
 import {MdOutlineAlternateEmail} from 'react-icons/md';
@@ -14,28 +15,55 @@ import Pic from '../Pics/olav-tvedt--oVaYMgBMbs-unsplash.jpg';
 
 
 
-function SignIn ({onLogin}){
+function SignIn ({onLogin, saveIdUser}){
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   //Forbid reloading the page.
   const handleSubmit = (event) => {
     event.preventDefault();
-    redirectToProfile();
+    var errorMsg = document.getElementById('errMsg'),
+    errorMsgValue = document.getElementById('errMsgValue');
+    if(checkEmail() && checkPassword()){
+      // checking data in the database
+      const checkEmail = async (email, password) => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${email}`, { params: { password: password } });
+          if(response.data.message === 'Not Found'){
+            errorMsgValue.textContent = 'Email not existed! Please check again';
+            errorMsg.style.display = "flex";
+            setTimeout(()=>{
+              errorMsg.style.display = "none";
+            },2000);
+          }else if(response.data.message === 'Invalid password'){
+            errorMsgValue.textContent = 'Password incorrect! try again';
+            errorMsg.style.display = "flex";
+            setTimeout(()=>{
+              errorMsg.style.display = "none";
+            },2000);
+          }else{
+            saveIdUser(response.data.message.id);
+            redirectToHome();
+          }
+        } catch (error) {
+          errorMsgValue.textContent = error;
+          errorMsg.style.display = "flex";
+          setTimeout(()=>{
+            errorMsg.style.display = "none";
+          },2000);
+        }
+      };
+      
+      checkEmail(email.toLowerCase(), password);
+      
+    }
   }
 
   //Redirecting to the profile.
   let navigate = useNavigate();
-  const redirectToProfile = () => {
-    var errorMsg = document.getElementById('errMsg')
-    var email = document.getElementById('Email').value;
-    var password = document.getElementById('Password').value;
-    if(checkEmail() && checkPassword()){
-      if(email === 'admin@gmail.com' && password === 'adminadmin'){
-        onLogin();
-        navigate("/Profile");
-      }else{
-        errorMsg.style.display = "flex";
-      };
-    }
+  const redirectToHome = () => {
+      onLogin();
+      navigate("/");
   }
 
   // checking email
@@ -48,7 +76,10 @@ function SignIn ({onLogin}){
     if(email.value === '' || !valeur){
       status = false;
       emailMsg.style.display = "flex";
-    }else emailMsg.style.display = "none";
+    }else{
+      emailMsg.style.display = "none";
+      setEmail(email.value);
+    } 
     return status;
   }
 
@@ -62,6 +93,7 @@ function SignIn ({onLogin}){
       passMsg.style.display = "flex";
     }else{
       passMsg.style.display = "none";
+      setPassword(password.value);
     } 
     return status;
   }
@@ -105,7 +137,7 @@ function SignIn ({onLogin}){
             {/* error message */}
             <div id='errMsg' className='w-full items-center gap-2 text-red-500 hidden'>
               <BiMessageRoundedError className='text-xl text-red-500' />
-              <span className='text-xs'>Incorrect email or password</span>
+              <span id='errMsgValue' className='text-xs'></span>
             </div>
           </div>
           {/* Submit */}

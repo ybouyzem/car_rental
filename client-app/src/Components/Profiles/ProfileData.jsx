@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 //React icons
 import {MdOutlineModeEditOutline} from 'react-icons/md';
@@ -11,7 +12,7 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 //Pics
 import ProfilePic from '../Pics/profile.png';
 
-function ProfileData({onLogout}) {
+function ProfileData({onLogout, id, nom, prenom, email}) {
     const navigate = useNavigate();
     const loggedOut = () => {
         onLogout();
@@ -59,16 +60,27 @@ function ProfileData({onLogout}) {
         var status = true,
         oldPassword = document.getElementById('OldPassword'),
         errMsg = document.getElementById('oldPasswordMsg');
-        if(oldPassword.value !== 'adminadmin'){
-            status = false;
-            errMsg.style.display = 'flex';
-        }else errMsg.style.display = 'none';
+        const checkPassword = async(email, password) => {
+            try{
+                const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${email}`, { params: { password: password } });
+                if(response.data.message === 'Invalid password'){
+                    status = false;
+                    errMsg.style.display = 'flex';
+                }else{
+                    errMsg.style.display = 'none';
+                }
+            }catch(error){
+                console.log(error);
+            }
+        }
+        checkPassword(email, oldPassword.value);
         return status;
     }
 
     // handle new password
     const handleNewPassword = () => {
         var status = true,
+        oldPassword = document.getElementById('OldPassword'),
         newPassword = document.getElementById('NewPassword'),
         errMsg = document.getElementById('newPasswordMsg'),
         span = document.getElementById('newPasswordMsgSpan');
@@ -76,9 +88,9 @@ function ProfileData({onLogout}) {
             status = false;
             span.textContent = 'Should be 8 characters long at least';
             errMsg.style.display = 'flex';
-        }else if(newPassword.value === 'adminadmin'){
+        }else if(newPassword.value === oldPassword.value){
             status = false;
-            span.textContent = 'New password must be different than old password';
+            span.textContent = 'The new password should not be the same as the old password';
             errMsg.style.display = 'flex';
         }else errMsg.style.display = 'none';
         return status;
@@ -100,15 +112,37 @@ function ProfileData({onLogout}) {
     // handle handle submit reset password & showing the response
     const handleSubmitResetPassword = (e) => {
         var messageContent = document.getElementById('MessageContent'),
-        messageContentSpan = document.getElementById('MessageContentSpan');
-        messageContentSpan.textContent = 'Password has been changed successfully';
+        messageContentSpan = document.getElementById('MessageContentSpan'),
+        newPassword = document.getElementById('NewPassword');
+
         e.preventDefault();
         if(handleOldPassword() && handleNewPassword && handleConfirmNewPassword()){
-            closeResetPassword();
-            messageContent.style.display = 'flex';
-            setTimeout(() => {
-                messageContent.style.display = 'none';
-            }, 2000);
+            // updating password value
+            const updatePassword = async (id, password) => {
+                try {
+                    const response = await axios.patch(`http://127.0.0.1:8000/api/Utilisateur/${id}`, {
+                        password: password
+                    });
+            
+                    console.log(response.data.message); // "User updated successfully"
+                    closeResetPassword();
+                    messageContentSpan.textContent = 'Password has been changed successfully';
+                    messageContent.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                } catch (error) {
+                    closeResetPassword();
+                    messageContentSpan.textContent = error;
+                    messageContent.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                }
+            };
+            updatePassword(id, newPassword.value);
         } 
     }
     //-------------------------------------------
@@ -136,13 +170,33 @@ function ProfileData({onLogout}) {
     const handleSubmitFirstName = (e) => {
         e.preventDefault();
         var messageContent = document.getElementById('MessageContent'),
-        messageContentSpan = document.getElementById('MessageContentSpan');
-        messageContentSpan.textContent = 'First name has been changed successfully';
+        messageContentSpan = document.getElementById('MessageContentSpan'),
+        firstName = document.getElementById('FirstName');
         if(handleFirstName()){
-            messageContent.style.display = 'flex';
-            setTimeout(() => {
-                messageContent.style.display = 'none';
-            }, 2000);
+            // updating first name value
+            const updateFirstName = async (id, prenom) => {
+                try {
+                    const response = await axios.patch(`http://127.0.0.1:8000/api/Utilisateur/${id}`, {
+                        prenom: prenom
+                    });
+            
+                    console.log(response.data.message); // "User updated successfully"
+                    messageContentSpan.textContent = 'First name has been changed successfully';
+                    messageContent.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                } catch (error) {
+                    messageContentSpan.textContent = error;
+                    messageContent.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                }
+            };
+            updateFirstName(id, firstName.value);
         }
     }
 
@@ -170,20 +224,41 @@ function ProfileData({onLogout}) {
     const handleSubmitLastName = (e) => {
         e.preventDefault(); 
         var messageContent = document.getElementById('MessageContent'),
-        messageContentSpan = document.getElementById('MessageContentSpan');
-        messageContentSpan.textContent = 'Last name has been changed successfully';
+        messageContentSpan = document.getElementById('MessageContentSpan'),
+        lastName = document.getElementById('LastName');
         if(handleLastName()){
-            messageContent.style.display = 'flex';
-            setTimeout(() => {
-                messageContent.style.display = 'none';
-            }, 2000);
+            // updating last name value
+            const updateLastName = async (id, nom) => {
+                try {
+                    const response = await axios.patch(`http://127.0.0.1:8000/api/Utilisateur/${id}`, {
+                        nom: nom
+                    });
+            
+                    console.log(response.data.message); // "User updated successfully"
+                    messageContentSpan.textContent = 'Last name has been changed successfully';
+                    messageContent.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                } catch (error) {
+                    messageContentSpan.textContent = error;
+                    messageContent.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+                    messageContent.style.display = 'flex';
+                    setTimeout(() => {
+                        messageContent.style.display = 'none';
+                    }, 2000);
+                }
+            };
+            updateLastName(id, lastName.value);
+            
         }
     }
 
   return (
-    <div className='w-[80%] h-[40%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl relative'>
+    <div className='w-[80%] h-[40%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl relative overflow-hidden'>
         {/* Change Password Message */}
-        <div id='MessageContent' className='w-full absolute top-0 left-[50%] -translate-x-[50%] py-5 bg-green-500/50 justify-center items-center duration-300 hidden'>
+        <div id='MessageContent' className='w-full absolute top-0 left-[50%] -translate-x-[50%] py-5 justify-center items-center duration-300 hidden'>
             <span id='MessageContentSpan' className='text-sm'></span>
         </div>
         
@@ -198,7 +273,7 @@ function ProfileData({onLogout}) {
             <div className='w-full flex items-end gap-5'>
                 <span className='font-bold'>Last Name :</span>
                 <form className="w-[50%] flex items-center gap-2" onSubmit={handleSubmitLastName}>
-                    <input className='w-full text-sm bg-transparent placeholder:text-white outline-none' type='text' placeholder='Alahyane' id='LastName' readOnly={readOnlyLastName} onBlur={handleBlurLastName} onChange={handleLastName}  required />
+                    <input className='w-full text-sm bg-transparent placeholder:text-white outline-none' type='text' placeholder={nom} id='LastName' readOnly={readOnlyLastName} onBlur={handleBlurLastName} onChange={handleLastName}  required />
                     <label htmlFor="LastName" className='cursor-pointer' onClick={handleClickLastName}><MdOutlineModeEditOutline className='text-red-500' /></label>
                     <button type="submit"><GiConfirmed className='text-green-500' /></button>
                 </form>
@@ -206,7 +281,7 @@ function ProfileData({onLogout}) {
             <div className='w-full flex items-end gap-5'>
                 <span className='font-bold'>First Name :</span>
                 <form className="w-[50%] flex items-center gap-2" onSubmit={handleSubmitFirstName}>
-                    <input className='w-full text-sm bg-transparent placeholder:text-white outline-none' type='text' placeholder='YouSsef' id='FirstName' readOnly={readOnlyFirstName} onBlur={handleBlurFirstName} onChange={handleFirstName} required />
+                    <input className='w-full text-sm bg-transparent placeholder:text-white outline-none' type='text' placeholder={prenom} id='FirstName' readOnly={readOnlyFirstName} onBlur={handleBlurFirstName} onChange={handleFirstName} required />
                     <label htmlFor="FirstName" className='cursor-pointer' onClick={handleClickFirstName}><MdOutlineModeEditOutline className='text-red-500' /></label>
                     <button type="submit"><GiConfirmed className='text-green-500' /></button>
                 </form>
@@ -214,7 +289,7 @@ function ProfileData({onLogout}) {
             {/* Email */}
             <div className='w-full flex items-end gap-5'>
                 <span className='font-bold'>Email :</span>
-                <span className='text-sm'>Alahyane.yo@gmail.com</span>
+                <span className='text-sm'>{email}</span>
             </div>
             {/* Password */}
             <div className='w-full flex items-end gap-5'>

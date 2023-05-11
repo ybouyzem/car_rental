@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 //React icons
 import {BsPerson} from 'react-icons/bs';
@@ -17,9 +18,33 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 
 
 //Pics
-import PicTest from '../Pics/vecteezy_modern-car-isolated-on-transparent-background-3d-rendering_19763446_683.png';
 
-function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
+function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
+    // extract car's data selected
+    var [image, setImage] = useState('');
+    var [seats, setSeats] = useState('');
+    var [carburant, setCarburant] = useState('');
+    var [vitesse, setVitesse] = useState('');
+    var [description, setDescription] = useState('');
+    var [price, setPrice] = useState('');
+
+    
+    useEffect(() => {
+        var fetchCar = async(id) => {
+            try{
+                const response = await axios.get(`http://127.0.0.1:8000/api/Voiture/${id}`);
+                setImage(response.data.voiture.image);
+                setSeats(response.data.voiture.nombre_places);
+                setCarburant(response.data.voiture.carburant);
+                setVitesse(response.data.voiture.boîte_vitesse);
+                setDescription(response.data.voiture.description);
+                setPrice(response.data.voiture.prix_jour);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        fetchCar(idCar);
+      }, [idCar]);
 
     // closing some divs
     function Close(){
@@ -66,22 +91,81 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
     //Redirection to invoice
     let navigate = useNavigate();
     function RedirectToInvoice(){
-        if(authorized){
-            navigate("/Invoice");
-        }
+        navigate("/Invoice");
     }
 
     //Forbid reloading the page.
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        if(checkPickUp() && handleLocation() && handlePhoneNumber() && handleLicenseNumber() && handleNationality()){
-            RedirectToInvoice();
+        if(authorized){
+            const isValid = handlePickUp() && handleReturn() && handleLocation() && handlePhoneNumber() && handleLicenseNumber() && handleNationality();
+            if(isValid){
+                try {
+                    // Insert client data
+                    var formData1 = new FormData();
+                    formData1.append('id_utilisateur', idUser);
+                    formData1.append('nationalite', nationality);
+                    formData1.append('ville', location);
+                    formData1.append('numero_telephone', phoneNumber);
+                    formData1.append('numero_permis', licenseNumber);
+                    if(passportNumber !== ''){
+                        formData1.append('numero_passport', passportNumber);
+                    }
+              
+                    const { data: clientData } = await axios.post('http://127.0.0.1:8000/api/Client', formData1);
+                    console.log(clientData.message);
+                    
+                    // Get client ID
+                    var clientId = null;
+                    const getClientId = async (id) => {
+                        try {
+                          const response = await axios.get(`http://127.0.0.1:8000/api/Client/${id}`);
+                          clientId = response.data.client.id;
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      };
+                    getClientId(idUser);
+                    console.log(clientId);
+
+                    // Insert order data
+                    var formData2 = new FormData();
+                    formData2.append('id_voiture', idCar);
+                    formData2.append('id_client', clientId);
+                    formData2.append('location', date_pickUp);
+                    formData2.append('retour', date_return);
+
+                    const { data: orderData } = await axios.post('http://127.0.0.1:8000/api/Reservation', formData2);
+                    console.log(orderData.message);
+
+                    RedirectToInvoice();
+                } catch (error) {
+                    // if (error.response.status === 422) {
+                    //   console.log(error.response.data.errors);
+                    // } else {
+                    //   console.log(error.response.data.message);
+                    // }
+                    console.log(error);
+                }
+            }
+        }else {
+            return;
         }
+        
     }
 
     // ---------------------------------------
     // ---------------------------------------
     // ---------------------------------------
+
+    const [date_pickUp, setDatePickUp] = useState(''),
+    [date_return, setDateReturn] = useState(''),
+    [location, setLocation] = useState(''),
+    [phoneNumber, setPhoneNumber] = useState(''),
+    [licenseNumber, setLicenseNumber] = useState(''),
+    [nationality, setNationality] = useState(''),
+    [passportNumber, setPassportNumber] = useState('');
+
 
     // handle Location
     const handleLocation = () => {
@@ -94,6 +178,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
         }else{
             errMsg.style.display = "none";
             onCity(location.value);
+            setLocation(location.value);
         }
         return status;
     }
@@ -111,6 +196,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
         }else{
             errMsg.style.display = "none";
             onPhoneNumber(Phone.value);
+            setPhoneNumber(Phone.value);
         }
         return status;
     }
@@ -125,6 +211,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
             errMsg.style.display = "flex";
         }else{
             errMsg.style.display = "none";
+            setLicenseNumber(License.value);
         }
         return status;
     }
@@ -134,27 +221,24 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
         var status = true;
         var nationality = document.getElementById("Nationality");
         var errMsg = document.getElementById("ErrorNationality");
+
+        var passDiv = document.getElementById("PassportDiv");
+        var passport = document.getElementById('PassportNumber');
         if(nationality.value === "none"){
             status = false;
             errMsg.style.display = "flex";
         }else{
+            if(nationality.value === 'Morocco'){
+                passDiv.style.display = "none";
+                passport.required = false;
+            }else{
+                passport.required = true;
+                passDiv.style.display = "flex";
+            }
             errMsg.style.display = "none";
+            setNationality(nationality.value);
         }
         return status;
-    }
-
-    // checking Nationality
-    const checkNationality = () => {
-        var nationality = document.getElementById("Nationality");
-        var passDiv = document.getElementById("PassportDiv");
-        var passport = document.getElementById('PassportNumber');
-        if(nationality.value === 'Morocco'){
-            passDiv.style.display = "none";
-            passport.required = false;
-        }else{
-            passport.required = true;
-            passDiv.style.display = "flex";
-        }
     }
 
     // handle Passport Number
@@ -167,6 +251,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
             errMsg.style.display = "flex";
         }else{
             errMsg.style.display = "none";
+            setPassportNumber(passport.value);
         }
         return status;
     }
@@ -181,6 +266,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
         }else{
             errMsg.style.display = "none";
             onPickUp(document.getElementById('PickUp').value);
+            setDatePickUp(document.getElementById('PickUp').value);
         }
         return status;
     }
@@ -191,9 +277,18 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
     const checkPickUp = () => {
         var status = false;
         const today = new Date(),
-        date = new Date(document.getElementById('PickUp').value),
-        pickUpTime = date.getTime();
-        if(pickUpTime >= today) status = true;
+        pickUpDate = new Date(document.getElementById('PickUp').value),
+        pickUpTime = pickUpDate.getTime();
+        if(pickUpTime >= today){
+            if(document.getElementById('Return').value !== ''){
+                const returnDate = new Date(document.getElementById('Return').value);
+                let returnTime = returnDate.getTime();
+                if(((returnTime - pickUpTime) / 3600000) >= 1) status = true;
+                else status = false;
+            }else{
+                status = true;
+            }
+        } 
         return status;
     }
     
@@ -207,6 +302,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
         }else{
             errMsg.style.display = "none";
             onReturn(document.getElementById('Return').value);
+            setDateReturn(document.getElementById('Return').value);
         }
         return status;
     }
@@ -227,24 +323,24 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
     return (
       <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
         {/* Picture */}
-        <div className='w-[50%]'>
-            <img className='w-full' src={PicTest} alt="" />
+        <div className='w-[50%] h-[40%]'>
+            <img className='w-full' src={image} alt="Not Found" />
         </div>
         {/* Features */}
         <div className='w-[50%] flex justify-between text-sm'>
             <div className='flex flex-col gap-5'>
-                <div className='flex items-center gap-1'><BsPerson className='text-lg' /><span>4 Seats</span></div>
-                <div className='flex items-center gap-1'><TbGasStation className='text-lg' /><span>Essence</span></div>
+                <div className='flex items-center gap-1'><BsPerson className='text-lg' /><span>{seats} Seats</span></div>
+                <div className='flex items-center gap-1'><TbGasStation className='text-lg' /><span>{carburant}</span></div>
             </div>
             <div className='flex flex-col gap-5'>
-                <div className='flex items-center gap-1'><GiGearStick className='text-lg' /><span>Manual</span></div>
+                <div className='flex items-center gap-1'><GiGearStick className='text-lg' /><span>{vitesse}</span></div>
                 <button onClick={OpenDescription} className='flex items-center gap-1'><TbFileDescription className='text-lg' /><span>View More</span></button>
             </div>
         </div>
         {/* Price */}
         <div className='w-[50%] flex flex-col items-end'>
             <div><span className='text-sm text-gray-200'>Price for <span className='text-red-500'>24 hours</span> :</span></div>
-            <div><span className='text-xl font-bold'>MAD <span className='text-red-500'>600.00DH</span></span></div>
+            <div><span className='text-xl font-bold'>MAD <span className='text-red-500'>{price}</span></span></div>
         </div>
         {/* Button Checkout */}
         <button className='w-[70%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer' onClick={OpenCheckout}>Checkout</button>
@@ -255,7 +351,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                 <span className='text-2xl font-extrabold'>Description :</span>
             </div>
             <div className='overflow-y-auto'>
-                <p className='text-sm text-gray-200 leading-6'>Conçu et développé dans les installations de SEAT à Martorell (Barcelone) et produit à Wolfsburg (Allemagne), ce véhicule marque le troisième volet de l’offensive produits SUV de la marque. La nouveau modèle phare de SEAT permettra à l’entreprise de conquérir de nouveaux clients, renforcera l’image de marque. Elle tire son nom de la ville méditerranéenne de Tarragone, un centre historique et culturel qui bénéficie d’une architecture impressionnante tout en gardant un esprit jeune et aventureux. Le nom Tarraco a été choisi par vote ouvert à tous sur Internet #SEATseekingName, et auquel plus de 140 000 passionnés ont participé durant la phase finale.</p>
+                <p className='text-sm text-gray-200 leading-6'>{description}</p>
             </div>
         </div>
 
@@ -291,7 +387,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                         {/* Error Message */}
                         <div id='ErrorReturn' className='w-full text-red-500 items-center gap-2 hidden'>
                             <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Shoulld enter date superior than pick up's date</span>
+                            <span className='text-xs'>Should enter date superior than pick up's date</span>
                         </div>
                     </div>
                 </div>
@@ -301,7 +397,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                     <div className='w-[50%] flex flex-col'>
                         <div className='w-full flex items-center relative'>
                             <IoLocationOutline className='absolute left-2 text-lg text-red-500' />
-                            <select className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" required>
+                            <select defaultValue="none" className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" onChange={handleLocation} required>
                                 <option value="none" selected disabled>Choose your location</option>
                                 <option value="Béni Mellal">Béni Mellal</option>
                                 <option value="Casa blanca">Casa blanca</option>
@@ -336,7 +432,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                     <div className='w-[50%] flex flex-col'>
                         <div className='w-full flex items-center relative'>
                             <TbLicense className='absolute left-2 text-lg text-red-500' />
-                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' type="number" placeholder="License Number" id='LicenseNumber' name='LicenseNumber' onChange={handleLicenseNumber} min='0' required />
+                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' type="text" placeholder="License Number" id='LicenseNumber' name='LicenseNumber' onChange={handleLicenseNumber} required />
                         </div>
                         {/* Error Message */}
                         <div id='ErrorLicenseNumber' className='w-full text-red-500 items-center gap-2 hidden'>
@@ -349,7 +445,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                     <div className='w-[50%] flex flex-col'>
                         <div className='w-full flex items-center relative'>
                             <AiOutlineIdcard className='absolute left-2 text-lg text-red-500' />
-                            <select className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={checkNationality}>
+                            <select defaultValue="none"  className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={handleNationality}>
                                 <option value="none" selected disabled>Choose your nationality</option>
                                 <option value="Morocco">Morocco</option>
                                 <option value="France">France</option>
@@ -369,7 +465,7 @@ function CarDetails({onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
                 <div id='PassportDiv' className='w-full flex-col hidden'>
                     <div className='w-full flex items-center relative'>
                         <GiPassport className='absolute left-2 text-lg text-red-500' />
-                        <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' placeholder="Passport Number" type="number" id='PassportNumber' name='PassportNumber' min='0' onChange={handlePassportNumber} />
+                        <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' placeholder="Passport Number" type="text" id='PassportNumber' name='PassportNumber' onChange={handlePassportNumber} />
                     </div>
                     {/* Error Message */}
                     <div id='ErrorPassport' className='w-full text-red-500 items-center gap-2 hidden'>

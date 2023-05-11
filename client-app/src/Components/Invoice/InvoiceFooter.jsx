@@ -6,7 +6,7 @@ import React from 'react'
 
 // Pics
 
-function InvoiceFooter({pickUp, Return}) {
+function InvoiceFooter({price, pickUp, Return}) {
   // Calcul hours
   const hoursBetweenTwoDates = (pickUpDate, returnDate) => {
     const date1 = new Date(pickUpDate),
@@ -35,7 +35,7 @@ function InvoiceFooter({pickUp, Return}) {
       <div className='flex flex-col'>
         <div className='flex items-end gap-2 p-2'>
           <span className='font-extrabold text-black'>SubTotal</span>
-          <span className='text-sm'>600.00 MAD</span>
+          <span className='text-sm'>{price} MAD</span>
         </div>
         <div className='flex items-end gap-2 p-2'>
           <span className='font-extrabold text-black'>Hours</span>
@@ -44,7 +44,7 @@ function InvoiceFooter({pickUp, Return}) {
         <div className='w-full h-[1px] bg-slate-500 mt-2 mb-2'></div>
         <div className='flex items-end bg-slate-200 gap-2 p-2'>
           <span className='font-extrabold text-black'>Total</span>
-          <span className='text-sm'>{total(600, hoursBetweenTwoDates(Return, pickUp))} MAD</span>
+          <span className='text-sm'>{total(price, hoursBetweenTwoDates(Return, pickUp))} MAD</span>
         </div>
       </div>
     </div>

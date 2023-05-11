@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
 //Components
@@ -22,6 +22,18 @@ function App() {
   }
   const handleLogOut = () => {
     setIsLoggedIn(false);
+  }
+
+  //saving the id of the user
+  const [idUser, setIdUser] = useState('');
+  const handleIdUser = ($id) => {
+    setIdUser($id);
+  }
+
+  // to know the vehicule clicked on
+  const [idCar, setIdCar] = useState('');
+  const handleVehicule = (id) => {
+    setIdCar(id);
   }
 
   // Filling out the invoice with data
@@ -54,19 +66,19 @@ function App() {
     <BrowserRouter>
         <div className='w-full h-[100vh] bg-gradient-to-r from-gray-900 to-gray-800 flex font-Poppins text-white selection:bg-red-400/80 selection:text-white'>
           <div className='min-w-[15%] h-full flex flex-col items-center justify-between py-10'>
-              <NavBar isLoggedIn={isLoggedIn} />
+              <NavBar isLoggedIn={isLoggedIn} idUser={idUser} />
           </div>
           <div className='min-w-[85%] flex justify-center items-center overflow-hidden'>
             <Routes>
               <Route exact path='/' element={<Home />}></Route>
-              <Route path='/Display_Cars' element={<DisplayAllCars />}>
-                <Route path='Car_Details' element={<CarDetails onPickUp={setPickUpValue} onReturn={setReturnValue} onCity={setCityValue} onPhoneNumber={setPhoneNumberValue} authorized={isLoggedIn} />}></Route>
+              <Route path='/Display_Cars' element={<DisplayAllCars handleVehicule={handleVehicule} />}>
+                <Route path='Car_Details' element={<CarDetails idCar={idCar} idUser={idUser} onPickUp={setPickUpValue} onReturn={setReturnValue} onCity={setCityValue} onPhoneNumber={setPhoneNumberValue} authorized={isLoggedIn} />}></Route>
               </Route>
               <Route path='/Contact' element={<Contact />}></Route>
-              <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} />}></Route>
-              <Route path='/Sign_In' element={<SignIn onLogin={handleLogIn} />}></Route>
-              <Route path='/Profile' element={<Profile onLogout={handleLogOut} authorized={isLoggedIn} />}></Route>
-              <Route path='/Invoice' element={<Invoice pickUpValue={pickUp} returnValue={Return} cityValue={city} phoneNumberValue={phoneNumber} authorized={isLoggedIn} />}></Route>
+              <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
+              <Route path='/Sign_In' element={<SignIn onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
+              <Route path='/Profile' element={<Profile onLogout={handleLogOut}  id={idUser} authorized={isLoggedIn} />}></Route>
+              <Route path='/Invoice' element={<Invoice idUser={idUser} idCar={idCar} pickUpValue={pickUp} returnValue={Return} cityValue={city} phoneNumberValue={phoneNumber} authorized={isLoggedIn} />}></Route>
             </Routes>
           </div>
         </div>
