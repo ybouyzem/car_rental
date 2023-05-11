@@ -26,7 +26,7 @@
 
 
             <div class="recent-grid">
-                <x-rented-cars/>
+                <x-rented-cars :voitures='$voitures'/>
                 <!-- clients -->
                 <div class="clients">
                     <div class="card">

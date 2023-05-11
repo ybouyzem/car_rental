@@ -1,3 +1,5 @@
+@props(['voitures'])
+
 <div class="voitures">
     <div class="card">
         <div class="card-header">
@@ -10,123 +12,32 @@
                     <thead>
                         <tr>
                             <td>id</td>
-                            <!-- <td>Matricule</td> -->
+                            <td>Matricule</td>
+                            <td>Modele</td>
                             <td>Marque</td>
-                            <td>Prix oar jour</td>
-                            <td>Status Aujourd'hui</td>
-                            <td>Carburant</td>
-                            <td>Nombre de places</td>
-                            <!-- <td>Date debut assurance</td>
-                            <td>Date fin assurance</td>
-                            <td>Cout du l'assurance</td>
-                            <td>Description</td>
-                            <td>Boite Vitesse</td> -->
+                            <td>Prix par jour</td>
+                            <td>id Client</td>
+                            <td>nom Client</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>review
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UI/UX design</td>
-                            <td>UI team</td>
-                            <td></td>
-                            <td>
-                                <span class="status green"></span>
-                                review
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Web developement</td>
-                            <td>Frontend</td>
-                            <td></td>
-                            <td>
-                                <span class="status red"></span>
-                                in progress
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ushop app</td>
-                            <td>Mobile team</td>
-                            <td></td>
-                            <td>
-                                <span class="status orange"></span>
-                                pending
-                            </td>
-                        </tr>
+                        @if (!empty($voitures))
+                            @foreach ($voitures as $voiture)
+                                <tr>
+                                    <td>{{$voiture->id}}</td>
+                                    <td>{{$voiture->matricule}}</td>
+                                    <td>{{$voiture->modele}}</td>
+                                    <td>{{$voiture->marque}}</td>
+                                    <td>{{$voiture->prix_jour}}</td>
+
+                                    <td></td>
+                                </tr>
+                            @endforeach
+
+
+                            @else
+                                <tr>Error</tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
