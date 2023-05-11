@@ -15,9 +15,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('id_voiture')->constrained('voitures')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('id_client')->constrained('clients')->onDelete('cascade')->onUpdate('cascade');
-            $table->date('location');
-            $table->date('retour');
-            $table->date('prolongation')->default(NULL);
+            $table->datetime('location');
+            $table->datetime('retour');
+            $table->datetime('prolongation')->default(NULL);
             $table->timestamps();
         });
     }
