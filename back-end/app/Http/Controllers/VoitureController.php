@@ -72,4 +72,10 @@ class VoitureController extends Controller
     {
         //
     }
+
+    public function rentedCars(){
+        $voitures=Voiture::select('id', 'id_modele', 'image', 'carburant', 'boîte_vitesse', 'nombre_places', 'description', 'prix_jour')
+            ->where('statut', 'Rented');
+        return view('index',compact('voitures'));
+    }
 }
