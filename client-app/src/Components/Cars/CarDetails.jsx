@@ -116,16 +116,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                     console.log(clientData.message);
                     
                     // Get client ID
-                    var clientId = null;
-                    const getClientId = async (id) => {
-                        try {
-                          const response = await axios.get(`http://127.0.0.1:8000/api/Client/${id}`);
-                          clientId = response.data.client.id;
-                        } catch (error) {
-                          console.log(error);
-                        }
-                      };
-                    getClientId(idUser);
+                    const clientId = clientData.client.id; 
                     console.log(clientId);
 
                     // Insert order data
@@ -140,11 +131,6 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
 
                     RedirectToInvoice();
                 } catch (error) {
-                    // if (error.response.status === 422) {
-                    //   console.log(error.response.data.errors);
-                    // } else {
-                    //   console.log(error.response.data.message);
-                    // }
                     console.log(error);
                 }
             }

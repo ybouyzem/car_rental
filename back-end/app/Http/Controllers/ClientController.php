@@ -51,10 +51,11 @@ class ClientController extends Controller
             $clientData['numero_passport'] = $request->numero_passport;
         }
 
-        Client::create($clientData);
+        $client = Client::create($clientData);
         
         return response()->json([
-            'message' => 'client added successfully'
+            'message' => 'client added successfully',
+            'client' => $client
         ]);
     }
 
