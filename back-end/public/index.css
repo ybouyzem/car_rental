@@ -377,12 +377,12 @@ tr td:last-child {
 
 /* for edit icon */
 .edit-buttons button:first-child {
-
+    
     background: #ffba05;
     color: black;
 }
 .edit-buttons button:last-child {
-
+    
     background: #eb4643;
     color: white;
 }
@@ -396,19 +396,19 @@ tr td:last-child {
     .sidebar{
         width: 70px;
     }
-
+    
     .sidebar .sidebar-brand,
     .sidebar li
     {
         padding-left: 1rem;
         text-align: center;
     }
-
+    
     .sidebar li a {
         padding-left: 0rem;
     }
-
-
+    
+    
     .sidebar .sidebar-brand h2 span:last-child,
     .sidebar li a span:last-child{
         display: none;
@@ -417,14 +417,14 @@ tr td:last-child {
    .main-content{
         margin-left: 70px;
     }
-
+    
    .main-content header {
         width: calc(100% - 70px);
         left: 70px;
     }
 
-
-
+ 
+    
 }
 
 @media only screen and (max-width: 960px) {
@@ -451,7 +451,7 @@ tr td:last-child {
     }
 
     .sidebar {
-       left: -100% !important;
+       left: -100% !important; 
     }
 
     header h2 {
@@ -498,19 +498,19 @@ tr td:last-child {
         z-index: 100;
         width: 345px;
     }
-
+    
     #nav-toggle:checked + .sidebar .sidebar-brand,
     #nav-toggle:checked + .sidebar li
     {
         padding-left: 2rem;
         text-align: left;
     }
-
+    
     #nav-toggle:checked + .sidebar li a {
         padding-left: 1rem;
     }
-
-
+    
+    
     #nav-toggle:checked + .sidebar .sidebar-brand h2 span:last-child,
     #nav-toggle:checked + .sidebar li a span:last-child{
         display: inline;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Voiture;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VoitureController extends Controller
 {
@@ -71,5 +72,21 @@ class VoitureController extends Controller
     public function destroy(Voiture $voiture)
     {
         //
+    }
+
+    public function rentedCars(){
+        $voitures=DB::table('marques')
+        ->leftJoin('modeles', 'marques.id', '=', 'modeles.id_marque')
+        ->leftJoin('voitures', 'voitures.id', '=', 'modeles.id')
+        ->select('voitures.id', 'voitures.matricule', 'modeles.libelle as modele', 'marques.libelle as marque', 'voitures.prix_jour')
+        ->whereColumn('marques.id', 'modeles.id_marque')
+        ->where('voitures.statut', '=', 'Rented')
+        ->get();
+
+
+
+        //  $voitures=Voiture::select('id', 'id_modele', 'image', 'carburant', 'boîte_vitesse', 'nombre_places', 'description', 'prix_jour')
+        //     ->where('statut', 'Rented')->get();
+        return view('index',compact('voitures'));
     }
 }
