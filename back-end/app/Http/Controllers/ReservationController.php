@@ -59,9 +59,12 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Reservation $reservation)
+    public function show($id)
     {
-        //
+        $order = Reservation::findOrFail($id);
+        return response()->json([
+            'order' => $order
+        ]);
     }
 
     /**

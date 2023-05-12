@@ -77,7 +77,7 @@ function App() {
               <Route path='/Contact' element={<Contact />}></Route>
               <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
               <Route path='/Sign_In' element={<SignIn onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
-              <Route path='/Profile' element={<Profile onLogout={handleLogOut}  id={idUser} authorized={isLoggedIn} />}></Route>
+              <Route path='/Profile' element={<Profile onLogout={handleLogOut}  idUser={idUser} authorized={isLoggedIn} />}></Route>
               <Route path='/Invoice' element={<Invoice idUser={idUser} idCar={idCar} pickUpValue={pickUp} returnValue={Return} cityValue={city} phoneNumberValue={phoneNumber} authorized={isLoggedIn} />}></Route>
             </Routes>
           </div>

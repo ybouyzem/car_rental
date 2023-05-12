@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_client')->constrained('clients')->onDelete('cascade')->onUpdate('cascade');
             $table->datetime('location');
             $table->datetime('retour');
-            $table->datetime('prolongation')->default(NULL);
+            $table->datetime('prolongation')->nullable();
             $table->timestamps();
         });
     }

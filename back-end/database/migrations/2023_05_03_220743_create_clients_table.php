@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('ville');
             $table->string('numero_telephone');
             $table->string('numero_permis');
-            $table->string('numero_passport')->default(NULL);
+            $table->string('numero_passport')->nullable();
             $table->timestamps();
         });
     }

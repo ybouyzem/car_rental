@@ -12,7 +12,7 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 //Pics
 import ProfilePic from '../Pics/profile.png';
 
-function ProfileData({onLogout, id, nom, prenom, email}) {
+function ProfileData({onLogout, idUser, nom, prenom, email}) {
     const navigate = useNavigate();
     const loggedOut = () => {
         onLogout();
@@ -142,7 +142,7 @@ function ProfileData({onLogout, id, nom, prenom, email}) {
                     }, 2000);
                 }
             };
-            updatePassword(id, newPassword.value);
+            updatePassword(idUser, newPassword.value);
         } 
     }
     //-------------------------------------------
@@ -159,7 +159,7 @@ function ProfileData({onLogout, id, nom, prenom, email}) {
 
     // handle first name
     const handleFirstName = () =>{
-        var input = document.getElementById('FirstName');
+        var input = document.getElementByidUser('FirstName');
         if(input.value === ''){
             return false;
         }else return true;
@@ -169,7 +169,7 @@ function ProfileData({onLogout, id, nom, prenom, email}) {
     // handle handle submit reset password
     const handleSubmitFirstName = (e) => {
         e.preventDefault();
-        var messageContent = document.getElementById('MessageContent'),
+        var messageContent = document.getElementByidUser('MessageContent'),
         messageContentSpan = document.getElementById('MessageContentSpan'),
         firstName = document.getElementById('FirstName');
         if(handleFirstName()){
@@ -196,7 +196,7 @@ function ProfileData({onLogout, id, nom, prenom, email}) {
                     }, 2000);
                 }
             };
-            updateFirstName(id, firstName.value);
+            updateFirstName(idUser, firstName.value);
         }
     }
 
@@ -250,7 +250,7 @@ function ProfileData({onLogout, id, nom, prenom, email}) {
                     }, 2000);
                 }
             };
-            updateLastName(id, lastName.value);
+            updateLastName(idUser, lastName.value);
             
         }
     }

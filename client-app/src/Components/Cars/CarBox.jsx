@@ -10,34 +10,20 @@ import {RiSearchEyeLine} from 'react-icons/ri';
 
 //Pics
 
-function CarBox ({handleVehicule, id, id_modele, image, seats, carburant, vitesse}) {
-    // Modele Table
-    const [libelleModele, setLibelleModele] = useState('');
-    // Marque Table
-    const [idMarque, setIdMarque] = useState('');
-    const [libelleMarque, setLibelleMarque] = useState('');
-    // || Combine the three tables (Voiture, Modele, Marque) to get the full name's car ||
-
-    // Find name's car
+function CarBox ({handleVehicule, carId, id_modele, image, seats, carburant, vitesse}) {
+  const [carWording, setCarWording] = useState('');
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          // Fetch Modele data
-          const modeleResponse = await axios.get(`http://127.0.0.1:8000/api/Modele/${id_modele}`);
-          setIdMarque(modeleResponse.data.modele.id_marque);
-          setLibelleModele(modeleResponse.data.modele.libelle);
-    
-          // Fetch Marque data
-          const marqueResponse = await axios.get(`http://127.0.0.1:8000/api/Marque/${idMarque}`);
-          setLibelleMarque(marqueResponse.data.marque.libelle);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-    
-      fetchData();
-    }, [id_modele, idMarque]);
+      fetchCarWording(id_modele);
+    }, [id_modele]);
 
+    const fetchCarWording = async(id) => {
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/Modele/${id}`);
+        setCarWording(response.data.result);
+      }catch(error){
+        console.log(error);
+      }
+    }
 
   return (
     <div className='w-full min-h-[30vh] max-h-[20vh] bg-slate-100/20 rounded-tl-2xl flex p-[2%]'>
@@ -50,7 +36,7 @@ function CarBox ({handleVehicule, id, id_modele, image, seats, carburant, vitess
       <div className='h-full w-[70%] flex flex-col justify-between py-[2%] px-[5%]'>
           {/* Title */}
           <div className='w-full '>
-              <span className='font-bold text-lg relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:w-[40%] after:h-1 after:bg-red-500'>{libelleMarque} {libelleModele}</span>
+              <span className='font-bold text-lg relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:w-[40%] after:h-1 after:bg-red-500'>{carWording.libelleMarque} {carWording.libelleModele}</span>
           </div>
           {/* Description */}
           <div className='w-[70%] flex justify-between text-sm'>
@@ -63,7 +49,7 @@ function CarBox ({handleVehicule, id, id_modele, image, seats, carburant, vitess
               </div>
           </div>
           <div className='w-full flex justify-end'>
-              <Link onClick={()=>{handleVehicule(id)}} className='flex items-center text-sm gap-1 hover:text-red-500 duration-300 relative after:content-[""] after:absolute after:bottom-0 left-0 after:w-0 after:h-0.5 after:bg-red-500 hover:after:w-[70%] after:duration-300' to="/Display_Cars/Car_Details">See <RiSearchEyeLine className='text-lg' /></Link>
+              <Link onClick={()=>{handleVehicule(carId)}} className='flex items-center text-sm gap-1 hover:text-red-500 duration-300 relative after:content-[""] after:absolute after:bottom-0 left-0 after:w-0 after:h-0.5 after:bg-red-500 hover:after:w-[70%] after:duration-300' to="/Display_Cars/Car_Details">See <RiSearchEyeLine className='text-lg' /></Link>
           </div>
 
       </div>

@@ -11,7 +11,7 @@ import History from './History';
 //Pics
 
 
-function Profile ({ authorized, onLogout, id }) {
+function Profile ({ authorized, onLogout, idUser }) {
 
   // extract user data
   const [nom, setNom] = useState('');
@@ -27,14 +27,14 @@ function Profile ({ authorized, onLogout, id }) {
       console.log(error);
     }
   }
-  userData(id);
+  userData(idUser);
 
   if(!authorized) redirect("/Sign_In");
   else {
     return (
       <div className='h-full w-full flex flex-col justify-center items-center gap-10'>
-        <ProfileData onLogout={onLogout} id={id} nom={nom} prenom={prenom} email={email} />
-        <History />
+        <ProfileData onLogout={onLogout} idUser={idUser} nom={nom} prenom={prenom} email={email} />
+        <History idUser={idUser} />
       </div>
     )
   }
