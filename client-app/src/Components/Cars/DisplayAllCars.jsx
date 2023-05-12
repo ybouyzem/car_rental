@@ -54,7 +54,7 @@ function DisplayAllCars({handleVehicule}) {
             {
               cars.map((row, key) => {
                 return (
-                  <CarBox key={key} handleVehicule={handleVehicule} id={row.id} id_modele={row.id_modele} image={row.image}  seats={row.nombre_places} carburant={row.carburant} vitesse={row.boîte_vitesse}  />
+                  <CarBox key={key} handleVehicule={handleVehicule} carId={row.id} id_modele={row.id_modele} image={row.image}  seats={row.nombre_places} carburant={row.carburant} vitesse={row.boîte_vitesse}  />
                 )
               })
             }

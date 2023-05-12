@@ -34,12 +34,9 @@ class MarqueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show()
     {
-        $marque = Marque::findOrFail($id);
-        return response()->json([
-            'marque' => $marque
-        ]);
+        //
     }
 
     /**

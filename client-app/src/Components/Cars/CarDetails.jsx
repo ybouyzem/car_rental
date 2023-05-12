@@ -117,7 +117,6 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                     
                     // Get client ID
                     const clientId = clientData.client.id; 
-                    console.log(clientId);
 
                     // Insert order data
                     var formData2 = new FormData();
@@ -384,7 +383,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                         <div className='w-full flex items-center relative'>
                             <IoLocationOutline className='absolute left-2 text-lg text-red-500' />
                             <select defaultValue="none" className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" onChange={handleLocation} required>
-                                <option value="none" selected disabled>Choose your location</option>
+                                <option value="none" disabled>Choose your location</option>
                                 <option value="Béni Mellal">Béni Mellal</option>
                                 <option value="Casa blanca">Casa blanca</option>
                                 <option value="Rabat">Rabat</option>
@@ -432,7 +431,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                         <div className='w-full flex items-center relative'>
                             <AiOutlineIdcard className='absolute left-2 text-lg text-red-500' />
                             <select defaultValue="none"  className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={handleNationality}>
-                                <option value="none" selected disabled>Choose your nationality</option>
+                                <option value="none" disabled>Choose your nationality</option>
                                 <option value="Morocco">Morocco</option>
                                 <option value="France">France</option>
                                 <option value="Spain">Spain</option>

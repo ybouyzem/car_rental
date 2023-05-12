@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -64,12 +65,14 @@ class ClientController extends Controller
      */
     public function show($idUser)
     {
-        // Find the client by user id
-        
-        $client = Client::where('id_utilisateur', $idUser)->latest()->first();
-        dd($client->id);
+        $results = DB::table('voitures as v')
+                ->join('reservations as r', 'v.id', '=', 'r.id_voiture')
+                ->join('clients as c', 'r.id_client', '=', 'c.id')
+                ->select('v.id as VoitureId', 'r.id as ReservationId')
+                ->where('c.id_utilisateur', '=', $idUser)
+                ->get();
         return response()->json([
-            'client' => $client
+            'results' => $results
         ]);
     }
 

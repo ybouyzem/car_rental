@@ -6,10 +6,10 @@ import React from 'react'
 
 // Pics
 
-function InvoiceDescription({idCar, libelleMarque, libelleModele, price, pickUp, Return}) {
+function InvoiceDescription({idCar, carWording, price, pickUp, Return}) {
     var Description = [
         {data: idCar},
-        {data: `${libelleMarque} ${libelleModele}`},
+        {data: carWording? `${carWording.libelleMarque} ${carWording.libelleModele}` : ''},
         {data: pickUp},
         {data: Return},
         {data: price+' MAD' },

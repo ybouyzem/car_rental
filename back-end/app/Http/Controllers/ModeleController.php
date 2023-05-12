@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Modele;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ModeleController extends Controller
 {
@@ -34,11 +35,15 @@ class ModeleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($ModeleId)
     {
-        $modele = Modele::findOrFail($id);
+        $result = DB::table('modeles')
+                ->join('marques', 'modeles.id_marque', '=', 'marques.id')
+                ->select('marques.libelle as libelleMarque', 'modeles.libelle as libelleModele')
+                ->where('modeles.id', '=', $ModeleId)
+                ->first();
         return response()->json([
-            'modele' => $modele
+            'result' => $result
         ]);
     }
 

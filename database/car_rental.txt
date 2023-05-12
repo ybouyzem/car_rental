@@ -53,7 +53,7 @@ create table modele (
 create table voiture (
     id int primary key,
     matricule varchar(50),
-    id_modele int,
+    id_marque int,
     status varchar(50),
     prix_j float,
     picture varchar(50),
