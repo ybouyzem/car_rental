@@ -54,10 +54,10 @@ function InvoiceHeader({nom, prenom, email, city, phoneNumber}) {
             </div>
         </div>
         {/* Invoide id & date */}
-        <div className='flex gap-2 items-end'>
+        {/* <div className='flex gap-2 items-end'>
             <span className='font-extrabold text-black'>Invoice Number:</span>
             <span className='text-sm'>56432163535</span>
-        </div>
+        </div> */}
     </div>
   )
 }

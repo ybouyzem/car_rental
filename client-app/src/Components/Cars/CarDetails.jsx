@@ -308,8 +308,8 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
     return (
       <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
         {/* Picture */}
-        <div className='w-[50%] h-[40%]'>
-            <img className='w-full' src={image} alt="Not Found" />
+        <div className='w-[50%] h-[40%] flex justify-center items-center'>
+            <img className='w-full' src={'http://localhost:8000/cars_pics/'+image} alt="Not Found" />
         </div>
         {/* Features */}
         <div className='w-[50%] flex justify-between text-sm'>
