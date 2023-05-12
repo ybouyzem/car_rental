@@ -82,11 +82,17 @@ class VoitureController extends Controller
         ->whereColumn('marques.id', 'modeles.id_marque')
         ->where('voitures.statut', '=', 'Rented')
         ->get();
-
-
-
-        //  $voitures=Voiture::select('id', 'id_modele', 'image', 'carburant', 'boîte_vitesse', 'nombre_places', 'description', 'prix_jour')
-        //     ->where('statut', 'Rented')->get();
         return view('index',compact('voitures'));
+    }
+
+    public function allCars(){
+         //  $voitures=Voiture::select('id', 'id_modele', 'image', 'carburant', 'boîte_vitesse', 'nombre_places', 'description', 'prix_jour')
+        //     ->where('statut', 'Rented')->get();
+        $voitures = Voiture::select('modeles.libelle as modele', 'marques.libelle as marque', 'voitures.*')
+        ->join('modeles', 'voitures.id_modele', '=', 'modeles.id')
+        ->join('marques', 'modeles.id_marque', '=', 'marques.id')
+        ->get();
+        return view('voitures',compact('voitures'));
+
     }
 }
