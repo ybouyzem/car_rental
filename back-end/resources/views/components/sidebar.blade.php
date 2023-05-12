@@ -6,11 +6,11 @@
         <div class="sidebar-menu">
             <ul>
                 <li>
-                    <a href="" class="active"><span class="las la-igloo"></span>
+                    <a href="{{ route('index') }}" class="active"><span class="las la-igloo"></span>
                     <span>Tableau de bord</span></a>
                 </li>
                 <li>
-                    <a href="ordres.html"><span class="las la-clipboard-list"></span>
+                    <a href=""><span class="las la-clipboard-list"></span>
                     <span>Ordres</span></a>
                 </li>
                 <li>
@@ -18,7 +18,7 @@
                     <span>Clients</span></a>
                 </li>
                 <li>
-                    <a href=""><span class="la la-automobile"></span>
+                    <a href="{{ route('voitures') }}"><span class="la la-automobile"></span>
                     <span>Voitures</span></a>
                 </li>
                 <li>
