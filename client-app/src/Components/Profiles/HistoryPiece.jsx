@@ -15,32 +15,56 @@ import {AiOutlineArrowRight} from 'react-icons/ai';
 function HistoryPiece({carId, orderId}) {
     const [car, setCar] = useState([]);
     const [order, setOrder] = useState([]);
+    const [carWording, setCarWording] = useState('');
 
     useEffect(() => {
         fetchCar(carId);
-        fetchOrder(orderId);
-    }, [carId, orderId]);
+    }, [carId]);
 
     const fetchCar = async(id) => {
         const response = await axios.get(`http://127.0.0.1:8000/api/Voiture/${id}`);
         setCar(response.data.voiture);
     }
 
+    useEffect(() => {
+        fetchOrder(orderId);
+    }, [orderId]);
+
     const fetchOrder = async(id) => {
         const response = await axios.get(`http://127.0.0.1:8000/api/Reservation/${id}`);
         setOrder(response.data.order);
     }
 
+    useEffect(() => {
+        fetchCarWording(car.id_modele)
+    }, [car.id_modele]);
+
+    const fetchCarWording = async(id) => {
+        try{
+          const response = await axios.get(`http://127.0.0.1:8000/api/Modele/${id}`);
+          setCarWording(response.data.result);
+        }catch(error){
+          console.log(error);
+        }
+      }
+
+    const [carName, setCarName] = useState('');
+    useEffect(() => {
+        if (carWording !== null) {
+          setCarName(carWording.libelleMarque + carWording.libelleModele);
+        }
+    }, [carWording]);
+
   return (
     <div className='w-full flex justify-around items-center border-t-2 border-slate-500 border-solid py-2'>
         {/* Pic */}
         <div className='w-[20%]'>
-            <img className='w-full' src={car.image} alt="Not Found"  />
+            <img className='w-full' src={'http://localhost:8000/cars_pics/'+car.image} alt="Not Found"  />
         </div>
         {/* Descritption */}
         <div className='w-[25%] flex flex-col gap-3'>
             <div className='w-full'>
-                <span className='font-bold text-lgs'>Car Id {car.id}</span>
+                <span className='font-bold text-lgs'>{carName}</span>
             </div>
             <div className='w-[80%] flex justify-between text-sm'>
                 <div className='flex flex-col gap-5'>

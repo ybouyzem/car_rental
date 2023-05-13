@@ -20,7 +20,7 @@ function History({idUser}) {
     const fetchHistory = async(id) => {
         try{
             const response = await axios.get(`http://127.0.0.1:8000/api/Client/${id}`);
-            setResults(response.data.results);
+            setResults(response.data.results.reverse());
         }catch(error){
             console.log(error);
         }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 //React icons
@@ -27,16 +27,21 @@ function Profile ({ authorized, onLogout, idUser }) {
       console.log(error);
     }
   }
-  userData(idUser);
-
-  if(!authorized) redirect("/Sign_In");
-  else {
+  
+  const navigate = useNavigate();
+  useEffect(() => {
+      if(!authorized){
+        navigate('/Sign_In');
+      } else {
+        userData(idUser);
+      }
+  }, [idUser, authorized, navigate]);
+  
     return (
       <div className='h-full w-full flex flex-col justify-center items-center gap-10'>
         <ProfileData onLogout={onLogout} idUser={idUser} nom={nom} prenom={prenom} email={email} />
         <History idUser={idUser} />
       </div>
     )
-  }
 }
 export default Profile;
