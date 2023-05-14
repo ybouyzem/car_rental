@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 
 // React icons
 import {BsPerson} from 'react-icons/bs';
@@ -10,20 +9,7 @@ import {RiSearchEyeLine} from 'react-icons/ri';
 
 //Pics
 
-function CarBox ({handleVehicule, carId, id_modele, image, seats, carburant, vitesse}) {
-  const [carWording, setCarWording] = useState('');
-    useEffect(() => {
-      fetchCarWording(id_modele);
-    }, [id_modele]);
-
-    const fetchCarWording = async(id) => {
-      try{
-        const response = await axios.get(`http://127.0.0.1:8000/api/Modele/${id}`);
-        setCarWording(response.data.result);
-      }catch(error){
-        console.log(error);
-      }
-    }
+function CarBox ({handleVehicule, carId, libelleMarque, libelleModele, image, seats, carburant, vitesse}) {
 
   return (
     <div className='w-full min-h-[30vh] max-h-[20vh] bg-slate-100/20 rounded-tl-2xl flex p-[2%]'>
@@ -36,7 +22,7 @@ function CarBox ({handleVehicule, carId, id_modele, image, seats, carburant, vit
       <div className='h-full w-[70%] flex flex-col justify-between py-[2%] px-[5%]'>
           {/* Title */}
           <div className='w-full '>
-              <span className='font-bold text-lg relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:w-[40%] after:h-1 after:bg-red-500'>{carWording.libelleMarque} {carWording.libelleModele}</span>
+              <span className='font-bold text-lg relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:w-[40%] after:h-1 after:bg-red-500'>{libelleMarque} {libelleModele}</span>
           </div>
           {/* Description */}
           <div className='w-[70%] flex justify-between text-sm'>

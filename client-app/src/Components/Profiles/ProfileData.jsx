@@ -159,7 +159,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email}) {
 
     // handle first name
     const handleFirstName = () =>{
-        var input = document.getElementByidUser('FirstName');
+        var input = document.getElementById('FirstName');
         if(input.value === ''){
             return false;
         }else return true;
@@ -169,7 +169,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email}) {
     // handle handle submit reset password
     const handleSubmitFirstName = (e) => {
         e.preventDefault();
-        var messageContent = document.getElementByidUser('MessageContent'),
+        var messageContent = document.getElementById('MessageContent'),
         messageContentSpan = document.getElementById('MessageContentSpan'),
         firstName = document.getElementById('FirstName');
         if(handleFirstName()){

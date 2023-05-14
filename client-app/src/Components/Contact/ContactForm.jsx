@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 //Components
 import Logo from '../Partials/Logo';
@@ -16,6 +17,14 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 import Pic from '../Pics/dmitry-novikov-dowzTvFVT3M-unsplash.jpg';
 
 function ContactForm() {
+    const [mailData, setMailData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        message: '',
+    })
+
     // handle first name
     const handleFirstName = () => {
         var status = true;
@@ -24,7 +33,10 @@ function ContactForm() {
         if(input.value === ''){
             status = false;
             errMsg.style.display = 'flex';
-        }else errMsg.style.display = 'none';
+        }else{
+            errMsg.style.display = 'none';
+            mailData.firstName = input.value;
+        } 
         return status;
     }
 
@@ -36,7 +48,10 @@ function ContactForm() {
         if(input.value === ''){
             status = false;
             errMsg.style.display = 'flex';
-        }else errMsg.style.display = 'none';
+        }else{
+            errMsg.style.display = 'none';
+            mailData.lastName = input.value;
+        } 
         return status;
     }
 
@@ -50,7 +65,10 @@ function ContactForm() {
         if(email.value === '' || !valeur){
           status = false;
           errMsg.style.display = "flex";
-        }else errMsg.style.display = "none";
+        }else{
+            errMsg.style.display = "none";
+            mailData.email = email.value;
+        } 
         return status;
     }
 
@@ -64,7 +82,10 @@ function ContactForm() {
         if(phone.value === '' || !valeur){
           status = false;
           errMsg.style.display = "flex";
-        }else errMsg.style.display = "none";
+        }else{
+            errMsg.style.display = "none";
+            mailData.phoneNumber = phone.value;
+        } 
         return status;
     }
 
@@ -76,23 +97,40 @@ function ContactForm() {
         if(msg.value.length < 3){
           status = false;
           errMsg.style.display = "flex";
-        }else errMsg.style.display = "none";
+        }else{
+            errMsg.style.display = "none";
+            mailData.message = msg.value;
+        } 
         return status;
     }
 
     //Forbid reloading the page. && showing the response
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         if(handleFirstName() && handleLastName() && handleEmail() && handlePhoneNumber() && handleMessageArea()){
             var status = document.getElementById('messageStatus');
             var content = document.getElementById('messageContent');
-            if(false){ 
+
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/sendEmail', mailData);
+                console.log(response.data.message);
+          
+                setMailData({
+                  firstName: '',
+                  lastName: '',
+                  email: '',
+                  phoneNumber: '',
+                  message: '',
+                });
+
                 content.textContent = 'Success! Message sent successfully';
                 status.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
-            }else{
-                content.textContent = 'Error... Some troubles happened, Please try again';
+            } catch (error) {
+                console.error(error);
+                content.textContent = error;
                 status.style.backgroundColor = 'rgb(239 68 68 / 0.5)';
             }
+            
             status.style.display = 'flex';
             setTimeout(() => {
                 status.style.display = 'none';
@@ -179,7 +217,7 @@ function ContactForm() {
                 </div>
                 {/* Submit */}
                 <div className="w-[70%]">
-                    <button className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex items-center justify-center gap-1'><span>Contact Us </span><FiSend className='text-lg' /></button>
+                    <button type='submit' className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex items-center justify-center gap-1'><span>Contact Us </span><FiSend className='text-lg' /></button>
                 </div>
             </form>
         </div>

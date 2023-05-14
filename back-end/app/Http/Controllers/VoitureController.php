@@ -14,9 +14,22 @@ class VoitureController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10); // Number of cars per page
-        $voitures = Voiture::select('id', 'id_modele', 'image', 'carburant', 'boîte_vitesse', 'nombre_places', 'description', 'prix_jour')
-            ->where('statut', 'Available')
-            ->paginate($perPage);
+        $search = $request->input('search'); // Search query
+
+        $query = Voiture::select('voitures.id', 'voitures.image', 'voitures.carburant', 'voitures.boîte_vitesse', 'voitures.nombre_places', 'voitures.description', 'voitures.prix_jour', 'marques.libelle as marque_libelle', 'modeles.libelle as modele_libelle')
+            ->join('modeles', 'voitures.id_modele', '=', 'modeles.id')
+            ->join('marques', 'modeles.id_marque', '=', 'marques.id')
+            ->where('voitures.statut', 'Available');
+
+        if ($search) {
+            // Apply search condition to the query
+            $query->where(function ($q) use ($search) {
+                $q->where('marques.libelle', 'LIKE', "%$search%")
+                    ->orWhere('modeles.libelle', 'LIKE', "%$search%");
+            });
+        }
+
+        $voitures = $query->paginate($perPage);
 
         return response()->json([
             'voitures' => $voitures,
