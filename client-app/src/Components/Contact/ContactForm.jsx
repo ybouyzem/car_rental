@@ -126,6 +126,7 @@ function ContactForm() {
 
                 content.textContent = 'Success! Message sent successfully';
                 status.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
+                reset();
             } catch (error) {
                 console.error(error);
                 content.textContent = error;
@@ -137,6 +138,14 @@ function ContactForm() {
                 status.style.display = 'none';
             }, 2000);
         };
+    }
+
+    const reset = () => {
+        document.getElementById('FirstName').value = '';
+        document.getElementById('LastName').value = '';
+        document.getElementById('Email').value = '';
+        document.getElementById('PhoneNumber').value = '';
+        document.getElementById('Message').value = '';
     }
     return (
       <div className='w-[100%] h-[80vh] bg-slate-100/20 flex justify-between shadow-black shadow-2xl'>
