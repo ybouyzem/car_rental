@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendEmail extends Mailable
+class SendEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -35,14 +35,14 @@ class SendEmail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
-        return $this->view('emails.send_email')
-                    ->subject('Mail from Car Rental Website')
-                    ->with([
-                        'data' => $this->data,
-                    ]);
-    }
+    // public function content(): Content
+    // {
+    //     return $this->view('emails.send_email')
+    //                 ->subject('Mail from Car Rental Website')
+    //                 ->with([
+    //                     'data' => $this->data,
+    //                 ]);
+    // }
 
     /**
      * Get the attachments for the message.
@@ -52,6 +52,20 @@ class SendEmail extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->subject('Mail from Car Rental Website')
+                    ->view('emails.send_email')
+                    ->with([
+                        'data' => $this->data,
+                    ]);
     }
 
 }

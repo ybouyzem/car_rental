@@ -12,11 +12,11 @@ class EmailController extends Controller
 
         // Validation les données
         $request->validate([
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'email' => 'required',
-            'phoneNumber' => 'required',
-            'message' => 'required',
+            'FirstName' => 'required',
+            'LastName' => 'required',
+            'Email' => 'required',
+            'PhoneNumber' => 'required',
+            'Message' => 'required',
         ]);
 
         $data = [
@@ -33,7 +33,15 @@ class EmailController extends Controller
         //         ->setBody(view('emails.send_email', $request->all())->render());
         // });
 
-        Mail::to('alahyane.yo@gmail.com')->send(new SendEmail($request->all()));
+        // Mail::to('alahyane900@gmail.com')->send(new SendEmail($request->all()));
+
+        Mail::raw('Mr. '.$data['last_name'].' '.$data['first_name']."\n".'Phone Number : '.$data['phone_number']."\n"."Body : \n".$data['message'],
+        function ($message) use ($data) {
+            $message->to('alahyane900@gmail.com')
+                    ->subject('Mail from Car Rental Website')
+                    ->from($data['email'] ?? 'default@example.com')
+                    ->replyTo($data['email'] ?? 'default@example.com');
+        });
 
         return response()->json([
             'message' => 'Email sent successfully'

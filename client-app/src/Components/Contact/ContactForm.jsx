@@ -18,11 +18,11 @@ import Pic from '../Pics/dmitry-novikov-dowzTvFVT3M-unsplash.jpg';
 
 function ContactForm() {
     const [mailData, setMailData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        message: '',
+        FirstName: '',
+        LastName: '',
+        Email: '',
+        PhoneNumber: '',
+        Message: '',
     })
 
     // handle first name
@@ -35,7 +35,7 @@ function ContactForm() {
             errMsg.style.display = 'flex';
         }else{
             errMsg.style.display = 'none';
-            mailData.firstName = input.value;
+            mailData.FirstName = input.value;
         } 
         return status;
     }
@@ -50,7 +50,7 @@ function ContactForm() {
             errMsg.style.display = 'flex';
         }else{
             errMsg.style.display = 'none';
-            mailData.lastName = input.value;
+            mailData.LastName = input.value;
         } 
         return status;
     }
@@ -67,7 +67,7 @@ function ContactForm() {
           errMsg.style.display = "flex";
         }else{
             errMsg.style.display = "none";
-            mailData.email = email.value;
+            mailData.Email = email.value;
         } 
         return status;
     }
@@ -84,7 +84,7 @@ function ContactForm() {
           errMsg.style.display = "flex";
         }else{
             errMsg.style.display = "none";
-            mailData.phoneNumber = phone.value;
+            mailData.PhoneNumber = phone.value;
         } 
         return status;
     }
@@ -99,7 +99,7 @@ function ContactForm() {
           errMsg.style.display = "flex";
         }else{
             errMsg.style.display = "none";
-            mailData.message = msg.value;
+            mailData.Message = msg.value;
         } 
         return status;
     }
@@ -107,7 +107,8 @@ function ContactForm() {
     //Forbid reloading the page. && showing the response
     const handleSubmit = async(event) => {
         event.preventDefault();
-        if(handleFirstName() && handleLastName() && handleEmail() && handlePhoneNumber() && handleMessageArea()){
+        const isValid =handleFirstName() && handleLastName() && handleEmail() && handlePhoneNumber() && handleMessageArea();
+        if(isValid){
             var status = document.getElementById('messageStatus');
             var content = document.getElementById('messageContent');
 
@@ -116,11 +117,11 @@ function ContactForm() {
                 console.log(response.data.message);
           
                 setMailData({
-                  firstName: '',
-                  lastName: '',
-                  email: '',
-                  phoneNumber: '',
-                  message: '',
+                  FirstName: '',
+                  LastName: '',
+                  Email: '',
+                  PhoneNumber: '',
+                  Message: '',
                 });
 
                 content.textContent = 'Success! Message sent successfully';
