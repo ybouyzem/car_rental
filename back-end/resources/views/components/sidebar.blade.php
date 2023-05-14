@@ -1,7 +1,8 @@
 <input type="checkbox" id="nav-toggle">
     <div class="sidebar">
         <div class="sidebar-brand">
-            <h2><span class="lab la-schlix"></span><span>Schlix</span></h2>
+            {{-- <h2><span class="lab la-schlix"></span><span>Car Rental</span></h2> --}}
+            <h2><img src="/logo.png" style="width:35px;height:35px;"><span>Car Rental</span></h2>
         </div>
         <div class="sidebar-menu">
             <ul>

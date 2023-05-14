@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
             <h3>Voitures actuellement louées</h3>
-            <button>see all <span class="las la la-arrow-right"></span> </button>
+            <a href="{{route('voitures')}}"><button>see all <span class="las la la-arrow-right"></span> </button></a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -29,7 +29,7 @@
                                     <td>{{$voiture->modele}}</td>
                                     <td>{{$voiture->marque}}</td>
                                     <td>{{$voiture->prix_jour}}</td>
-
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             @endforeach
