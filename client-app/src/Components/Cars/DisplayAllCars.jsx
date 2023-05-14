@@ -9,6 +9,9 @@ import {AiOutlineArrowRight} from 'react-icons/ai';
 //Components
 import CarBox from './CarBox';
 
+//Pics
+import EmptyPic from '../Pics/empty.png';
+
 
 function DisplayAllCars({handleVehicule}) {
   // Filters
@@ -45,6 +48,22 @@ function DisplayAllCars({handleVehicule}) {
     setCurrentPage(1);
   }, [searchCar]);
 
+  var emptyResult;
+
+  if(cars.length === 0){
+    emptyResult = (
+      <div className='w-full h-[40%] flex flex-col items-center py-[2%] gap-10'>
+          {/* Title */}
+          <div>
+              <span className='text-3xl font-extrabold'>No Available Cars</span>
+          </div>
+          <div className='h-[80%]'>
+              <img src={EmptyPic} alt="" className='h-full' />
+          </div>
+      </div>
+    )
+  }
+
   return (
       <div className='w-full h-full flex gap-5 pt-[8%] pb-[2%] pr-[1%] relative overflow-hidden'>
         <form className="w-[20%] flex items-center absolute right-5 top-5" onSubmit={(e)=>e.preventDefault()}>
@@ -64,6 +83,7 @@ function DisplayAllCars({handleVehicule}) {
                 )
               })
             }
+            {emptyResult}
           </div>
         </div>
         <Outlet />
