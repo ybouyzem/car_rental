@@ -1,7 +1,8 @@
+@props(['cars','clients','reservations','employers','income'])
 <div class="cards">
     <div class="card-single">
         <div>
-            <h2>54</h2>
+            <h2>{{$employers}}</h2>
             <span>Employés</span>
         </div>
         <div>
@@ -10,7 +11,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>60</h2>
+            <h2>{{$reservations}}</h2>
             <span>Ordres</span>
         </div>
         <div>
@@ -19,7 +20,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>30</h2>
+            <h2>{{$clients}}</h2>
             <span>Clients</span>
         </div>
         <div>
@@ -28,7 +29,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>17</h2>
+            <h2>{{$cars}}</h2>
             <span>Voitures</span>
         </div>
         <div>
@@ -37,7 +38,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>200000 </h2>
+            <h2>{{$icome}} </h2>
             <span>Revenu</span>
         </div>
         <div>

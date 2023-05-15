@@ -82,7 +82,7 @@ class VoitureController extends Controller
         ->whereColumn('marques.id', 'modeles.id_marque')
         ->where('voitures.statut', '=', 'Rented')
         ->get();
-        return view('index',compact('voitures'));
+        return $voitures;
     }
 
     public function allCars(){
@@ -94,5 +94,22 @@ class VoitureController extends Controller
         ->get();
         return view('voitures',compact('voitures'));
 
+    }
+    public function carsNumber(){
+        $carsNumber = DB::table('voitures')->count();
+        return $carsNumber;
+    }
+    public function dashboard()
+    {
+        $e=new EmployeeController();
+        $c=new ClientController();
+        $r=new ReservationController();
+        $rentedCars = $this->rentedCars();
+        $carsNumber = $this->carsNumber();
+        $clientsNumber=$c->clientsNumber();
+        $reservationsNumber=$r->reservationsNumber();
+        $employersNumber=$e->employersNumber();
+        $income=$r->income();
+        return view('index', compact('rentedCars', 'carsNumber','clientsNumber','reservationsNumber','employersNumber','income'));
     }
 }

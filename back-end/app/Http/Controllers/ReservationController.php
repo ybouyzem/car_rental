@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ReservationController extends Controller
 {
@@ -34,7 +36,7 @@ class ReservationController extends Controller
             'id_client' => 'required',
             'location' => 'required',
             'retour' => 'required',
-        ]);        
+        ]);
 
         // L'insertion des données
         $orderData = [
@@ -89,5 +91,41 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    public function reservationsNumber(){
+        $reservationsNumber = DB::table('reservations')->count();
+        return $reservationsNumber;
+    }
+
+    public function income(){
+        $startDate = DB::table('reservations')
+            ->select(DB::raw('UNIX_TIMESTAMP(created_at) AS seconds'))
+            ->get();
+        $endDate = DB::table('reservations')
+        ->select(DB::raw('UNIX_TIMESTAMP(retour) AS seconds'))
+        ->get();
+        // $startDate = DB::table('reservations')
+        //     ->select('created_at')
+        //     ->get();
+        //     $endDate = DB::table('reservations')
+        //     ->select('retour')
+        //     ->get();
+
+
+        $price = DB::table('voitures')
+            ->join('reservations', 'voitures.id', '=', 'reservations.id_voiture')
+            ->select('voitures.prix_jour')
+            ->get();
+        $startDate=$startDate.
+            $seconds=1;
+            if($startDate>1){
+                $seconds=100000;
+            }
+
+        // $seconds=($endDate - $startDate);
+        $days=$seconds/86400;
+        $income=$days*$price;
+        return $income;
     }
 }

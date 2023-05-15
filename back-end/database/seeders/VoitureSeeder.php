@@ -329,7 +329,7 @@ class VoitureSeeder extends Seeder
             $car['image'] = Storage::url($storedPath);
         }
 
-        
+
 
         // DB::table('voitures')->truncate();
         DB::table('voitures')->insert($cars);

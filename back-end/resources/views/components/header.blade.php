@@ -5,10 +5,10 @@
         </label>
         Tableau de bord
     </h2>
-    <div class="search-wrapper">
+    {{-- <div class="search-wrapper">
         <span class="las la-search"></span>
         <input type="search" placeholder="cherchez ici">
-    </div>
+    </div> --}}
     <div class="user-wrapper">
         <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
         <div>

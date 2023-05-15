@@ -37,7 +37,7 @@
                                     <td>{{$voiture->marque}}</td>
                                     <td>
                                         @if (strcmp($voiture->statut,"Available")==0)
-                                            <span class="status green"></span> Available
+                                            <span class="status green"></span>Available
                                         @elseif(strcmp($voiture->statut,"Malfunction")==0)
                                             <span class="status red"></span> Malfunction
                                             @elseif(strcmp($voiture->statut,"Rented")==0)

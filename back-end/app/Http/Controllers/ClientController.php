@@ -53,7 +53,7 @@ class ClientController extends Controller
         }
 
         $client = Client::create($clientData);
-        
+
         return response()->json([
             'message' => 'client added successfully',
             'client' => $client
@@ -98,5 +98,13 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         //
+    }
+
+    public function clientsNumber(){
+        $clientsNumber = DB::table('clients')->count();
+        return $clientsNumber;
+    }
+    public function clientsRent(){
+
     }
 }

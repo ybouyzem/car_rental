@@ -20,13 +20,13 @@
     <div class="main-content">
         <x-header/>
         <main>
-            <x-number-cards />
+            <x-number-cards :cars='$carsNumber' :clients='$clientsNumber' :reservations='$reservationsNumber' :employers='$employersNumber' :icome='$income'/>
             <!-- for the map -->
             <x-map/>
 
 
             <div class="recent-grid">
-                <x-rented-cars :voitures='$voitures'/>
+                <x-rented-cars :voitures='$rentedCars'/>
                 <!-- clients -->
                 <div class="clients">
                     <div class="card">
@@ -56,7 +56,7 @@
                                     <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
                                     <div>
                                         <h4>Younes Bouyzem</h4>
-                                        <small>CEO AzulBio</small>
+                                        <small>CEO</small>
                                     </div>
                                 </div>
                                 <div class="contact">
@@ -71,7 +71,7 @@
                                     <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
                                     <div>
                                         <h4>Younes Bouyzem</h4>
-                                        <small>CEO AzulBio</small>
+                                        <small>CEO</small>
                                     </div>
                                 </div>
                                 <div class="contact">
@@ -86,7 +86,7 @@
                                     <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
                                     <div>
                                         <h4>Younes Bouyzem</h4>
-                                        <small>CEO AzulBio</small>
+                                        <small>CEO</small>
                                     </div>
                                 </div>
                                 <div class="contact">
@@ -101,7 +101,7 @@
                                     <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
                                     <div>
                                         <h4>Younes Bouyzem</h4>
-                                        <small>CEO AzulBio</small>
+                                        <small>CEO</small>
                                     </div>
                                 </div>
                                 <div class="contact">
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                    <!-- </div>
+                    </div>
                 </div>
             </div>
         </main>
