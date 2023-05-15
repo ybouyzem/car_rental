@@ -8,6 +8,7 @@ use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,9 @@ Route::resource('Client', ClientController::class);
 
 // Route for 'Reservation' Model
 Route::resource('Reservation', ReservationController::class);
+
+// Route for 'Email' Controller
+Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
