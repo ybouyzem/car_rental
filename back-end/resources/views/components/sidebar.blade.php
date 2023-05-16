@@ -7,23 +7,23 @@
         <ul>
             <li>
                 <a href="{{ route('index') }}" class="list{{ request()->routeIs('index') ? ' active' : '' }}"><span class="las la-igloo"></span>
-                <span>Tableau de bord</span></a>
+                <span>Dashboard</span></a>
             </li>
             <li>
-                <a href="{{ route('ordres') }}" class="list{{ request()->routeIs('ordres') ? ' active' : '' }}" class="list"><span class="las la-clipboard-list"></span>
-                <span>Ordres</span></a>
+                <a href="{{ route('orders') }}" class="list{{ request()->routeIs('orders') ? ' active' : '' }}" class="list"><span class="las la-clipboard-list"></span>
+                <span>Orders</span></a>
             </li>
             <li>
                 <a href="{{ route('clients') }}" class="list{{ request()->routeIs('clients') ? ' active' : '' }}"><span class="las la-users"></span>
                 <span>Clients</span></a>
             </li>
             <li>
-                <a href="{{ route('voitures') }}" class="list{{ request()->routeIs('voitures') ? ' active' : '' }}"><span class="la la-automobile"></span>
-                <span>Voitures</span></a>
+                <a href="{{ route('cars') }}" class="list{{ request()->routeIs('cars') ? ' active' : '' }}"><span class="la la-automobile"></span>
+                <span>Cars</span></a>
             </li>
             <li>
                 <a href="" class="list"><span class="las la-user-tie"></span>
-                <span>Employés</span></a>
+                <span>Employers</span></a>
             </li>
         </ul>
     </div>

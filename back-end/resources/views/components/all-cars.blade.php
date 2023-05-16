@@ -2,7 +2,7 @@
 <div class="voitures">
     <div class="card">
         <div class="card-header">
-            <h3>Voitures actuellement louées</h3>
+            <h3>Our Cars</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -12,19 +12,20 @@
                         <thead>
                             <tr>
                                 <td>Image</td>
-                                <td>id</td>
-                                <td>Matricule</td>
-                                <td>Modele</td>
-                                <td>Marque</td>
+                                <td>Car Id</td>
+                                <td>№</td>
+                                <td>Model</td>
+                                <td>Brand</td>
                                 <td>Status</td>
-                                <td>Carburant</td>
-                                <td>Boîte de vitesses</td>
-                                <td>N.Places</td>
-                                <td>Prix par jour</td>
-                                <td>Date debut aassur</td>
-                                <td>Date fin assur</td>
-                                <td>Cout assur</td>
-                                <td>description</td>
+                                <td>Fuel</td>
+                                <td>Gearbox</td>
+                                <td>Seats №</td>
+                                <td>Price per day</td>
+                                <td>Insurance start date</td>
+                                <td>Insurance end date</td>
+                                <td>Insurance cost</td>
+                                <td>Description</td>
+                                <td style="color: green">Updating</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,14 +82,14 @@
         </div>
         <div class="content">
             <span class="title">warning!</span>
-            <div class="desc">êtes-vous sûr de vouloir supprimer ce voiture ?</div>
+            <div class="desc">are you sure you want to delete this car?</div>
             <div class="actions">
                 <div>
 
-                    <a href="" class="yes" id="deleteYes">Oui</a>
+                    <a href="" class="yes" id="deleteYes">Yes</a>
                 </div>
                 <div>
-                    <a href="#" class="no" id="deleteNo">Non</a>
+                    <a href="#" class="no" id="deleteNo">No</a>
                 </div>
             </div>
         </div>
@@ -97,9 +98,21 @@
         </button>
     </div>
 </div>
+<div class="alert-section" id="alert_container">
+    <div class="container mt-5">
+        <div class="col-sm-12">
+          <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+            <i class="start-icon far fa-check-circle faa-tada animated"></i>
+            you have successfully deleted your <strong class="font__weight-semibold" style="margin: 0px 5px 0px 5px"> car </strong>
+          </div>
+        </div>
+
+    </div>
+  </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
       $('#deleteDialog').hide();
+      $('#alert_container').hide();
 
 $(document).ready(function() {
   // Hide the delete dialog on page load
@@ -122,6 +135,10 @@ $(document).ready(function() {
         $('#deleteYes').attr('href', 'deleteCar/' + car_id);
 
       $('#deleteDialog').hide();
+      $('#alert_container').show();
+        setTimeout(function() {
+            $('#alert_container').hide();
+        }, 70000);
 
     });
   });

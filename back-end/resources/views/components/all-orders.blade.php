@@ -5,7 +5,7 @@
 <div class="voitures">
     <div class="card">
         <div class="card-header">
-            <h3>Nos Ordres</h3>
+            <h3>Our Orders</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -16,35 +16,39 @@
 
 
                             <tr>
-                                <td>Id Client</td>
-                                <td>Id utilisateur</td>
-                                <td>Nom</td>
-                                <td>Prenom</td>
-                                <td>Numero de telephone</td>
-                                <td>Numero de permis</td>
+                                <td>Order Id</td>
+                                <td>Client Id</td>
+                                <td>User Id</td>
+                                <td>First Name</td>
+                                <td>Last Name</td>
+                                <td>Phone №</td>
+                                <td>Drive License №</td>
                                 <td>Email</td>
-                                <td>Ville</td>
-                                <td>Numero de passport</td>
-                                <td>Matricule Voiture</td>
-                                <td>Updating</td>
+                                <td>City</td>
+                                <td>passport №</td>
+                                <td>Cars Id</td>
+                                <td>Car №</td>
+                                <td style="color:darkgreen">Updating</td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <button id="acceptBtn"><span class="las la-check">Accepter</span></button>
-                                    <button id="declineBtn" data-order-id="{{ $order->id }}"><span class="las la-ban">Déclin</span></button>
+                                <td>{{$order->order_id}}</td>
+                                <td>{{$order->client_id}}</td>
+                                <td>{{$order->id_utilisateur}}</td>
+                                <td>{{$order->nom}}</td>
+                                <td>{{$order->prenom}}</td>
+                                <td>{{$order->numero_telephone}}</td>
+                                <td>{{$order->numero_permis}}</td>
+                                <td>{{$order->email}}</td>
+                                <td>{{$order->ville}}</td>
+                                <td>{{$order->numero_passport}}</td>
+                                <td>{{$order->id_voiture}}</td>
+                                <td>{{$order->matricule}}</td>
+                                <td class="order_buttons">
+                                    <button id="acceptBtn"><span class="las la-check"></span><span>Accept</span></button>
+                                    <button id="declineBtn" data-order-id="{{ $order->order_id }}"><span class="las la-ban"></span><span>Decline</span></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -66,14 +70,14 @@
         </div>
         <div class="content">
             <span class="title">warning!</span>
-            <div class="desc">êtes-vous sûr de vouloir supprimer ce client ?</div>
+            <div class="desc">are you sure you want to delete this order?</div>
             <div class="actions">
                 <div>
 
-                    <a href="" class="yes" id="deleteYes">Oui</a>
+                    <a href="" class="yes" id="deleteYes">Yes</a>
                 </div>
                 <div>
-                    <a href="#" class="no" id="deleteNo">Non</a>
+                    <a href="#" class="no" id="deleteNo">No</a>
                 </div>
             </div>
         </div>
@@ -87,7 +91,7 @@
         <div class="col-sm-12">
           <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
             <i class="start-icon far fa-check-circle faa-tada animated"></i>
-            <strong class="font__weight-semibold">vous avez supprimez votre client avec succès !</strong>
+            you have successfully deleted<strong class="font__weight-semibold" style="margin: 0px 5px 0px 5px"> Order </strong>
           </div>
         </div>
 
@@ -98,12 +102,8 @@
       $('#deleteDialog').hide();
       $('#alert_container').hide();
 
-$(document).ready(function() {
-  // Hide the delete dialog on page load
-  $('#deleteDialog').hide();
-
-  $(document).on('click', '#declineBtn', function() {
-    var client_id = $(this).data('order-id');
+      $(document).on('click', '#declineBtn', function() {
+    var order_id = $(this).data('order-id');
     console.log('Order ID:', order_id);
     $('#deleteDialog').show();
 
@@ -115,18 +115,17 @@ $(document).ready(function() {
       $('#deleteDialog').hide();
     });
 
-    $('#deleteYes').click(function() {
-        $('#deleteYes').attr('href', 'deleteUserClient/' + order_id);
-        $('#deleteDialog').hide();
-        $('#alert_container').show();
-        setTimeout(function() {
-            $('#alert_container').hide();
-        }, 2000);
+    // $('#deleteYes').click(function() {
+    //     $('#deleteYes').attr('href', 'deleteOrder/' + order_id);
 
+    //   $('#deleteDialog').hide();
+    //   $('#alert_container').show();
+    //     setTimeout(function() {
+    //         $('#alert_container').hide();
+    //     }, 70000);
 
-    });
+    // });
   });
-});
 
 
 </script>

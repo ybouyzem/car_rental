@@ -18,7 +18,7 @@
 <body>
     @include('components.sidebar')
     <div class="main-content">
-        <x-header :title='"Tableau de bord"'/>
+        <x-header :title='"Dashboard"'/>
         <main>
             <x-number-cards :cars='$carsNumber' :clients='$clientsNumber' :reservations='$reservationsNumber' :employers='$employersNumber' :income='$income'/>
             <!-- for the map -->

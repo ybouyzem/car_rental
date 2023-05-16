@@ -3,7 +3,7 @@
     <div class="card-single">
         <div>
             <h2>{{$employers}}</h2>
-            <span>Employés</span>
+            <span>Employers</span>
         </div>
         <div>
             <span class="las la-user-tie"></span>
@@ -12,7 +12,7 @@
     <div class="card-single">
         <div>
             <h2>{{$reservations}}</h2>
-            <span>Ordres</span>
+            <span>Orders</span>
         </div>
         <div>
             <span class="las la-clipboard-list"></span>
@@ -30,7 +30,7 @@
     <div class="card-single">
         <div>
             <h2>{{$cars}}</h2>
-            <span>Voitures</span>
+            <span>Cars</span>
         </div>
         <div>
             <span class="la la-automobile"></span>
@@ -39,7 +39,7 @@
     <div class="card-single">
         <div>
             <h2>{{$income}} </h2>
-            <span>Revenu</span>
+            <span>Income</span>
         </div>
         <div>
             <span class="la la-google-wallet"></span>

@@ -1,6 +1,6 @@
 <div class="map-container">
     <div>
-        <div class="map-title">Voitures actuellement louées</div>
+        <div class="map-title">Cars currently rented</div>
         <div id="map"></div>
     </div>
 <script lang="javascript">

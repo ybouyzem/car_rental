@@ -5,7 +5,7 @@
 <div class="voitures">
     <div class="card">
         <div class="card-header">
-            <h3>Nos Clients</h3>
+            <h3>Our Clients</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -14,12 +14,13 @@
                         @if (!empty($clients))
                         <thead>
                             <tr>
-                                <td>Id utilisateur</td>
-                                <td>Nom</td>
-                                <td>Prenom</td>
+                                <td>User Id</td>
+                                <td>First Name</td>
+                                <td>Last Name</td>
                                 <td>Email</td>
-                                <td>Nombre de commandes</td>
-                                <td>paiement total</td>
+                                <td>Number of orders</td>
+                                <td>full payment</td>
+                                <td style="color: green">Updating</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,14 +60,14 @@
         </div>
         <div class="content">
             <span class="title">warning!</span>
-            <div class="desc">êtes-vous sûr de vouloir supprimer ce client ?</div>
+            <div class="desc">are you sure you want to delete this client?</div>
             <div class="actions">
                 <div>
 
-                    <a href="" class="yes" id="deleteYes">Oui</a>
+                    <a href="" class="yes" id="deleteYes">Yes</a>
                 </div>
                 <div>
-                    <a href="#" class="no" id="deleteNo">Non</a>
+                    <a href="#" class="no" id="deleteNo">No</a>
                 </div>
             </div>
         </div>
@@ -80,7 +81,7 @@
         <div class="col-sm-12">
           <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
             <i class="start-icon far fa-check-circle faa-tada animated"></i>
-            <strong class="font__weight-semibold">vous avez supprimez votre client avec succès !</strong>
+            you have successfully deleted<strong class="font__weight-semibold" style="margin: 0px 5px 0px 5px"> client </strong>
           </div>
         </div>
 
@@ -114,7 +115,7 @@ $(document).ready(function() {
         $('#alert_container').show();
         setTimeout(function() {
             $('#alert_container').hide();
-        }, 2000);
+        }, 4000);
 
 
     });

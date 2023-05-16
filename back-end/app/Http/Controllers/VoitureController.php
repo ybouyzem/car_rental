@@ -109,7 +109,7 @@ class VoitureController extends Controller
         ->join('modeles', 'voitures.id_modele', '=', 'modeles.id')
         ->join('marques', 'modeles.id_marque', '=', 'marques.id')
         ->get();
-        return view('voitures',compact('voitures'));
+        return view('cars',compact('voitures'));
 
     }
     public function carsNumber(){

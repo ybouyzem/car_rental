@@ -3,21 +3,21 @@
 <div class="voitures">
     <div class="card">
         <div class="card-header">
-            <h3>Voitures actuellement louées</h3>
-            <a href="{{route('voitures')}}"><button>see all <span class="las la la-arrow-right"></span> </button></a>
+            <h3>Cars currently rented</h3>
+            <a href="{{route('cars')}}"><button>see all <span class="las la la-arrow-right"></span> </button></a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table width="100%">
                     <thead>
                         <tr>
-                            <td>id</td>
-                            <td>Matricule</td>
-                            <td>Modele</td>
-                            <td>Marque</td>
-                            <td>Prix par jour</td>
-                            <td>id Client</td>
-                            <td>nom Client</td>
+                            <td>Car id</td>
+                            <td>№</td>
+                            <td>Model</td>
+                            <td>Brand</td>
+                            <td>Price per day</td>
+                            <td>Client Id</td>
+                            <td>Client Name</td>
                         </tr>
                     </thead>
                     <tbody>

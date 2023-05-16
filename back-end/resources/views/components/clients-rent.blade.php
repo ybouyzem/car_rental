@@ -2,7 +2,7 @@
 <div class="clients">
     <div class="card">
         <div class="card-header">
-            <h3>clients qui louent</h3>
+            <h3>customers who rent</h3>
             <a href="{{ route('clients') }}"><button>see all <span class="las la la-arrow-right"></span> </button></a>
         </div>
         <div class="card-body">

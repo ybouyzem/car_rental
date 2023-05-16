@@ -128,12 +128,16 @@ class ReservationController extends Controller
 
     public function allOrders(){
         $orders = DB::table('clients')
-    ->select('clients.id as client_id', 'clients.*', 'utilisateurs.*', 'voitures.*', 'reservations.*')
-    ->join('utilisateurs', 'clients.id_utilisateur', '=', 'utilisateurs.id')
-    ->join('reservations', 'reservations.id_client', '=', 'clients.id')
-    ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
-    ->get();
+        ->select('clients.id as client_id', 'reservations.id as order_id', 'clients.*', 'utilisateurs.*', 'voitures.*', 'reservations.*')
+        ->join('utilisateurs', 'clients.id_utilisateur', '=', 'utilisateurs.id')
+        ->join('reservations', 'reservations.id_client', '=', 'clients.id')
+        ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
+        ->get();
 
-        return view('ordres',compact('orders'));
+        return view('orders',compact('orders'));
+    }
+
+    public function deleteOrder(){
+        return view('orders');
     }
 }

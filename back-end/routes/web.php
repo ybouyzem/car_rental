@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [VoitureController::class, 'dashboard'])->name('index');
-Route::get('/voitures', [VoitureController::class, 'allCars'])->name('voitures');
+Route::get('/cars', [VoitureController::class, 'allCars'])->name('cars');
 Route::get('/clients',[ClientController::class, 'allClients'])->name('clients');
 Route::get('/deleteUserClient/{id}', [UtilisateurController::class, 'deleteUserClient']);
 Route::get('/deleteCar/{id}', [VoitureController::class, 'deleteCar']);
-Route::get('/ordres',[ReservationController::class,'allOrders'])->name('ordres');
+Route::get('/orders',[ReservationController::class,'allOrders'])->name('orders');
+Route::get('/orders/{id}',[ReservationController::class,'deleteOrder']);
