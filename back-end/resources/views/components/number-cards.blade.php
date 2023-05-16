@@ -1,8 +1,9 @@
+@props(['cars','clients','reservations','employers','income'])
 <div class="cards">
     <div class="card-single">
         <div>
-            <h2>54</h2>
-            <span>Employés</span>
+            <h2>{{$employers}}</h2>
+            <span>Employers</span>
         </div>
         <div>
             <span class="las la-user-tie"></span>
@@ -10,8 +11,8 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>60</h2>
-            <span>Ordres</span>
+            <h2>{{$reservations}}</h2>
+            <span>Orders</span>
         </div>
         <div>
             <span class="las la-clipboard-list"></span>
@@ -19,7 +20,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>30</h2>
+            <h2>{{$clients}}</h2>
             <span>Clients</span>
         </div>
         <div>
@@ -28,8 +29,8 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>17</h2>
-            <span>Voitures</span>
+            <h2>{{$cars}}</h2>
+            <span>Cars</span>
         </div>
         <div>
             <span class="la la-automobile"></span>
@@ -37,8 +38,8 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>200000 </h2>
-            <span>Revenu</span>
+            <h2>{{$income}} </h2>
+            <span>Income</span>
         </div>
         <div>
             <span class="la la-google-wallet"></span>

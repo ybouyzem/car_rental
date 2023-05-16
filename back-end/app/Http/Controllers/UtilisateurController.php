@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
+use App\Models\Client;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -46,7 +48,7 @@ class UtilisateurController extends Controller
             'email' =>  $request->email,
             'password' => Hash::make($request->password)
         ]);
-        
+
         return response()->json([
             'message' => 'user added successfully'
         ]);
@@ -131,5 +133,23 @@ class UtilisateurController extends Controller
     public function destroy(Utilisateur $utilisateur)
     {
         //
+    }
+
+
+    public function deleteUserClient($id){
+        $userClient = Utilisateur::find($id);
+        if (!$userClient) {
+            // Handle client not found error
+            return redirect()->back()->with('error', 'client not found.');
+        }
+        $clientIds = Client::where('id_utilisateur', $id)->pluck('id');
+        for($i=0;$i<count($clientIds);$i++) {
+            Reservation::where('id_client',  $clientIds[$i])->delete();
+        }
+        Client::where('id_utilisateur',$id)->delete();
+        // Delete the client from the database
+        $userClient->delete();
+        // Redirect back to the previous page with a success message
+        return redirect()->back()->with('success', 'client deleted successfully.');
     }
 }

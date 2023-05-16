@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Utilisateur;
+use App\Models\Voiture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -53,7 +55,7 @@ class ClientController extends Controller
         }
 
         $client = Client::create($clientData);
-        
+
         return response()->json([
             'message' => 'client added successfully',
             'client' => $client
@@ -98,5 +100,50 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         //
+    }
+
+    public function allClients(){
+        $allClients = DB::table('utilisateurs')
+        ->select('utilisateurs.*', DB::raw('SUM(voitures.prix_jour) as total_payant'), DB::raw('COUNT(clients.id) as nombre_de_commandes'))
+        ->join('clients', 'utilisateurs.id', '=', 'clients.id_utilisateur')
+        ->join('reservations', 'clients.id', '=', 'reservations.id_client')
+        ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
+        ->groupBy('utilisateurs.id','utilisateurs.nom','utilisateurs.prenom','utilisateurs.email','utilisateurs.password','utilisateurs.created_at','utilisateurs.updated_at')
+        ->get();
+
+        return view('clients',compact('allClients'));
+    }
+
+    public function clientsNumber(){
+        $clientsNumber = DB::table('clients')->count();
+        return $clientsNumber;
+    }
+
+    public function clientsRent(){
+        $clientsRent = DB::table('reservations')
+        ->join('clients', 'reservations.id_client', '=', 'clients.id')
+        ->join('utilisateurs', 'clients.id_utilisateur', '=', 'utilisateurs.id')
+        ->join('voitures', 'reservations.id_voiture', '=', 'voitures.id')
+        ->select('reservations.id_client', 'utilisateurs.nom', 'utilisateurs.prenom')
+        ->where('voitures.statut', '=', 'Rented')
+        ->get();
+        return $clientsRent;
+    }
+
+    public function deleteClient($id)
+    {
+        $client = Client::find($id);
+
+        // if (!$client) {
+        //     // Handle client not found error
+        //     return redirect()->back()->with('error', 'client not found.');
+        // }
+
+        // Delete the client from the database
+        $client->delete();
+
+        // Redirect back to the previous page with a success message
+        // return redirect()->back()->with('success', 'client deleted successfully.');
+        return redirect('clients');
     }
 }

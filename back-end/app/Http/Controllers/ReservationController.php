@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ReservationController extends Controller
 {
@@ -34,7 +36,7 @@ class ReservationController extends Controller
             'id_client' => 'required',
             'location' => 'required',
             'retour' => 'required',
-        ]);        
+        ]);
 
         // L'insertion des données
         $orderData = [
@@ -89,5 +91,67 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    public function reservationsNumber(){
+        $reservationsNumber = DB::table('reservations')->count();
+        return $reservationsNumber;
+    }
+
+    public function income(){
+        $startDate = DB::table('reservations')
+            ->select(DB::raw('UNIX_TIMESTAMP(created_at) AS seconds'))
+            ->get();
+        $endDate = DB::table('reservations')
+        ->select(DB::raw('UNIX_TIMESTAMP(retour) AS seconds'))
+        ->get();
+
+        $price = DB::table('voitures')
+            ->join('reservations', 'voitures.id', '=', 'reservations.id_voiture')
+            ->select('voitures.prix_jour')
+            ->get();
+
+            $seconds=0;
+            $income=0;
+        if(!isset($startDate)){
+            for($i=0;$i<2;$i++){
+                $seconds+=$endDate[$i]->seconds-$startDate[$i]->seconds;
+                $days=$seconds/86400;
+                $income+=$days*($price[$i]->prix_jour);
+
+            }
+            return round($income,3);
+        }
+        return $income;
+
+    }
+
+    public function allOrders(){
+        $orders = DB::table('clients')
+        ->select('clients.id as client_id', 'reservations.id as order_id', 'clients.*', 'utilisateurs.*', 'voitures.*', 'reservations.*')
+        ->join('utilisateurs', 'clients.id_utilisateur', '=', 'utilisateurs.id')
+        ->join('reservations', 'reservations.id_client', '=', 'clients.id')
+        ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
+        ->get();
+
+        return view('orders',compact('orders'));
+    }
+
+    public function deleteOrder($id){
+        $car_id = DB::table('reservations')
+    ->select('id_voiture')
+    ->where('id', $id)
+    ->value('id_voiture');
+
+
+    DB::table('voitures')
+    ->where('id', $car_id)
+    ->update(['statut' => 'Available']);
+
+    DB::table('reservations')
+    ->where('id', $id)
+    ->delete();
+
+        return view('orders');
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">
-    <title>Tableau de bords</title>
+    <title>Orders</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
     crossorigin=""/>
@@ -18,18 +18,9 @@
 <body>
     @include('components.sidebar')
     <div class="main-content">
-        <x-header :title='"Dashboard"'/>
         <main>
-            <x-number-cards :cars='$carsNumber' :clients='$clientsNumber' :reservations='$reservationsNumber' :employers='$employersNumber' :income='$income'/>
-            <!-- for the map -->
-            <x-map/>
-
-
-            <div class="recent-grid">
-                <x-rented-cars :voitures='$rentedCars'/>
-                <!-- clients -->
-                <x-clients-rent :voitures='$rentedCars'/>
-            </div>
+            <x-header :title='"Orders"'/>
+            <x-all-orders :orders='$orders'/>
         </main>
     </div>
 </body>
