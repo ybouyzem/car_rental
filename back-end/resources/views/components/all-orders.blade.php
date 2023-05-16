@@ -16,7 +16,6 @@
 
 
                             <tr>
-                                <td>Order Id</td>
                                 <td>Client Id</td>
                                 <td>User Id</td>
                                 <td>First Name</td>
@@ -34,7 +33,6 @@
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
-                                <td>{{$order->order_id}}</td>
                                 <td>{{$order->client_id}}</td>
                                 <td>{{$order->id_utilisateur}}</td>
                                 <td>{{$order->nom}}</td>
@@ -115,16 +113,16 @@
       $('#deleteDialog').hide();
     });
 
-    // $('#deleteYes').click(function() {
-    //     $('#deleteYes').attr('href', 'deleteOrder/' + order_id);
+    $('#deleteYes').click(function() {
+        $('#deleteYes').attr('href', 'orders/' + order_id);
 
-    //   $('#deleteDialog').hide();
-    //   $('#alert_container').show();
-    //     setTimeout(function() {
-    //         $('#alert_container').hide();
-    //     }, 70000);
+      $('#deleteDialog').hide();
+      $('#alert_container').show();
+        setTimeout(function() {
+            $('#alert_container').hide();
+        }, 70000);
 
-    // });
+    });
   });
 
 

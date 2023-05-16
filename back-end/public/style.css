@@ -508,7 +508,7 @@ tr td:last-child {
     height: 35px;
 }
 .order_buttons button span {
-    margin: 0px 5px 0px 5px ;
+    margin: 0px 5px 0px 2px ;
 }
 
 .order_buttons button:first-child {

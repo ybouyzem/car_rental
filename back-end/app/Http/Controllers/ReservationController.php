@@ -137,7 +137,21 @@ class ReservationController extends Controller
         return view('orders',compact('orders'));
     }
 
-    public function deleteOrder(){
+    public function deleteOrder($id){
+        $car_id = DB::table('reservations')
+    ->select('id_voiture')
+    ->where('id', $id)
+    ->value('id_voiture');
+
+
+    DB::table('voitures')
+    ->where('id', $car_id)
+    ->update(['statut' => 'Available']);
+
+    DB::table('reservations')
+    ->where('id', $id)
+    ->delete();
+
         return view('orders');
     }
 }

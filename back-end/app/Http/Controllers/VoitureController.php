@@ -93,7 +93,9 @@ class VoitureController extends Controller
         ->join('clients', 'clients.id', '=', 'reservations.id_client')
         ->join('utilisateurs', 'utilisateurs.id', '=', 'clients.id_utilisateur')
         ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
-        ->select('voitures.id as car_id', 'voitures.*', 'reservations.id_client as client_id', 'utilisateurs.*', 'clients.*')
+        ->join('modeles', 'voitures.id_modele', '=', 'modeles.id')
+        ->join('marques', 'modeles.id_marque', '=', 'marques.id')
+        ->select('voitures.id as car_id', 'voitures.*', 'reservations.id_client as client_id', 'utilisateurs.*', 'clients.*','modeles.libelle as modele','marques.libelle as marque')
         ->where('voitures.statut', '=', 'Rented')
         ->get();
 
