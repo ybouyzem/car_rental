@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Voiture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Reservation;
 
 class VoitureController extends Controller
 {
@@ -88,13 +89,16 @@ class VoitureController extends Controller
     }
 
     public function rentedCars(){
-        $voitures=DB::table('marques')
-        ->leftJoin('modeles', 'marques.id', '=', 'modeles.id_marque')
-        ->leftJoin('voitures', 'voitures.id', '=', 'modeles.id')
-        ->select('voitures.id', 'voitures.matricule', 'modeles.libelle as modele', 'marques.libelle as marque', 'voitures.prix_jour')
-        ->whereColumn('marques.id', 'modeles.id_marque')
+        $voitures = DB::table('reservations')
+        ->join('clients', 'clients.id', '=', 'reservations.id_client')
+        ->join('utilisateurs', 'utilisateurs.id', '=', 'clients.id_utilisateur')
+        ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
+        ->select('voitures.id as car_id', 'voitures.*', 'reservations.id_client as client_id', 'utilisateurs.*', 'clients.*')
         ->where('voitures.statut', '=', 'Rented')
         ->get();
+
+
+
         return $voitures;
     }
 
@@ -124,5 +128,20 @@ class VoitureController extends Controller
         $employersNumber=$e->employersNumber();
         $income=$r->income();
         return view('index', compact('rentedCars', 'carsNumber','clientsNumber','reservationsNumber','employersNumber','income'));
+    }
+
+    public function deleteCar($id) {
+        $car = Voiture::find($id);
+
+        if (!$car) {
+            // Handle client not found error
+            return redirect()->back()->with('error', 'client not found.');
+        }
+
+        // Delete the client from the database
+        $car->delete();
+
+        // Redirect back to the previous page with a success message
+        return redirect()->back()->with('success', 'client deleted successfully.');
     }
 }

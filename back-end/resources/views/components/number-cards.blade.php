@@ -38,7 +38,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h2>{{$icome}} </h2>
+            <h2>{{$income}} </h2>
             <span>Revenu</span>
         </div>
         <div>

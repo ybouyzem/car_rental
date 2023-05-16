@@ -105,27 +105,35 @@ class ReservationController extends Controller
         $endDate = DB::table('reservations')
         ->select(DB::raw('UNIX_TIMESTAMP(retour) AS seconds'))
         ->get();
-        // $startDate = DB::table('reservations')
-        //     ->select('created_at')
-        //     ->get();
-        //     $endDate = DB::table('reservations')
-        //     ->select('retour')
-        //     ->get();
-
 
         $price = DB::table('voitures')
             ->join('reservations', 'voitures.id', '=', 'reservations.id_voiture')
             ->select('voitures.prix_jour')
             ->get();
-        $startDate=$startDate.
-            $seconds=1;
-            if($startDate>1){
-                $seconds=100000;
-            }
 
-        // $seconds=($endDate - $startDate);
-        $days=$seconds/86400;
-        $income=$days*$price;
+            $seconds=0;
+            $income=0;
+        if(!isset($startDate)){
+            for($i=0;$i<2;$i++){
+                $seconds+=$endDate[$i]->seconds-$startDate[$i]->seconds;
+                $days=$seconds/86400;
+                $income+=$days*($price[$i]->prix_jour);
+
+            }
+            return round($income,3);
+        }
         return $income;
+
+    }
+
+    public function allOrders(){
+        $orders = DB::table('clients')
+    ->select('clients.id as client_id', 'clients.*', 'utilisateurs.*', 'voitures.*', 'reservations.*')
+    ->join('utilisateurs', 'clients.id_utilisateur', '=', 'utilisateurs.id')
+    ->join('reservations', 'reservations.id_client', '=', 'clients.id')
+    ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
+    ->get();
+
+        return view('ordres',compact('orders'));
     }
 }

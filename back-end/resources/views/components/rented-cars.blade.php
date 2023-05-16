@@ -1,4 +1,4 @@
-@props(['voitures'])
+@props(['voitures','clientsRent'])
 
 <div class="voitures">
     <div class="card">
@@ -24,19 +24,24 @@
                         @if (!empty($voitures))
                             @foreach ($voitures as $voiture)
                                 <tr>
-                                    <td>{{$voiture->id}}</td>
+                                    <td>{{$voiture->car_id}}</td>
                                     <td>{{$voiture->matricule}}</td>
                                     <td>{{$voiture->modele}}</td>
                                     <td>{{$voiture->marque}}</td>
                                     <td>{{$voiture->prix_jour}}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{$voiture->client_id}}</td>
+                                    <td>{{$voiture->nom}} {{$voiture->prenom}}</td>
                                 </tr>
                             @endforeach
 
 
                             @else
-                                <tr>Error</tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="width:100%;text-align: center;background-color:gainsboro;margin:10px 0px 10px 0px;padding:10px">aucun client ne loue actuellement</td>
+                                </tr>
                         @endif
                     </tbody>
                 </table>
