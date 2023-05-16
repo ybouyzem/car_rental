@@ -74,9 +74,20 @@ class VoitureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Voiture $voiture)
+    public function update(Request $request, $carId)
     {
-        //
+        //finding the car
+        $voiture = Voiture::findOrFail($carId);
+
+        // Update car's status
+        $voiture->statut = $request->statut;
+
+        // Save changes to the car's record
+        $voiture->save();
+
+        return response()->json([
+            'message' => 'car modified successfully'
+        ]);
     }
 
     /**
