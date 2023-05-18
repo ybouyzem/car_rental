@@ -41,6 +41,12 @@ function SignIn ({onLogin, saveIdUser}){
             setTimeout(()=>{
               errorMsg.style.display = "none";
             },2000);
+          }else if(response.data.message === 'Not verified'){
+            errorMsgValue.textContent = 'Email Not verified yet! Please check you inbox';
+            errorMsg.style.display = "flex";
+            setTimeout(()=>{
+              errorMsg.style.display = "none";
+            },2000);
           }else{
             saveIdUser(response.data.message.id);
             redirectToHome();

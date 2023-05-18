@@ -19,7 +19,7 @@ import Logo from '../Partials/Logo';
 import Pic from '../Pics/roberto-nickson-Yp9FdEqaCdk-unsplash.jpg';
 
 
-function SignUp({onLogin, saveIdUser}) {
+function SignUp({onLogin}) {
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
@@ -47,7 +47,7 @@ function SignUp({onLogin, saveIdUser}) {
             .then(({data})=>{
               console.log(data.message);
               saveId(email);
-              redirectToHome();
+              redirectToVerifieEmailPage();
             }).catch(({response})=>{
               if (response.status === 422) {
                 console.log(response.data.errors);
@@ -81,7 +81,6 @@ function SignUp({onLogin, saveIdUser}) {
       const saveId = async (email) => {
         try {
           const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${email}`);
-          saveIdUser(response.data.message.id);
         } catch (error) {
           console.log(error);
         }
@@ -92,9 +91,8 @@ function SignUp({onLogin, saveIdUser}) {
 
   //Redirecting to the home.
   let navigate = useNavigate();
-  const redirectToHome = () => {
-    onLogin();
-    navigate("/");
+  const redirectToVerifieEmailPage = () => {
+    navigate("/Verifie_email");
   }
   // checking first name
   const handleFirstName = () =>{

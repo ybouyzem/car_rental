@@ -51,7 +51,7 @@ function HistoryPiece({carId, orderId}) {
     const [carName, setCarName] = useState('');
     useEffect(() => {
         if (carWording !== null) {
-          setCarName(carWording.libelleMarque + carWording.libelleModele);
+          setCarName(carWording.libelleMarque + ' ' + carWording.libelleModele);
         }
     }, [carWording]);
 
