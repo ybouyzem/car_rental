@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table width="100%">
+                <table width="100%" id="myTable">
 
                         @if (!empty($orders))
                         <thead>
@@ -31,7 +31,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr style="visibility: hidden" >
+                                <td class="order_buttons" id="updatingBefore0">
+
+                                </td>
+                            </tr>
+                            @php
+                                $i=0 ;
+                            @endphp
                             @foreach ($orders as $order)
+                            @php
+                            $i ++ ;
+                            @endphp
                             <tr>
                                 <td>{{$order->client_id}}</td>
                                 <td>{{$order->id_utilisateur}}</td>
@@ -44,9 +55,9 @@
                                 <td>{{$order->numero_passport}}</td>
                                 <td>{{$order->id_voiture}}</td>
                                 <td>{{$order->matricule}}</td>
-                                <td class="order_buttons">
-                                    <button id="acceptBtn"><span class="las la-check"></span><span>Accept</span></button>
-                                    <button id="declineBtn" data-order-id="{{ $order->order_id }}"><span class="las la-ban"></span><span>Decline</span></button>
+                                <td class="order_buttons" id="updatingBefore{{$i}}">
+                                    <button id="acceptBtn"  data-checked-id="{{ $i }}"><span class="las la-check"></span><span>Accept</span></button>
+                                    <button id="declineBtn" data-check-id="{{ $i }}" @isset($order) data-order-id="{{ $order->order_id }}" @endisset><span class="las la-ban"></span><span>Decline</span></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -95,13 +106,62 @@
 
     </div>
   </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
       $('#deleteDialog').hide();
       $('#alert_container').hide();
+      var array = [];
+
+      $(document).ready(function() {
+
+       // var storedArray = localStorage.getItem('array');
+        if (storedArray) {
+            array = JSON.parse(storedArray);
+            console.log(array);
+            var i=0;
+            $.each(array, function( index,value) {
+                i++;
+                if(i==value) {
+                    var tr = $('#updatingBefore'+i).closest('tr');
+                    $('#updatingBefore'+i).remove();
+                    tr.append('<td id="updatingAfter"><span class="lar la-check-circle"></span><button id="declineBtn" data-check-id="{{ $i }}" data-order-id="{{ $order->order_id }}"><span class="las la-trash-alt"></span></button></td>');
+                }
+            });
+        }
+
+            $(document).on('click', '#acceptBtn', function(){
+
+                var checked_id= $(this).data('checked-id');
+                var checkedItem=localStorage.getItem('updatingBefore'+checked_id);
+
+                console.log('checked ID:', checked_id);
+
+                var mytr=$(this).closest('td').closest('tr');
+
+                $(this).closest('td').remove();
+                localStorage.setItem('checkedItem', 'true');
+                var storedArray = localStorage.getItem('array');
+                array.push(checked_id);
+                localStorage.setItem('array', JSON.stringify(array));
+                mytr.append('<td id="updatingAfter"><span class="lar la-check-circle"></span><button id="declineBtn"  @isset($order) data-order-id="{{ $order->order_id }}" @endisset><span class="las la-trash-alt"></span></button></td>');
+            });
+
+            });
+
+
+
+
+
+
+
+
 
       $(document).on('click', '#declineBtn', function() {
     var order_id = $(this).data('order-id');
+    var checked_id= $(this).data('check-id');
+
     console.log('Order ID:', order_id);
     $('#deleteDialog').show();
 
@@ -117,6 +177,16 @@
         $('#deleteYes').attr('href', 'orders/' + order_id);
 
       $('#deleteDialog').hide();
+
+
+    //   .each(storedArray, function( index,value){
+    //         if(value==checked_id){
+    //             array.splice(index, 1);
+    //         }
+    //     });
+    //     console.log("yes"+array);
+
+
       $('#alert_container').show();
         setTimeout(function() {
             $('#alert_container').hide();
