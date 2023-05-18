@@ -18,6 +18,7 @@ return new class extends Migration
             $table->datetime('location');
             $table->datetime('retour');
             $table->datetime('prolongation')->nullable();
+            $table->timestamp('reservation_verifie_le')->nullable();
             $table->timestamps();
         });
     }

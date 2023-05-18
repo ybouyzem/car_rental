@@ -28,6 +28,8 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
     var [description, setDescription] = useState('');
     var [price, setPrice] = useState('');
 
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
     
     useEffect(() => {
         var fetchCar = async(id) => {
@@ -95,6 +97,11 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
     }
 
     //Forbid reloading the page.
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setShowConfirmation(true);
+    }
+
     const handleSubmit = async(event) => {
         event.preventDefault();
         if(authorized){
@@ -127,6 +134,9 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
 
                     const { data: orderData } = await axios.post('http://127.0.0.1:8000/api/Reservation', formData2);
                     console.log(orderData.message);
+
+                    const response = await axios.patch('http://127.0.0.1:8000/api/Voiture/' + idCar, { statut: 'Rented' });
+                    console.log(response.data.message);
 
                     RedirectToInvoice();
                 } catch (error) {
@@ -347,7 +357,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
         {/* Form */}
         <div id='form' className='absolute left-0 top-0 w-full h-full bg-white/80 px-[4%] pt-[10%] pb-5 opacity-0 -z-10 duration-300 overflow-y-auto'>
             <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose className='text-black' /></button> 
-            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black' onSubmit={handleSubmit}>
+            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black' onSubmit={handleFormSubmit}>
 
                 {/* Date & Time */}
                 <div className='w-full flex items-center justify-between gap-5'>
@@ -473,6 +483,15 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
             </div>
             <button className='text-black relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-black hover:after:w-[80%] after:duration-300' onClick={Close}>Got it</button>
         </div>
+        {showConfirmation && ( 
+            <div className='w-full h-[20%] absolute right-0 top-0 bg-yellow-500 flex flex-col items-center justify-center gap-5 py-2 z-20 duration-300'>
+            <span className='text-white text-xl capitalize'>are you sure about the order</span>
+            <div className='flex gap-10'>
+                <button className='text-white bg-green-500/60 p-2' onClick={handleSubmit}>Confirm</button>
+                <button className='text-white bg-red-500/60 p-2' onClick={() => setShowConfirmation(false)}>Cancel</button>
+            </div>
+        </div>
+        )}
       </div>
     )
 }

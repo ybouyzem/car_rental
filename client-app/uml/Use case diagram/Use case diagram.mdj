@@ -3149,7 +3149,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 64,
-											"top": -112,
+											"top": -128,
 											"height": 13
 										},
 										{
@@ -3160,7 +3160,7 @@
 											},
 											"font": "Arial;13;1",
 											"left": 245,
-											"top": 439,
+											"top": 695,
 											"width": 1127,
 											"height": 13,
 											"text": "Use Case Diagram - Visiteur - \"Application Web de location des voitures\""
@@ -3174,7 +3174,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 64,
-											"top": -112,
+											"top": -128,
 											"width": 73.67724609375,
 											"height": 13,
 											"text": "(from Model)"
@@ -3188,14 +3188,14 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 64,
-											"top": -112,
+											"top": -128,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 240,
-									"top": 432,
+									"top": 688,
 									"width": 1137,
 									"height": 25,
 									"stereotypeLabel": {
@@ -3214,9 +3214,9 @@
 							],
 							"font": "Arial;13;0",
 							"left": 240,
-							"top": 432,
+							"top": 688,
 							"width": 1137,
-							"height": 865,
+							"height": 385,
 							"nameCompartment": {
 								"$ref": "AAAAAAGHU2kNk/gsG+Y="
 							}
@@ -4343,7 +4343,7 @@
 									"font": "Arial;13;0",
 									"left": 337,
 									"top": 416.5,
-									"width": 119.7890625,
+									"width": 119,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU29L4SJaeVM="
@@ -7288,7 +7288,7 @@
 									"font": "Arial;13;0",
 									"left": 770.5,
 									"top": 1299,
-									"width": 126.32080078125,
+									"width": 125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU5kYfp55ZkI="
@@ -8758,7 +8758,7 @@
 									"font": "Arial;13;0",
 									"left": 458.5,
 									"top": 1103,
-									"width": 127.74267578125,
+									"width": 127,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU5kYf57cJvg="
@@ -8968,7 +8968,7 @@
 									"font": "Arial;13;0",
 									"left": 755.5,
 									"top": 1099,
-									"width": 132.79541015625,
+									"width": 132,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU5kYf57nmSc="
@@ -9178,7 +9178,7 @@
 									"font": "Arial;13;0",
 									"left": 1094.5,
 									"top": 1099,
-									"width": 147.25537109375,
+									"width": 147,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU5kYf57y9JY="
@@ -14224,7 +14224,7 @@
 									"font": "Arial;13;0",
 									"left": 485.5,
 									"top": 334,
-									"width": 150.12451171875,
+									"width": 149,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8qCOFv5bng="
@@ -14655,7 +14655,7 @@
 									"font": "Arial;13;0",
 									"left": 1007,
 									"top": 270.5,
-									"width": 236.87158203125,
+									"width": 236,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8qCOFwPnjg="
@@ -14876,7 +14876,7 @@
 									"font": "Arial;13;0",
 									"left": 1084,
 									"top": 434.5,
-									"width": 144.849609375,
+									"width": 144,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8qCOFwapb4="
@@ -16030,7 +16030,7 @@
 									"font": "Arial;13;0",
 									"left": 469,
 									"top": 847.5,
-									"width": 119.7890625,
+									"width": 119,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8rs+GGapQ0="
@@ -17739,7 +17739,7 @@
 									"font": "Arial;13;0",
 									"left": 754.5,
 									"top": 2106,
-									"width": 126.32080078125,
+									"width": 125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8tzumyQypc="
@@ -19209,7 +19209,7 @@
 									"font": "Arial;13;0",
 									"left": 442.5,
 									"top": 1910,
-									"width": 127.74267578125,
+									"width": 127,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8tzu2zdvr8="
@@ -19419,7 +19419,7 @@
 									"font": "Arial;13;0",
 									"left": 739.5,
 									"top": 1906,
-									"width": 132.79541015625,
+									"width": 132,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8tzu2zoz10="
@@ -19629,7 +19629,7 @@
 									"font": "Arial;13;0",
 									"left": 1078.5,
 									"top": 1906,
-									"width": 147.25537109375,
+									"width": 147,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHU8tzu2zzph4="

@@ -22,4 +22,6 @@ class Voiture extends Model
         'description',
         'prix_jour',
     ];
+
+    public $timestamps = false;
 }

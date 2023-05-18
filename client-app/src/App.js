@@ -11,6 +11,7 @@ import SignIn from './Components/Profiles/SignIn';
 import Profile from './Components/Profiles/Profile';
 import CarDetails from './Components/Cars/CarDetails';
 import Invoice from './Components/Invoice/Invoice';
+import Verifie_email from './Components/Verification/Verifie_email';
 
 
 
@@ -75,10 +76,11 @@ function App() {
                 <Route path='Car_Details' element={<CarDetails idCar={idCar} idUser={idUser} onPickUp={setPickUpValue} onReturn={setReturnValue} onCity={setCityValue} onPhoneNumber={setPhoneNumberValue} authorized={isLoggedIn} />}></Route>
               </Route>
               <Route path='/Contact' element={<Contact />}></Route>
-              <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
+              <Route path='/Sign_Up' element={<SignUp onLogin={handleLogIn} />}></Route>
               <Route path='/Sign_In' element={<SignIn onLogin={handleLogIn} saveIdUser={handleIdUser} />}></Route>
               <Route path='/Profile' element={<Profile onLogout={handleLogOut}  idUser={idUser} authorized={isLoggedIn} />}></Route>
               <Route path='/Invoice' element={<Invoice idUser={idUser} idCar={idCar} pickUpValue={pickUp} returnValue={Return} cityValue={city} phoneNumberValue={phoneNumber} authorized={isLoggedIn} />}></Route>
+              <Route path='/Verifie_email' element={<Verifie_email />}></Route>
             </Routes>
           </div>
         </div>

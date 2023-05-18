@@ -25,6 +25,8 @@ return new class extends Migration
             $table->float('cout_assurance');
             $table->text('description');
             $table->float('prix_jour');
+            $table->float('longitude')->nullable();
+            $table->float('latitude')->nullable();
         });
     }
 

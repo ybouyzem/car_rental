@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UtilisateurController extends Controller
 {
@@ -42,12 +43,25 @@ class UtilisateurController extends Controller
         ]);
 
         // L'insertion des données
-        Utilisateur::create([
+        $user = Utilisateur::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'email' =>  $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'email_verifie_le' => null,
         ]);
+
+        $verificationLink = url('/api/verify-email/' . $user->id);
+
+        $email = $request->email;
+
+        Mail::raw("Click the following link to verify your email :: <a href='$verificationLink'>Car Rental",
+        function ($message) use ($email) {
+            $message->to($email)
+                    ->subject('Email verification')
+                    ->from('car.rental@company.net')
+                    ->replyTo('car.rental@company.net');
+        });
 
         return response()->json([
             'message' => 'user added successfully'
@@ -63,7 +77,7 @@ class UtilisateurController extends Controller
         $utilisateur = Utilisateur::where('email', $param)->orWhere('id', $param)->first();
 
         // Return the status of table
-        if($utilisateur === NULL){
+        if(empty($utilisateur)){
             return response()->json([
                 'message' => 'Not Found'
             ]);
@@ -72,9 +86,15 @@ class UtilisateurController extends Controller
             if ($request->has('password')) {
                 $password = $request->input('password');
                 if (Hash::check($password, $utilisateur->password)) {
-                    return response()->json([
-                        'message' => $utilisateur
-                    ]);
+                    if(!is_null($utilisateur->email_verifie_le)){
+                        return response()->json([
+                            'message' => $utilisateur
+                        ]);
+                    }else{
+                        return response()->json([
+                            'message' => 'Not verified'
+                        ]);
+                    }
                 } else {
                     return response()->json([
                         'message' => 'Invalid password'
