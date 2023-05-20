@@ -55,7 +55,7 @@ class UtilisateurController extends Controller
 
         $email = $request->email;
 
-        Mail::raw("Click the following link to verify your email :: <a href='$verificationLink'>Car Rental",
+        Mail::raw("Click the following link to verify your email :: <a href='$verificationLink'>Car Rental</a>",
         function ($message) use ($email) {
             $message->to($email)
                     ->subject('Email verification')
