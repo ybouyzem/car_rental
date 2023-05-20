@@ -1,7 +1,51 @@
 
 @props(['clients'])
+<div class="modify-container" id="modify-client">
+    <div  class="modify-form">
+        <form method="GET" action="">
+            <div>
+                <input type="text" name="firstName" required="" placeholder="first name">
+                <label>First Name</label>
+              </div>
+              <div>
+                <input type="text" name="lastName" required="" placeholder="last name">
+                <label>Last Name</label>
+              </div>
+              <div>
+                <input type="email" name="email" required="" placeholder="email">
+                <label>Email</label>
+              </div>
+              <div class="submit-buttons">
+                <input type="submit" name="" id="" value="Modify">
+                <button type="button"  id="closeBtn" >Cancel</button>
+              </div>
+        </form>
 
-<div></div>
+    </div>
+</div>
+{{-- <div class="add-container">
+    <div  class="modify-form">
+        <form method="GET" action="">
+            <div>
+                <input type="text" name="firstName" required="" placeholder="first name">
+                <label>First Name</label>
+              </div>
+              <div>
+                <input type="text" name="lastName" required="" placeholder="last name">
+                <label>Last Name</label>
+              </div>
+              <div>
+                <input type="email" name="email" required="" placeholder="email">
+                <label>Email</label>
+              </div>
+              <div class="submit-buttons">
+                <input type="submit" name="" id="" value="Modify">
+                <button type="button"  id="closeBtn" >Cancel</button>
+              </div>
+        </form>
+
+    </div>
+</div> --}}
 <div class="voitures">
     <div class="card">
         <div class="card-header">
@@ -91,11 +135,12 @@
 <script>
       $('#deleteDialog').hide();
       $('#alert_container').hide();
+      $('#modify-client').hide();
+
 
 $(document).ready(function() {
   // Hide the delete dialog on page load
   $('#deleteDialog').hide();
-
   $(document).on('click', '#deleteBtn', function() {
     var client_id = $(this).data('client-id');
     console.log('Client ID:', client_id);
@@ -120,6 +165,32 @@ $(document).ready(function() {
 
     });
   });
+
+  $(document).on('click', '#modifyBtn', function() {
+
+
+var client_id = $(this).data('client-id');
+    $('#modify-client').show();
+
+    $('#closeBtn').click(function() {
+      $('#modify-client').hide();
+    });
+
+
+    $('#deleteYes').click(function() {
+        $('#deleteYes').attr('href', 'client/' + client_id);
+        $('#modify-client').hide();
+        $('#alert_container').show();
+        setTimeout(function() {
+            $('#alert_container').hide();
+        }, 4000);
+
+
+    });
+
+  });
+
+
 });
 
 

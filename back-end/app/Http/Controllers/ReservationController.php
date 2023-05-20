@@ -152,6 +152,6 @@ class ReservationController extends Controller
     ->where('id', $id)
     ->delete();
 
-        return view('orders');
+        return redirect()->back()->with('success', 'order deleted successfully.');;
     }
 }

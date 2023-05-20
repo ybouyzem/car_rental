@@ -408,7 +408,7 @@ tr td:last-child {
     justify-content: space-between;
 }
 
-.edit-buttons button {
+.edit-buttons button,#updatingAfter button {
     /* background: var(--main-color); */
     border-radius: 10px;
     color: #fff;
@@ -430,7 +430,7 @@ tr td:last-child {
     background: #ffba05;
     color: black;
 }
-.edit-buttons button:last-child {
+.edit-buttons button:last-child,#updatingAfter button {
 
     background: #eb4643;
     color: white;
@@ -520,6 +520,105 @@ tr td:last-child {
     color: white;
 }
 
+/* for modify form */
+
+.modify-container {
+
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c8d1de7a;
+}
+
+.add-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.modify-container .modify-form form , .add-container .modify-form form{
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    /* border: 0px rgb(55, 100, 100) solid; */
+    border-radius: 10px;
+    background-color: rgb(213, 223, 215);
+    box-shadow: 0 10px 20px rgba(0,0,0,.6);
+
+}
+
+.modify-container .modify-form form div , .add-container .modify-form form div{
+    padding: 8px;
+    margin: 20px 5px 0px 5px;
+    display: block;
+}
+
+.modify-container .modify-form form div label ,.add-container .modify-form form div label{
+    position: relative;
+    left: -190px;
+    top: -23px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: medium;
+    background-color: #81ba6946;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.modify-container .modify-form form div input, .submit-buttons button,.add-container .modify-form div input {
+    z-index: 2000;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    padding-left: 5px;
+    font-family:sans-serif;
+    font-size: medium;
+}
+
+.modify-container .modify-form form div input:focus {
+    outline: skyblue 1px solid;
+    font-weight:500;
+}
+.add-container .modify-form form div input:focus {
+    outline: skyblue 1px solid;
+    font-weight:500;
+}
+
+.submit-buttons input, .submit-buttons button {
+
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.submit-buttons input {
+    background-color: rgba(46, 139, 86, 0.722);
+    color: white;
+}
+
+.submit-buttons button  {
+    background-color:#eb4643ae;
+    color: white;
+}
+
+.submit-buttons button:hover {
+    background-color: #eb4643;
+}
+
+.submit-buttons input:hover {
+    background-color: seagreen;
+}
+
 
 @media only screen and (max-width: 1200px) {
     .sidebar{
@@ -552,9 +651,36 @@ tr td:last-child {
         left: 70px;
     }
 
+     .modify-container .modify-form form {
+        display: block;
+        padding-top: 20px ;
+        padding-left: 10px;
+    }
 
 
 }
+
+
+/* for checked icon in order page */
+
+#updatingAfter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#updatingAfter span:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #03a700;
+    font-size:x-large;
+}
+
+#updatingAfter span:last-child {
+    color: white;
+}
+
 
 /* delete button dialog */
 
@@ -695,6 +821,14 @@ tr td:last-child {
     .recent-grid {
         grid-template-columns: 60% 40%;
     }
+
+
+        .modify-container .modify-form form {
+        display: block;
+        padding-top: 20px ;
+        padding-left: 10px;
+    }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -779,10 +913,25 @@ tr td:last-child {
     #nav-toggle:checked ~ .main-content {
         margin-left: 0rem !important;
     }
+
+
+        .modify-container .modify-form form {
+        display: block;
+        padding-top: 20px ;
+        padding-left: 10px;
+    }
+
 }
 
 @media only screen and (max-width: 560px) {
     .cards {
         grid-template-columns: 100%;
     }
+
+        .modify-container .modify-form form {
+        display: block;
+        padding-top: 20px ;
+        padding-left: 10px;
+    }
+
 }
