@@ -20,7 +20,7 @@
     <div class="main-content">
         <main>
             <x-header :title='"Orders"'/>
-            <x-all-orders :orders='$orders'/>
+            <x-all-orders :orders='$orders' :cars='$cars'/>
         </main>
     </div>
 </body>

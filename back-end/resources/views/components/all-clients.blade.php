@@ -1,28 +1,6 @@
 
 @props(['clients'])
-<div class="modify-container" id="modify-client">
-    <div  class="modify-form">
-        <form method="GET" action="">
-            <div>
-                <input type="text" name="firstName" required="" placeholder="first name">
-                <label>First Name</label>
-              </div>
-              <div>
-                <input type="text" name="lastName" required="" placeholder="last name">
-                <label>Last Name</label>
-              </div>
-              <div>
-                <input type="email" name="email" required="" placeholder="email">
-                <label>Email</label>
-              </div>
-              <div class="submit-buttons">
-                <input type="submit" name="" id="" value="Modify">
-                <button type="button"  id="closeBtn" >Cancel</button>
-              </div>
-        </form>
 
-    </div>
-</div>
 {{-- <div class="add-container">
     <div  class="modify-form">
         <form method="GET" action="">
@@ -80,7 +58,6 @@
                                     <td>{{$client->total_payant." DH"}}</td>
                                     <td class="edit-buttons">
 
-                                        <button id="modifyBtn"><span class="las la-edit"></span></button>
                                         <button id="deleteBtn" data-client-id="{{ $client->id }}"><span class="las la-trash-alt"></span></button>
                                     </td>
                                 </tr>
@@ -135,7 +112,6 @@
 <script>
       $('#deleteDialog').hide();
       $('#alert_container').hide();
-      $('#modify-client').hide();
 
 
 $(document).ready(function() {
@@ -166,29 +142,7 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#modifyBtn', function() {
 
-
-var client_id = $(this).data('client-id');
-    $('#modify-client').show();
-
-    $('#closeBtn').click(function() {
-      $('#modify-client').hide();
-    });
-
-
-    $('#deleteYes').click(function() {
-        $('#deleteYes').attr('href', 'client/' + client_id);
-        $('#modify-client').hide();
-        $('#alert_container').show();
-        setTimeout(function() {
-            $('#alert_container').hide();
-        }, 4000);
-
-
-    });
-
-  });
 
 
 });

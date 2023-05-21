@@ -11,7 +11,7 @@
             <div class="client">
 
                     <div class="info">
-                        <img src="img/younes_pic.jpg" width="40px" height="40px" alt="">
+                        <img src="/icons/customer.png" width="35px" height="35px" alt="">
                         <div>
                             <h6>{{$voiture->client_id}}</h6>
                             <h4>{{$voiture->nom}} {{$voiture->prenom}}</h4>
@@ -20,9 +20,9 @@
                         </div>
                     </div>
                     <div class="contact">
-                        {{-- <span class="las la-user-circle"></span> --}}
-                        <!-- <span class="las la-comment"></span> -->
-                        {{-- <span class="las la-phone"></span> --}}
+                        <span class="las la-user-circle"></span>
+                         <span class="las la-comment"></span>
+                         <span class="las la-phone"></span>
                     </div>
             </div>
             @endforeach

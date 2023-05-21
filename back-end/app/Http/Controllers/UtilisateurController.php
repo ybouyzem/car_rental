@@ -172,4 +172,7 @@ class UtilisateurController extends Controller
         // Redirect back to the previous page with a success message
         return redirect()->back()->with('success', 'client deleted successfully.');
     }
+
+
+  
 }

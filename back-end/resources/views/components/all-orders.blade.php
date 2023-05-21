@@ -1,7 +1,141 @@
 
-@props(['orders'])
+@props(['orders','cars'])
 
-<div></div>
+<div class="modify-container" id="modifyDiv">
+    <div class="absolute-container" style="width: 80%">
+        <div  class="add-form">
+            <form method="POST" action="" id="modifyOrder">
+                @csrf
+                <div>
+                    <label>First Name</label>
+                    <input type="text" name="firstName" required="" placeholder="first name">
+
+                  </div>
+                  <div>
+                    <label>Last Name</label>
+
+                    <input type="text" name="lastName" required="" placeholder="last name">
+                  </div>
+                  <div>
+                    <label>Phone Number</label>
+
+                    <input type="number" name="phoneNumber" required="" placeholder="phone number">
+                  </div>
+                  <div>
+                    <label>Drive License</label>
+
+                    <input type="number" name="driveLicense" required="" placeholder="drive license">
+                  </div>
+                  <div>
+                    <label>Email</label>
+
+                    <input type="email" name="email" required="" placeholder="email">
+                  </div>
+                  <div>
+                    <label>city</label>
+                    <input type="text" name="city" required="" placeholder="city">
+                  </div>
+                  <div>
+                    <label>nationality</label>
+                    <input type="text" name="nationality" placeholder="nationality">
+                  </div>
+                  <div>
+                    <label>Passport Number</label>
+                    <input type="number" name="passportNumber"  placeholder="passport number">
+                  </div>
+                  <div>
+                    <label>Rental Date</label>
+                    <input type="date" name="rentalDate"  placeholder="Rental date">
+                  </div>
+                  <div>
+                    <label>Return Date</label>
+                    <input type="date" name="returnDate"  placeholder="Return date">
+                  </div>
+                  <div>
+                    <label for="">Car</label>
+                    <select name="car_id" id="cars-selector" required="">
+                        @foreach ($cars as $car)
+                            <option value="{{$car->id}}">{{$car->id}} | {{$car->marque}} | {{$car->modele}}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                  <div class="submit-buttons">
+                    <input type="submit" name="" id="modify" value="Modify">
+                    <button type="button"  id="closeBtn" >Cancel</button>
+                  </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{{-- for adding an order --}}
+<div class="add-container">
+    <div  class="add-form">
+        <form method="POST" action="{{ route('addOrder') }}">
+            @csrf
+            <div>
+                <label>First Name</label>
+                <input type="text" name="firstName" required="" placeholder="first name">
+
+              </div>
+              <div>
+                <label>Last Name</label>
+
+                <input type="text" name="lastName" required="" placeholder="last name">
+              </div>
+              <div>
+                <label>Phone Number</label>
+
+                <input type="number" name="phoneNumber" required="" placeholder="phone number">
+              </div>
+              <div>
+                <label>Drive License</label>
+
+                <input type="number" name="driveLicense" required="" placeholder="drive license">
+              </div>
+              <div>
+                <label>Email</label>
+
+                <input type="email" name="email" required="" placeholder="email">
+              </div>
+              <div>
+                <label>city</label>
+                <input type="text" name="city" required="" placeholder="city">
+              </div>
+              <div>
+                <label>nationality</label>
+                <input type="text" name="nationality" placeholder="nationality">
+              </div>
+              <div>
+                <label>Passport Number</label>
+                <input type="number" name="passportNumber"  placeholder="passport number">
+              </div>
+              <div>
+                <label>Rental Date</label>
+                <input type="date" name="rentalDate"  placeholder="Rental date">
+              </div>
+              <div>
+                <label>Return Date</label>
+                <input type="date" name="returnDate"  placeholder="Return date">
+              </div>
+              <div>
+                <label for="">Car</label>
+                <select name="car_id" id="cars-selector" required="">
+                    @foreach ($cars as $car)
+                        <option value="{{$car->id}}">{{$car->id}} | {{$car->marque}} | {{$car->modele}}</option>
+                    @endforeach
+                </select>
+              </div>
+              <div class="submit-buttons">
+                <input type="submit" id="" value="Add">
+                <button type="button"  id="closeBtn" >Cancel</button>
+              </div>
+        </form>
+
+    </div>
+</div>
 <div class="voitures">
     <div class="card">
         <div class="card-header">
@@ -27,7 +161,7 @@
                                 <td>passport №</td>
                                 <td>Cars Id</td>
                                 <td>Car №</td>
-                                <td style="color:darkgreen">Updating</td>
+                                <td style="color:darkgreen" colspan="2">Updating</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,10 +189,18 @@
                                 <td>{{$order->numero_passport}}</td>
                                 <td>{{$order->id_voiture}}</td>
                                 <td>{{$order->matricule}}</td>
-                                <td class="order_buttons" id="updatingBefore{{$i}}">
-                                    <button id="acceptBtn"  data-checked-id="{{ $i }}"><span class="las la-check"></span><span>Accept</span></button>
-                                    <button id="declineBtn" data-check-id="{{ $i }}" @isset($order) data-order-id="{{ $order->order_id }}" @endisset><span class="las la-ban"></span><span>Decline</span></button>
+                                <td>
+                                    <button id="modifyBtn" data-order-id="{{ $order->order_id }}"  class="modifyBtnOrder"><span class="las la-edit"></span></button>
                                 </td>
+                                @if(isset($order->reservation_verifie_le))
+                                        <td id="updatingAfter"><span class="lar la-check-circle"></span><button id="declineBtn"  data-order-id="{{ $order->order_id }}"><span class="las la-trash-alt"></span></button></td>
+                                        @else
+                                <td class="order_buttons">
+                                    <button id="acceptBtn" data-order-id="{{ $order->order_id }}" ><span class="las la-check"></span><span>Accept</span></button>
+                                    <button id="declineBtn"  @isset($order) data-order-id="{{ $order->order_id }}" @endisset><span class="las la-ban"></span><span>Decline</span></button>
+
+                                </td>
+                                @endif
                             </tr>
                             @endforeach
                     </tbody>
@@ -112,88 +254,83 @@
 
       $('#deleteDialog').hide();
       $('#alert_container').hide();
-      var array = [];
+      $('#modifyDiv').hide();
+
 
       $(document).ready(function() {
+        //modify my order when i click on modify button
+        $(document).on('click', '#modifyBtn', function() {
 
-       // var storedArray = localStorage.getItem('array');
-        if (storedArray) {
-            array = JSON.parse(storedArray);
-            console.log(array);
-            var i=0;
-            $.each(array, function( index,value) {
-                i++;
-                if(i==value) {
-                    var tr = $('#updatingBefore'+i).closest('tr');
-                    $('#updatingBefore'+i).remove();
-                    tr.append('<td id="updatingAfter"><span class="lar la-check-circle"></span><button id="declineBtn" data-check-id="{{ $i }}" data-order-id="{{ $order->order_id }}"><span class="las la-trash-alt"></span></button></td>');
-                }
-            });
-        }
-
-            $(document).on('click', '#acceptBtn', function(){
-
-                var checked_id= $(this).data('checked-id');
-                var checkedItem=localStorage.getItem('updatingBefore'+checked_id);
-
-                console.log('checked ID:', checked_id);
-
-                var mytr=$(this).closest('td').closest('tr');
-
-                $(this).closest('td').remove();
-                localStorage.setItem('checkedItem', 'true');
-                var storedArray = localStorage.getItem('array');
-                array.push(checked_id);
-                localStorage.setItem('array', JSON.stringify(array));
-                mytr.append('<td id="updatingAfter"><span class="lar la-check-circle"></span><button id="declineBtn"  @isset($order) data-order-id="{{ $order->order_id }}" @endisset><span class="las la-trash-alt"></span></button></td>');
-            });
+            $('#modifyDiv').show();
+            var order_id= $(this).data('order-id');
+            console.log(order_id);
+            $(document).on('click', '#modify', function() {
+                $('#modifyOrder').attr('action', '/orders/modify/' + order_id);
 
             });
 
+        });
+        //******************
+
+        //hide the modify container when i click on Cancel Button
+        $(document).on('click', '#closeBtn', function() {
+            $('#modifyDiv').hide();
+        });
+        //***********************
 
 
 
+        //when i click on accept button, to accept my order
+        $(document).on('click', '#acceptBtn', function(){
+            var order_id= $(this).data('order-id');
+            console.log(order_id);
+            window.location.href="/orders/accept/" + order_id;
+        });
 
-
-
-
-
-      $(document).on('click', '#declineBtn', function() {
-    var order_id = $(this).data('order-id');
-    var checked_id= $(this).data('check-id');
-
-    console.log('Order ID:', order_id);
-    $('#deleteDialog').show();
-
-    $('#deleteNo').click(function() {
-      $('#deleteDialog').hide();
-    });
-
-    $('#closeBtn').click(function() {
-      $('#deleteDialog').hide();
-    });
-
-    $('#deleteYes').click(function() {
-        $('#deleteYes').attr('href', 'orders/' + order_id);
-
-      $('#deleteDialog').hide();
-
-
-    //   .each(storedArray, function( index,value){
-    //         if(value==checked_id){
-    //             array.splice(index, 1);
-    //         }
-    //     });
-    //     console.log("yes"+array);
-
-
-      $('#alert_container').show();
-        setTimeout(function() {
-            $('#alert_container').hide();
-        }, 70000);
+        //************
 
     });
-  });
+
+
+
+
+
+
+
+
+    //this when i click on decline button to remove my order
+        $(document).on('click', '#declineBtn', function() {
+            var order_id = $(this).data('order-id');
+            var checked_id= $(this).data('check-id');
+
+            console.log('Order ID:', order_id);
+            $('#deleteDialog').show();
+
+            $('#deleteNo').click(function() {
+                $('#deleteDialog').hide();
+            });
+
+            $('#closeBtn').click(function() {
+                $('#deleteDialog').hide();
+            });
+
+            $('#deleteYes').click(function() {
+                $('#deleteYes').attr('href', 'orders/' + order_id);
+                $('#deleteDialog').hide();
+
+
+            //   .each(storedArray, function( index,value){
+            //         if(value==checked_id){
+            //             array.splice(index, 1);
+            //         }
+            //     });
+            //     console.log("yes"+array);
+                $('#alert_container').show();
+                setTimeout(function() {
+                    $('#alert_container').hide();
+                }, 70000);
+            });
+        });
 
 
 </script>

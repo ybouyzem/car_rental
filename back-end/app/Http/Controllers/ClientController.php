@@ -108,7 +108,7 @@ class ClientController extends Controller
         ->join('clients', 'utilisateurs.id', '=', 'clients.id_utilisateur')
         ->join('reservations', 'clients.id', '=', 'reservations.id_client')
         ->join('voitures', 'voitures.id', '=', 'reservations.id_voiture')
-        ->groupBy('utilisateurs.id','utilisateurs.nom','utilisateurs.prenom','utilisateurs.email','utilisateurs.password','utilisateurs.created_at','utilisateurs.updated_at')
+        ->groupBy('utilisateurs.id','utilisateurs.nom','utilisateurs.prenom','utilisateurs.email','utilisateurs.password','utilisateurs.created_at','utilisateurs.updated_at','utilisateurs.email_verifie_le')
         ->get();
 
         return view('clients',compact('allClients'));

@@ -281,6 +281,7 @@ main {
     display: grid;
     grid-gap:2rem;
     grid-template-columns: 64% auto;
+
 }
 
 .card {
@@ -311,6 +312,7 @@ main {
 
 table {
     border-collapse: collapse;
+
 }
 
 thead {
@@ -318,7 +320,7 @@ thead {
 }
 
 tbody {
-    overflow:auto;
+    overflow: auto;
 }
 thead tr {
     border-top: 1px solid #f0f0f0;
@@ -346,6 +348,10 @@ td .status {
 tbody >:nth-child(2n) {
     background-color: #00ddfa1d;
 }
+
+.card-body>:nth-child(2n) {
+    background-color: rgba(255, 255, 0, 0.392);
+}
 tr td:last-child {
     display:flex;
     align-items:center;
@@ -365,7 +371,7 @@ tr td:last-child {
 
 .table-responsive {
     width: 100%;
-    overflow-x:auto;
+overflow: auto;
 }
 
 .client {
@@ -373,16 +379,20 @@ tr td:last-child {
     justify-content: space-between;
     align-items: center;
     padding: .5rem .7rem;
+
 }
 
 .info {
     display: flex;
     align-items: center;
+
 }
 
 .info img {
+    padding: 3px;
     border-radius: 50%;
     margin-right: 1rem;
+    background-color:yellow;
 }
 
 .info h4 {
@@ -408,7 +418,7 @@ tr td:last-child {
     justify-content: space-between;
 }
 
-.edit-buttons button,#updatingAfter button {
+.edit-buttons button,#updatingAfter button ,.modifyBtnOrder{
     /* background: var(--main-color); */
     border-radius: 10px;
     color: #fff;
@@ -419,13 +429,13 @@ tr td:last-child {
     height: 35px;
 }
 
-.edit-buttons button span {
+.edit-buttons button span ,.modifyBtnOrder span{
     font-size: 15px;
     font-weight: bolder;
 }
 
 /* for edit icon */
-.edit-buttons button:first-child {
+.edit-buttons button:first-child ,.modifyBtnOrder{
 
     background: #ffba05;
     color: black;
@@ -440,9 +450,9 @@ tr td:last-child {
 /* alert message  */
 
 .alert-section {
-    position: absolute;
-    top: 90%;
-    left: 70%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
     height: 50px;
 }
 .alert {
@@ -525,7 +535,7 @@ tr td:last-child {
 .modify-container {
 
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     height: 0;
@@ -547,35 +557,24 @@ tr td:last-child {
     margin-bottom: 50px;
 }
 
-.modify-container .modify-form form , .add-container .modify-form form{
-    display: flex;
-    justify-content: space-between;
-    width: fit-content;
-    /* border: 0px rgb(55, 100, 100) solid; */
-    border-radius: 10px;
-    background-color: rgb(213, 223, 215);
-    box-shadow: 0 10px 20px rgba(0,0,0,.6);
-
+.absolute-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
 }
 
-.modify-container .modify-form form div , .add-container .modify-form form div{
+
+
+.add-container .add-form form div {
     padding: 8px;
     margin: 20px 5px 0px 5px;
     display: block;
 }
 
-.modify-container .modify-form form div label ,.add-container .modify-form form div label{
-    position: relative;
-    left: -190px;
-    top: -23px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: medium;
-    background-color: #81ba6946;
-    border-radius: 10px;
-    padding: 5px;
-}
 
-.modify-container .modify-form form div input, .submit-buttons button,.add-container .modify-form div input {
+.submit-buttons button,.add-form div input,#cars-selector {
     z-index: 2000;
     height: 35px;
     border-radius: 10px;
@@ -585,11 +584,9 @@ tr td:last-child {
     font-size: medium;
 }
 
-.modify-container .modify-form form div input:focus {
-    outline: skyblue 1px solid;
-    font-weight:500;
-}
-.add-container .modify-form form div input:focus {
+
+
+.add-form form div input:focus {
     outline: skyblue 1px solid;
     font-weight:500;
 }
@@ -619,6 +616,30 @@ tr td:last-child {
     background-color: seagreen;
 }
 
+
+/* for adding form */
+
+.add-form form{
+
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1rem;
+        width: 100%;
+        margin-top: 0.5rem;
+        border-radius: 10px;
+        background-color: rgb(213, 223, 215);
+        box-shadow: 0 10px 20px rgba(0,0,0,.6);
+        padding: 10px 10px 20px 10px;
+
+}
+
+.add-form form div label {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: medium;
+    background-color: #81ba6946;
+    border-radius: 10px;
+    padding: 5px;
+}
 
 @media only screen and (max-width: 1200px) {
     .sidebar{
@@ -656,6 +677,9 @@ tr td:last-child {
         padding-top: 20px ;
         padding-left: 10px;
     }
+    .add-form form{
+        grid-template-columns: repeat(3,1fr);
+    }
 
 
 }
@@ -689,7 +713,7 @@ tr td:last-child {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -814,7 +838,7 @@ tr td:last-child {
   }
 
 @media only screen and (max-width: 960px) {
-    .cards {
+    .cards,.add-form form{
         grid-template-columns: repeat(3,1fr);
     }
 
@@ -832,7 +856,7 @@ tr td:last-child {
 }
 
 @media only screen and (max-width: 768px) {
-    .cards {
+    .cards,.add-form form {
         grid-template-columns: repeat(2,1fr);
     }
 
@@ -924,7 +948,7 @@ tr td:last-child {
 }
 
 @media only screen and (max-width: 560px) {
-    .cards {
+    .cards ,.add-form form{
         grid-template-columns: 100%;
     }
 

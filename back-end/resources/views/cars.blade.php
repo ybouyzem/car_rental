@@ -19,7 +19,7 @@
 </head>
 <body>
     @include('components.sidebar')
-    <div class="main-content">
+    <div class="main-content" >
         <main>
             <x-header :title='"Cars"' />
             <x-all-cars :voitures='$voitures'/>

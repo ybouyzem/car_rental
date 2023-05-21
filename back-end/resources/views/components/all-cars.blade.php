@@ -5,8 +5,8 @@
             <h3>Our Cars</h3>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table width="100%">
+            <div class="table-responsive" >
+                <table width="100%" >
 
                         @if (!empty($voitures))
                         <thead>
@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach ($voitures as $voiture)
                                 <tr>
-                                    <td><img src="/cars_pics/{{$voiture->image}}" alt="" style="widows: 80px;height:60px"></td>
+                                    <td><img src="/cars_pics/{{$voiture->image}}" alt="" style="width: 80px;height:60px"></td>
                                     <td>{{$voiture->id}}</td>
                                     <td>{{$voiture->matricule}}</td>
                                     <td>{{$voiture->modele}}</td>
