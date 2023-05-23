@@ -628,7 +628,7 @@ overflow: auto;
         margin-top: 0.5rem;
         border-radius: 10px;
         background-color: rgb(213, 223, 215);
-        box-shadow: 0 10px 20px rgba(0,0,0,.6);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.258);
         padding: 10px 10px 20px 10px;
 
 }

@@ -22,9 +22,14 @@
                 <span>Cars</span></a>
             </li>
             <li>
-                <a href="" class="list"><span class="las la-user-tie"></span>
+                <a href="{{route('employers')}}"class="list{{ request()->routeIs('employers') ? ' active' : '' }}"><span class="las la-user-tie"></span>
                 <span>Employers</span></a>
             </li>
+            <li>
+                <a href="{{route('admins')}}" class="list{{ request()->routeIs('admins') ? ' active' : '' }}"><span class="las la-user-shield"></span>
+                <span>Admins</span></a>
+            </li>
+
         </ul>
     </div>
 </div>

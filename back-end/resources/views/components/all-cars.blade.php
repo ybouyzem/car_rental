@@ -1,4 +1,135 @@
 @props(['voitures'])
+
+
+<div class="modify-container" id="modifyDiv">
+    <div class="absolute-container" style="width: 80%">
+        <div  class="add-form">
+            <form method="POST" action="" id="modifyCar">
+                @csrf
+                <div>
+                    <label>Image</label>
+                    <input type="file" name="image">
+                  </div>
+                  <div>
+                    <label>Car Number</label>
+                    <input type="text" name="matricule" required="" placeholder="car number">
+                  </div>
+                  <div>
+                    <label>Model</label>
+                    <input type="text" name="model" required="" placeholder="model">
+                  </div>
+                  <div>
+                    <label>Brand</label>
+
+                    <input type="text" name="marque" required="" placeholder="brand">
+                  </div>
+                  <div>
+                    <label>Fuel</label>
+
+                    <input type="text" name="carburant" required="" placeholder="fuel">
+                  </div>
+                  <div>
+                    <label>Gearbox</label>
+                    <input type="text" name="gearbox" required="" placeholder="gearbox">
+                  </div>
+                  <div>
+                    <label>Seats Number</label>
+                    <input type="number" name="seatsNumber" placeholder="seats number">
+                  </div>
+                  <div>
+                    <label>Price Per Day</label>
+                    <input type="number" name="prix"  placeholder="price per day">
+                  </div>
+                  <div>
+                    <label>Insurance Start Date</label>
+                    <input type="date" name="insurranceSD"  placeholder="Insurance strat date">
+                  </div>
+                  <div>
+                    <label>Insurance End Date</label>
+                    <input type="date" name="insurranceED"  placeholder="insurrance end date">
+                  </div>
+                  <div>
+                    <label for="">Insurrance Cost</label>
+                    <input type="number" name="insurranceCost" placeholder="insurrance cost">
+                  </div>
+                  <div>
+                    <label for="">Description</label>
+                    <input type="text" name="description" placeholder="description">
+                  </div>
+                  <div class="submit-buttons">
+                    <input type="submit"  id="modify" value="Modify">
+                    <button type="button"  id="closeBtn" >Cancel</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="add-container">
+<div  class="add-form">
+    <form method="POST" action="{{ route('addCar') }}">
+        @csrf
+        <div>
+            <label>Image</label>
+            <input type="file" name="image">
+          </div>
+          <div>
+            <label>Car Number</label>
+            <input type="number" name="matricule" required="" placeholder="car number">
+          </div>
+          <div>
+            <label>Model</label>
+            <input type="text" name="model" required="" placeholder="model">
+          </div>
+          <div>
+            <label>Brand</label>
+
+            <input type="text" name="marque" required="" placeholder="brand">
+          </div>
+          <div>
+            <label>Fuel</label>
+
+            <input type="text" name="carburant" required="" placeholder="fuel">
+          </div>
+          <div>
+            <label>Gearbox</label>
+            <input type="text" name="gearbox" required="" placeholder="gearbox">
+          </div>
+          <div>
+            <label>Seats Number</label>
+            <input type="number" name="seatsNumber" placeholder="seats number">
+          </div>
+          <div>
+            <label>Price Per Day</label>
+            <input type="number" name="prix"  placeholder="price per day">
+          </div>
+          <div>
+            <label>Insurance Start Date</label>
+            <input type="date" name="insurranceSD"  placeholder="Insurance strat date">
+          </div>
+          <div>
+            <label>Insurance End Date</label>
+            <input type="date" name="insurranceED"  placeholder="insurrance end date">
+          </div>
+          <div>
+            <label for="">Insurrance Cost</label>
+            <input type="number" name="insurranceCost" placeholder="insurrance cost">
+          </div>
+          <div>
+            <label for="">Description</label>
+            <input type="text" name="description" placeholder="description">
+          </div>
+          <div class="submit-buttons">
+            <input type="submit" id="" value="Add">
+            <button type="button"  id="closeBtn" >Cancel</button>
+          </div>
+    </form>
+
+</div>
+</div>
+
 <div class="voitures">
     <div class="card">
         <div class="card-header">
@@ -25,13 +156,13 @@
                                 <td>Insurance end date</td>
                                 <td>Insurance cost</td>
                                 <td>Description</td>
-                                <td style="color: green">Updating</td>
+                                <td style="color: green;">Updating</td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($voitures as $voiture)
                                 <tr>
-                                    <td><img src="/cars_pics/{{$voiture->image}}" alt="" style="width: 80px;height:60px"></td>
+                                    <td><img src="/cars_pics/{{$voiture->image}}" alt="car image" style="width: 80px;height:60px"></td>
                                     <td>{{$voiture->id}}</td>
                                     <td>{{$voiture->matricule}}</td>
                                     <td>{{$voiture->modele}}</td>
@@ -55,8 +186,8 @@
                                     <td>{{$voiture->date_fin_assurance}}</td>
                                     <td>{{$voiture->cout_assurance.' DH'}}</td>
                                     <td>{{$voiture->description}}</td>
-                                    <td class="edit-buttons" >
-                                        <button id="modifyBtn"><span class="las la-edit"></span></button>
+                                    <td class="edit-buttons">
+                                        <button id="modifyBtn"  data-car-id="{{ $voiture->id }}" ><span class="las la-edit"></span></button>
                                         <button id="deleteBtn" data-car-id="{{ $voiture->id }}"><span class="las la-trash-alt"></span></button>
                                     </td>
 
@@ -67,7 +198,7 @@
                     @else
                     <thead>
 
-                        <div style="width:100%;text-align: center;background-color:gainsboro;margin:10px 0px 10px 0px;padding:10px">Aucune voiture ici!</div>
+                        <div style="width:100%;text-align: center;background-color:gainsboro;margin:10px 0px 10px 0px;padding:10px">No car here!</div>
                     </thead>
                     @endif
                 </table>
@@ -113,6 +244,7 @@
 <script>
       $('#deleteDialog').hide();
       $('#alert_container').hide();
+      $('#modifyDiv').hide();
 
 $(document).ready(function() {
   // Hide the delete dialog on page load
@@ -142,6 +274,26 @@ $(document).ready(function() {
 
     });
   });
+
+
+    //modify my order when i click on modify button
+    $(document).on('click', '#modifyBtn', function() {
+        $('#modifyDiv').show();
+        var car_id= $(this).data('car-id');
+        console.log(car_id);
+        $(document).on('click', '#modify', function() {
+            $('#modifyCar').attr('action', '/cars/modify/' + car_id);
+        });
+
+    });
+    //******************
+
+    //hide the modify container when i click on Cancel Button
+    $(document).on('click', '#closeBtn', function() {
+        $('#modifyDiv').hide();
+    });
+    //***********************
+
 });
 
 

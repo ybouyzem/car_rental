@@ -206,7 +206,7 @@
                     </tbody>
                     @else
                     <thead>
-                        <div style="width:100%;text-align: center;background-color:gainsboro;margin:10px 0px 10px 0px;padding:10px">Aucun Ordre ici!</div>
+                        <div style="width:100%;text-align: center;background-color:gainsboro;margin:10px 0px 10px 0px;padding:10px">No Ordre here!</div>
                     </thead>
                     @endif
                 </table>

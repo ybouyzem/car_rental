@@ -1,29 +1,7 @@
 
 @props(['clients'])
 
-{{-- <div class="add-container">
-    <div  class="modify-form">
-        <form method="GET" action="">
-            <div>
-                <input type="text" name="firstName" required="" placeholder="first name">
-                <label>First Name</label>
-              </div>
-              <div>
-                <input type="text" name="lastName" required="" placeholder="last name">
-                <label>Last Name</label>
-              </div>
-              <div>
-                <input type="email" name="email" required="" placeholder="email">
-                <label>Email</label>
-              </div>
-              <div class="submit-buttons">
-                <input type="submit" name="" id="" value="Modify">
-                <button type="button"  id="closeBtn" >Cancel</button>
-              </div>
-        </form>
 
-    </div>
-</div> --}}
 <div class="voitures">
     <div class="card">
         <div class="card-header">
@@ -115,6 +93,7 @@
 
 
 $(document).ready(function() {
+    
   // Hide the delete dialog on page load
   $('#deleteDialog').hide();
   $(document).on('click', '#deleteBtn', function() {

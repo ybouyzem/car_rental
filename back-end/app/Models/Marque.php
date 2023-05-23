@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marque extends Model
 {
+    public $timestamps = false;
+
     use HasFactory;
     protected $fillable = [
         'libelle',

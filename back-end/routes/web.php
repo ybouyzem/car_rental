@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UtilisateurController;
 use App\Http\Controllers\VoitureController;
@@ -15,7 +16,17 @@ Route::get('/deleteUserClient/{id}', [UtilisateurController::class, 'deleteUserC
 Route::get('/deleteCar/{id}', [VoitureController::class, 'deleteCar']);
 Route::get('/orders',[ReservationController::class,'allOrders'])->name('orders');
 Route::get('/orders/{id}',[ReservationController::class,'deleteOrder']);
-// Route::get('/clients/modify',[ClientController::class,'modifyUserClient'])->name('modifyUserClient');
 Route::post('/orders/add', [ReservationController::class, 'addOrder'])->name('addOrder');
 Route::post('/orders/modify/{id_order}',[ReservationController::class,'modifyOrder']);
 Route::get('/orders/accept/{id_order}',[ReservationController::class,'acceptOrder']);
+Route::post('/cars/add',[VoitureController::class,'addCar'])->name('addCar');
+Route::post('/cars/modify/{id_car}',[VoitureController::class,'modifyCar']);
+Route::get('/employers', [EmployeeController::class, 'allEmployers'])->name('employers');
+Route::get('/admins', [EmployeeController::class, 'allAdmins'])->name('admins');
+Route::post('/employers/add', [EmployeeController::class, 'addEmployer'])->name('addEmployer');
+Route::get('/deleteEmployer/{id}', [EmployeeController::class, 'deleteEmployer']);
+Route::post('/employers/modify/{id_employer}',[EmployeeController::class,'modifyEmployer']);
+Route::post('/admins/add', [EmployeeController::class, 'addAdmin'])->name('addAdmin');
+Route::get('/deleteAdmin/{id}', [EmployeeController::class, 'deleteAdmin']);
+Route::post('/admins/modify/{id_admin}',[EmployeeController::class,'modifyAdmin']);
+
