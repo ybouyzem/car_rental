@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -72,15 +73,15 @@ class EmailController extends Controller
         $password = $request->input('password');
 
         // Query the database for the email and password combination
-        $admin = Admin::where('email', $email)->where('password', $password)->first();
+        $admin = Admin::where('email', $email)->first();
 
-        if ($admin) {
+        if ($admin && Hash::check($request->password, $admin->password)) {
             $adminId = $admin->id_employee;
             $employee = DB::table('employees')
             ->where('id', $adminId)
             ->first();
 
-            
+
 
 
             return redirect()->route('index')->with(compact('rentedCars', 'carsNumber','clientsNumber','reservationsNumber','employersNumber','income','employee'));
