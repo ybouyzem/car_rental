@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UtilisateurController;
@@ -8,8 +9,10 @@ use App\Http\Controllers\VoitureController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/', [EmailController::class, 'authentification'])->name('authentification');
 
-Route::get('/', [VoitureController::class, 'dashboard'])->name('index');
+Route::match(['get', 'post'],'/index',[VoitureController::class, 'dashboard'])->name('index');
+
 Route::get('/cars', [VoitureController::class, 'allCars'])->name('cars');
 Route::get('/clients',[ClientController::class, 'allClients'])->name('clients');
 Route::get('/deleteUserClient/{id}', [UtilisateurController::class, 'deleteUserClient']);
@@ -29,4 +32,9 @@ Route::post('/employers/modify/{id_employer}',[EmployeeController::class,'modify
 Route::post('/admins/add', [EmployeeController::class, 'addAdmin'])->name('addAdmin');
 Route::get('/deleteAdmin/{id}', [EmployeeController::class, 'deleteAdmin']);
 Route::post('/admins/modify/{id_admin}',[EmployeeController::class,'modifyAdmin']);
+
+Route::match(['get', 'post'],'/login', [EmailController::class, 'login'])->name('login');
+
+Route::post('/authentifications/failed',[EmailController::class,'loginError']);
+
 

@@ -137,8 +137,9 @@ class VoitureController extends Controller
         $e=new EmployeeController();
         $c=new ClientController();
         $r=new ReservationController();
-        $rentedCars = $this->rentedCars();
-        $carsNumber = $this->carsNumber();
+        $v=new VoitureController();
+        $rentedCars = $v->rentedCars();
+        $carsNumber = $v->carsNumber();
         $clientsNumber=$c->clientsNumber();
         $reservationsNumber=$r->reservationsNumber();
         $employersNumber=$e->employersNumber();

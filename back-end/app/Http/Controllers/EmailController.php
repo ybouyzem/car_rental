@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
+use App\Models\Admin;
+use App\Models\Voiture;
 
 class EmailController extends Controller
 {
@@ -46,5 +50,42 @@ class EmailController extends Controller
         return response()->json([
             'message' => 'Email sent successfully'
         ]);
+    }
+
+    public function authentification(){
+        return view('authentification');
+    }
+
+    public function login(Request $request){
+        $e=new EmployeeController();
+        $c=new ClientController();
+        $r=new ReservationController();
+        $v=new VoitureController();
+        $rentedCars = $v->rentedCars();
+        $carsNumber = $v->carsNumber();
+        $clientsNumber=$c->clientsNumber();
+        $reservationsNumber=$r->reservationsNumber();
+        $employersNumber=$e->employersNumber();
+        $income=$r->income();
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        // Query the database for the email and password combination
+        $admin = Admin::where('email', $email)->where('password', $password)->first();
+
+        if ($admin) {
+            $adminId = $admin->id_employee;
+            $employee = DB::table('employees')
+            ->where('id', $adminId)
+            ->first();
+
+            
+
+
+            return redirect()->route('index')->with(compact('rentedCars', 'carsNumber','clientsNumber','reservationsNumber','employersNumber','income','employee'));
+        } else {
+            return view('loginError');
+        }
     }
 }

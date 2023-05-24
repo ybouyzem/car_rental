@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -152,27 +153,12 @@ class EmployeeController extends Controller
         $id_employer = $result->id;
         $admin->id_employee=$id_employer;
         $admin->email=$request->input('email');
-        $admin->password=$request->input('password');
+        $admin->password=Crypt::encrypt($request->input('password'));
         $admin->save();
 
         return redirect()->back()->with('success', 'employer added successfully.');
     }
 
-
-    // public function deleteAdmin($id) {
-    //     $admin = Admin::find($id);
-
-    //     if (!$admin) {
-    //         // Handle client not found error
-    //         return redirect()->back()->with('error', 'client not found.');
-    //     }
-
-    //     // Delete the client from the database
-    //     $admin->delete();
-
-    //     // Redirect back to the previous page with a success message
-    //     return redirect()->back()->with('success', 'car deleted successfully.');
-    // }
         public function modifyAdmin(Request $request,$id_admin) {
             $id = DB::table('admins')
             ->select('admins.id_employee')

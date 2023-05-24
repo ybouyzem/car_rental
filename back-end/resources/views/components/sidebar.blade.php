@@ -29,7 +29,10 @@
                 <a href="{{route('admins')}}" class="list{{ request()->routeIs('admins') ? ' active' : '' }}"><span class="las la-user-shield"></span>
                 <span>Admins</span></a>
             </li>
-
+            <li>
+                <a  href="{{route('authentification')}}" class="list{{ request()->routeIs('authentification') ? ' active' : '' }}"><span class="las la-sign-out-alt" ></span>
+                <span>Log out</span></a>
+            </li>
         </ul>
     </div>
 </div>
