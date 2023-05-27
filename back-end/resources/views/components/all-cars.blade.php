@@ -41,6 +41,14 @@
                     <input type="number" name="prix"  placeholder="price per day">
                   </div>
                   <div>
+                    <label for="">Status</label>
+                            <select name="status" id="cars-selector" required="">
+                                <option value="Available">Available</option>
+                                <option value="Rented">Rented</option>
+                                <option value="Malfunction">Malfunction</option>
+                            </select>
+                  </div>
+                  <div>
                     <label>Insurance Start Date</label>
                     <input type="date" name="insurranceSD"  placeholder="Insurance strat date">
                   </div>
@@ -65,7 +73,7 @@
     </div>
 
 </div>
-
+{{-- this form to add a car --}}
 
 <div class="add-container">
 <div  class="add-form">

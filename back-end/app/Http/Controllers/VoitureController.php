@@ -274,7 +274,7 @@ class VoitureController extends Controller
         $description=$request->input('description');
         $prix_jour=$request->input('prix');
         $nombre_places=$request->input('seatsNumber');
-
+        $status=$request->input('status');
         DB::table('voitures')
         ->where('id', $id_car)
         ->update([
@@ -288,6 +288,7 @@ class VoitureController extends Controller
             'cout_assurance' => $cout_assurance,
             'nombre_places' => $nombre_places,
             'description' => $description,
+            'statut' => $status,
         ]);
 
 

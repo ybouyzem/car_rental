@@ -33,7 +33,7 @@ Route::post('/admins/add', [EmployeeController::class, 'addAdmin'])->name('addAd
 Route::get('/deleteAdmin/{id}', [EmployeeController::class, 'deleteAdmin']);
 Route::post('/admins/modify/{id_admin}',[EmployeeController::class,'modifyAdmin']);
 
-// Route::match(['get', 'post'],'/login', [EmailController::class, 'login'])->name('login');
+Route::match(['get', 'post'],'/login', [EmailController::class, 'login'])->name('login');
 
 Route::post('/authentifications/failed',[EmailController::class,'loginError']);
 
