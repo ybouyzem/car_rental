@@ -118,7 +118,6 @@
                                 <td>Post Number</td>
                                 <td>Post Name</td>
                                 <td>Email</td>
-                                <td>Password</td>
                                 <td style="color: green;">Updating</td>
                             </tr>
                         </thead>
@@ -133,7 +132,6 @@
                                     <td>{{$admin->numero_post}}</td>
                                     <td>{{$admin->libelle_post}}</td>
                                     <td>{{$admin->email}}</td>
-                                    <td>{{$admin->password}}</td>
                                     <td class="edit-buttons">
                                         <button id="modifyBtn"  data-admin-id="{{ $admin->id_admin }}" ><span class="las la-edit"></span></button>
                                         <button id="deleteBtn" data-employer-id="{{ $admin->id_employee }}"><span class="las la-trash-alt"></span></button>
@@ -162,7 +160,7 @@
         </div>
         <div class="content">
             <span class="title">warning!</span>
-            <div class="desc">are you sure you want to delete this client?</div>
+            <div class="desc">are you sure you want to delete this administrator?</div>
             <div class="actions">
                 <div>
 

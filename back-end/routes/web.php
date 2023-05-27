@@ -38,3 +38,13 @@ Route::match(['get', 'post'],'/login', [EmailController::class, 'login'])->name(
 Route::post('/authentifications/failed',[EmailController::class,'loginError']);
 
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

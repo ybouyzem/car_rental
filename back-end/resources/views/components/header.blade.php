@@ -13,6 +13,8 @@
     <div class="user-wrapper">
         <img src="icons/user.png" width="40px" height="40px" alt="" style="background: seagreen">
         <div>
+            <h4>Younes Bouyzem</h4>
+            <small>Super Admin</small>
             {{-- <h4>{{$employee->nom}} {{$employee->prenom}}</h4>
             <small>{{$employee->libelle_post}}</small> --}}
         </div>

@@ -211,28 +211,31 @@ if ($row->isEmpty()) {
     ->select('id_voiture')
     ->where('id', $id)
     ->value('id_voiture');
-
+        $client_id=DB::table('reservations')
+    ->select('id_client')
+    ->where('id',$id)
+    ->value('id_client');
 
     DB::table('voitures')
     ->where('id', $car_id)
     ->update(['statut' => 'Available']);
 
 
-    $idUser = DB::table('utilisateurs')
-    ->join('clients', 'utilisateurs.id', '=', 'clients.id_utilisateur')
-    ->join('reservations', 'clients.id', '=', 'reservations.id_client')
-    ->where('reservations.id', '=', $id)
-    ->select('utilisateurs.id as id_user')
-    ->value('id_user');
+    // $idUser = DB::table('utilisateurs')
+    // ->join('clients', 'utilisateurs.id', '=', 'clients.id_utilisateur')
+    // ->join('reservations', 'clients.id', '=', 'reservations.id_client')
+    // ->where('reservations.id', '=', $id)
+    // ->select('utilisateurs.id as id_user')
+    // ->value('id_user');
 
 
-    DB::table('utilisateurs')
-    ->where('id',$idUser)
-    ->delete();
     DB::table('reservations')
     ->where('id', $id)
     ->delete();
 
+    DB::table('clients')
+    ->where('id',$client_id)
+    ->delete();
 
 
         return redirect()->back()->with('success', 'order deleted successfully.');;
