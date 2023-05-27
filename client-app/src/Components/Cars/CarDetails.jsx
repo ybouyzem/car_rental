@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// React Spinner
+import { ThreeDots } from 'react-loader-spinner';
+
 //React icons
 import {BsPerson} from 'react-icons/bs';
 import {GiGearStick} from 'react-icons/gi';
@@ -20,6 +23,8 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 //Pics
 
 function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, authorized}) {
+    const [loading, setLoading] = useState(false);
+
     // extract car's data selected
     var [image, setImage] = useState('');
     var [seats, setSeats] = useState('');
@@ -34,6 +39,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
     useEffect(() => {
         var fetchCar = async(id) => {
             try{
+                setLoading(true);
                 const response = await axios.get(`http://127.0.0.1:8000/api/Voiture/${id}`);
                 setImage(response.data.voiture.image);
                 setSeats(response.data.voiture.nombre_places);
@@ -41,8 +47,10 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                 setVitesse(response.data.voiture.boîte_vitesse);
                 setDescription(response.data.voiture.description);
                 setPrice(response.data.voiture.prix_jour);
+                setLoading(false);
             }catch(error){
                 console.log(error);
+                setLoading(false);
             }
         }
         fetchCar(idCar);
@@ -108,6 +116,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
             const isValid = handlePickUp() && handleReturn() && handleLocation() && handlePhoneNumber() && handleLicenseNumber() && handleNationality();
             if(isValid){
                 try {
+                    setLoading(true);
                     // Insert client data
                     var formData1 = new FormData();
                     formData1.append('id_utilisateur', idUser);
@@ -118,7 +127,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                     if(passportNumber !== ''){
                         formData1.append('numero_passport', passportNumber);
                     }
-              
+                    
                     const { data: clientData } = await axios.post('http://127.0.0.1:8000/api/Client', formData1);
                     console.log(clientData.message);
                     
@@ -138,9 +147,11 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                     const response = await axios.patch('http://127.0.0.1:8000/api/Voiture/' + idCar, { statut: 'Rented' });
                     console.log(response.data.message);
 
+                    setLoading(false);
                     RedirectToInvoice();
                 } catch (error) {
                     console.log(error);
+                    setLoading(false);
                 }
             }
         }else {
@@ -315,184 +326,220 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
         return status;
     }
 
-    return (
-      <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
-        {/* Picture */}
-        <div className='w-[50%] h-[40%] flex justify-center items-center'>
-            <img className='w-full' src={'http://localhost:8000/cars_pics/'+image} alt="Not Found" />
-        </div>
-        {/* Features */}
-        <div className='w-[50%] flex justify-between text-sm'>
-            <div className='flex flex-col gap-5'>
-                <div className='flex items-center gap-1'><BsPerson className='text-lg' /><span>{seats} Seats</span></div>
-                <div className='flex items-center gap-1'><TbGasStation className='text-lg' /><span>{carburant}</span></div>
+    if(loading){
+        return ( 
+            <div className='w-[50%] h-full flex flex-col justify-center items-center'>
+                <ThreeDots 
+                    height="50" 
+                    width="50" 
+                    radius="9"
+                    color="#EF4444"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true}
+                />
             </div>
-            <div className='flex flex-col gap-5'>
-                <div className='flex items-center gap-1'><GiGearStick className='text-lg' /><span>{vitesse}</span></div>
-                <button onClick={OpenDescription} className='flex items-center gap-1'><TbFileDescription className='text-lg' /><span>View More</span></button>
-            </div>
-        </div>
-        {/* Price */}
-        <div className='w-[50%] flex flex-col items-end'>
-            <div><span className='text-sm text-gray-200'>Price for <span className='text-red-500'>24 hours</span> :</span></div>
-            <div><span className='text-xl font-bold'>MAD <span className='text-red-500'>{price}</span></span></div>
-        </div>
-        {/* Button Checkout */}
-        <button className='w-[70%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer' onClick={OpenCheckout}>Checkout</button>
-        {/* Description */}
-        <div id='Description' className='absolute left-0 top-0 w-full h-full bg-black/80 flex flex-col justify-end gap-5 px-[4%] py-[10%] opacity-0 -z-10 duration-300'>
-            <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose /></button> 
-            <div>
-                <span className='text-2xl font-extrabold'>Description :</span>
-            </div>
-            <div className='overflow-y-auto'>
-                <p className='text-sm text-gray-200 leading-6'>{description}</p>
-            </div>
-        </div>
-
-        {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
-        {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
-        {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
-        
-        {/* Form */}
-        <div id='form' className='absolute left-0 top-0 w-full h-full bg-white/80 px-[4%] pt-[10%] pb-5 opacity-0 -z-10 duration-300 overflow-y-auto'>
-            <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose className='text-black' /></button> 
-            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black' onSubmit={handleFormSubmit}>
-
-                {/* Date & Time */}
-                <div className='w-full flex items-center justify-between gap-5'>
-                    {/* Pick-up */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex flex-col'>
-                            <label className='font-extrabold' htmlFor="">Pick-up</label>
-                            <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='PickUp' id='PickUp' onChange={handlePickUp} required />
-                        </div>
-                        {/* Error Message */}
-                        <div id='ErrorPickUp' className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Should enter date superior than today's date</span>
-                        </div>
+        )
+    }else{
+        return (
+            <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
+                {/* Picture */}
+                <div className='w-[50%] h-[40%] flex justify-center items-center'>
+                    <img className='w-full' src={'http://localhost:8000/cars_pics/'+image} alt="Not Found" />
+                </div>
+                {/* Features */}
+                <div className='w-[50%] flex justify-between text-sm'>
+                    <div className='flex flex-col gap-5'>
+                        <div className='flex items-center gap-1'><BsPerson className='text-lg' /><span>{seats} Seats</span></div>
+                        <div className='flex items-center gap-1'><TbGasStation className='text-lg' /><span>{carburant}</span></div>
                     </div>
-                    {/* Return */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex flex-col'>
-                            <label className='font-extrabold' htmlFor="">Return</label>
-                            <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='Return' id='Return' onChange={handleReturn} required/>
-                        </div>
-                        {/* Error Message */}
-                        <div id='ErrorReturn' className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Should enter date superior than pick up's date</span>
-                        </div>
+                    <div className='flex flex-col gap-5'>
+                        <div className='flex items-center gap-1'><GiGearStick className='text-lg' /><span>{vitesse}</span></div>
+                        <button onClick={OpenDescription} className='flex items-center gap-1'><TbFileDescription className='text-lg' /><span>View More</span></button>
                     </div>
                 </div>
+                {/* Price */}
+                <div className='w-[50%] flex flex-col items-end'>
+                    <div><span className='text-sm text-gray-200'>Price for <span className='text-red-500'>24 hours</span> :</span></div>
+                    <div><span className='text-xl font-bold'>MAD <span className='text-red-500'>{price}</span></span></div>
+                </div>
+                {/* Button Checkout */}
+                <button className='w-[70%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer' onClick={OpenCheckout}>Checkout</button>
+                {/* Description */}
+                <div id='Description' className='absolute left-0 top-0 w-full h-full bg-black/80 flex flex-col justify-end gap-5 px-[4%] py-[10%] opacity-0 -z-10 duration-300'>
+                    <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose /></button> 
+                    <div>
+                        <span className='text-2xl font-extrabold'>Description :</span>
+                    </div>
+                    <div className='overflow-y-auto'>
+                        <p className='text-sm text-gray-200 leading-6'>{description}</p>
+                    </div>
+                </div>
+
+                {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
+                {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
+                {/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */}
                 
-                <div className='w-full flex gap-5'>
-                    {/* Location */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex items-center relative'>
-                            <IoLocationOutline className='absolute left-2 text-lg text-red-500' />
-                            <select defaultValue="none" className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" onChange={handleLocation} required>
-                                <option value="none" disabled>Choose your location</option>
-                                <option value="Béni Mellal">Béni Mellal</option>
-                                <option value="Casa blanca">Casa blanca</option>
-                                <option value="Rabat">Rabat</option>
-                                <option value="Agadir">Agadir</option>
-                                <option value="Tanger">Tanger</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        {/* Error Message */}
-                        <div id="ErrorLocation" className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Location required</span>
-                        </div>
-                    </div>
-                    {/* Phone Number */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex items-center relative'>
-                            <BsPhone className='absolute left-2 text-lg text-red-500' />
-                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none appearance-none' type="tel" placeholder="Phone Number" id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} min="0" required />
-                        </div>
-                        {/* Error Message */}
-                        <div id='ErrorPhoneNumber' className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />  
-                            <span className='text-xs'>Phone Number should not contain any text letters / ex: (+212) 620429392</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div className='w-full flex gap-5'>
-                    {/* License Number */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex items-center relative'>
-                            <TbLicense className='absolute left-2 text-lg text-red-500' />
-                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' type="text" placeholder="License Number" id='LicenseNumber' name='LicenseNumber' onChange={handleLicenseNumber} required />
-                        </div>
-                        {/* Error Message */}
-                        <div id='ErrorLicenseNumber' className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>License number required</span>
-                        </div>
-                    </div>
+                {/* Form */}
+                <div id='form' className='absolute left-0 top-0 w-full h-full bg-white/80 px-[4%] pt-[10%] pb-5 opacity-0 -z-10 duration-300 overflow-y-auto'>
+                    <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose className='text-black' /></button> 
+                    {
+                        loading ? 
+                        (
+                            <div className='w-[50%] h-full flex flex-col justify-center items-center'>
+                                <ThreeDots 
+                                    height="50" 
+                                    width="50" 
+                                    radius="9"
+                                    color="#EF4444"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClassName=""
+                                    visible={true}
+                                />
+                            </div>
+                        ) : (
+                            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black' onSubmit={handleFormSubmit}>
+                                {/* Date & Time */}
+                                <div className='w-full flex items-center justify-between gap-5'>
+                                    {/* Pick-up */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex flex-col'>
+                                            <label className='font-extrabold' htmlFor="">Pick-up</label>
+                                            <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='PickUp' id='PickUp' onChange={handlePickUp} required />
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id='ErrorPickUp' className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />
+                                            <span className='text-xs'>Should enter date superior than today's date</span>
+                                        </div>
+                                    </div>
+                                    {/* Return */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex flex-col'>
+                                            <label className='font-extrabold' htmlFor="">Return</label>
+                                            <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='Return' id='Return' onChange={handleReturn} required/>
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id='ErrorReturn' className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />
+                                            <span className='text-xs'>Should enter date superior than pick up's date</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className='w-full flex gap-5'>
+                                    {/* Location */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex items-center relative'>
+                                            <IoLocationOutline className='absolute left-2 text-lg text-red-500' />
+                                            <select defaultValue="none" className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" onChange={handleLocation} required>
+                                                <option value="none" disabled>Choose your location</option>
+                                                <option value="Béni Mellal">Béni Mellal</option>
+                                                <option value="Casa blanca">Casa blanca</option>
+                                                <option value="Rabat">Rabat</option>
+                                                <option value="Agadir">Agadir</option>
+                                                <option value="Tanger">Tanger</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id="ErrorLocation" className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />
+                                            <span className='text-xs'>Location required</span>
+                                        </div>
+                                    </div>
+                                    {/* Phone Number */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex items-center relative'>
+                                            <BsPhone className='absolute left-2 text-lg text-red-500' />
+                                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none appearance-none' type="tel" placeholder="Phone Number" id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} min="0" required />
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id='ErrorPhoneNumber' className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />  
+                                            <span className='text-xs'>Phone Number should not contain any text letters / ex: (+212) 620429392</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className='w-full flex gap-5'>
+                                    {/* License Number */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex items-center relative'>
+                                            <TbLicense className='absolute left-2 text-lg text-red-500' />
+                                            <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' type="text" placeholder="License Number" id='LicenseNumber' name='LicenseNumber' onChange={handleLicenseNumber} required />
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id='ErrorLicenseNumber' className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />
+                                            <span className='text-xs'>License number required</span>
+                                        </div>
+                                    </div>
 
-                    {/* Nationality */}
-                    <div className='w-[50%] flex flex-col'>
-                        <div className='w-full flex items-center relative'>
-                            <AiOutlineIdcard className='absolute left-2 text-lg text-red-500' />
-                            <select defaultValue="none"  className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={handleNationality}>
-                                <option value="none" disabled>Choose your nationality</option>
-                                <option value="Morocco">Morocco</option>
-                                <option value="France">France</option>
-                                <option value="Spain">Spain</option>
-                                <option value="Portugal">Portugal</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        {/* Error Message */}
-                        <div id='ErrorNationality' className='w-full text-red-500 items-center gap-2 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Country required</span>
-                        </div>
-                    </div>
-                </div>
-                {/* Passport Number */}
-                <div id='PassportDiv' className='w-full flex-col hidden'>
-                    <div className='w-full flex items-center relative'>
-                        <GiPassport className='absolute left-2 text-lg text-red-500' />
-                        <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' placeholder="Passport Number" type="text" id='PassportNumber' name='PassportNumber' onChange={handlePassportNumber} />
-                    </div>
-                    {/* Error Message */}
-                    <div id='ErrorPassport' className='w-full text-red-500 items-center gap-2 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>Passport number required</span>
-                    </div>
-                </div>
+                                    {/* Nationality */}
+                                    <div className='w-[50%] flex flex-col'>
+                                        <div className='w-full flex items-center relative'>
+                                            <AiOutlineIdcard className='absolute left-2 text-lg text-red-500' />
+                                            <select defaultValue="none"  className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={handleNationality}>
+                                                <option value="none" disabled>Choose your nationality</option>
+                                                <option value="Morocco">Morocco</option>
+                                                <option value="France">France</option>
+                                                <option value="Spain">Spain</option>
+                                                <option value="Portugal">Portugal</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        {/* Error Message */}
+                                        <div id='ErrorNationality' className='w-full text-red-500 items-center gap-2 hidden'>
+                                            <BiMessageRoundedError className='text-xl' />
+                                            <span className='text-xs'>Country required</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Passport Number */}
+                                <div id='PassportDiv' className='w-full flex-col hidden'>
+                                    <div className='w-full flex items-center relative'>
+                                        <GiPassport className='absolute left-2 text-lg text-red-500' />
+                                        <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' placeholder="Passport Number" type="text" id='PassportNumber' name='PassportNumber' onChange={handlePassportNumber} />
+                                    </div>
+                                    {/* Error Message */}
+                                    <div id='ErrorPassport' className='w-full text-red-500 items-center gap-2 hidden'>
+                                        <BiMessageRoundedError className='text-xl' />
+                                        <span className='text-xs'>Passport number required</span>
+                                    </div>
+                                </div>
 
-                {/* Checkout */}
-                <div className='w-full flex justify-center'>
-                    <input className='w-full bg-black/80 hover:bg-black/70 text-white duration-300 py-5 cursor-pointer' type="submit" name="" id="" value="Order now" />
+                                {/* Checkout */}
+                                <div className='w-full flex justify-center'>
+                                    <input className='w-full bg-black/80 hover:bg-black/70 text-white duration-300 py-5 cursor-pointer' type="submit" name="" id="" value="Order now" />
+                                </div>
+                            </form>
+                        )
+                    }
+                    
                 </div>
-            </form>
-        </div>
-        {/* Sign in warning */}
-        <div id="signInWarning" className='w-[40%] h-[30%] absolute right-0 bottom-0 bg-slate-500/80 rounded-xl flex flex-col items-center justify-center py-2 opacity-0 -z-10 duration-300'>
-            <IoWarningOutline className='text-5xl text-yellow-400' />
-            <div className='w-full py-2 px-5 text-center'>
-                <span className='text-sm'>You can not do any operation without account! Please Log into your account first.</span>
+                {/* Sign in warning */}
+                <div id="signInWarning" className='w-[40%] h-[30%] absolute right-0 bottom-0 bg-slate-500/80 rounded-xl flex flex-col items-center justify-center py-2 opacity-0 -z-10 duration-300'>
+                    <IoWarningOutline className='text-5xl text-yellow-400' />
+                    <div className='w-full py-2 px-5 text-center'>
+                        <span className='text-sm'>You can not do any operation without account! Please Log into your account first.</span>
+                    </div>
+                    <button className='text-black relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-black hover:after:w-[80%] after:duration-300' onClick={Close}>Got it</button>
+                </div>
+                {showConfirmation && ( 
+                    <div className='w-full h-[20%] absolute right-0 top-0 bg-yellow-500 flex flex-col items-center justify-center gap-5 py-2 z-20 duration-300'>
+                    <span className='text-white text-xl capitalize'>are you sure about the order</span>
+                    <div className='flex gap-10'>
+                        <button className='text-white bg-green-500/60 p-2' onClick={handleSubmit}>Confirm</button>
+                        <button className='text-white bg-red-500/60 p-2' onClick={() => setShowConfirmation(false)}>Cancel</button>
+                    </div>
+                </div>
+                )}
             </div>
-            <button className='text-black relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-black hover:after:w-[80%] after:duration-300' onClick={Close}>Got it</button>
-        </div>
-        {showConfirmation && ( 
-            <div className='w-full h-[20%] absolute right-0 top-0 bg-yellow-500 flex flex-col items-center justify-center gap-5 py-2 z-20 duration-300'>
-            <span className='text-white text-xl capitalize'>are you sure about the order</span>
-            <div className='flex gap-10'>
-                <button className='text-white bg-green-500/60 p-2' onClick={handleSubmit}>Confirm</button>
-                <button className='text-white bg-red-500/60 p-2' onClick={() => setShowConfirmation(false)}>Cancel</button>
-            </div>
-        </div>
-        )}
-      </div>
-    )
+        )
+    }
+    
 }
 export default CarDetails;

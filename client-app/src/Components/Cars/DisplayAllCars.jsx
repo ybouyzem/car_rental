@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router';
 import axios from 'axios';
 
+// React Spinner
+import { ThreeDots } from 'react-loader-spinner';
+
 //React icons
 import {FiSearch} from 'react-icons/fi';
 import {AiOutlineArrowRight} from 'react-icons/ai';
@@ -14,6 +17,7 @@ import EmptyPic from '../Pics/empty.png';
 
 
 function DisplayAllCars({handleVehicule}) {
+  const [loading, setLoading] = useState(false);
   // Filters
   const [searchCar, setSearchCar] = useState('');
   // extract all vehiculs
@@ -24,9 +28,12 @@ function DisplayAllCars({handleVehicule}) {
   useEffect(() => {
     const fetchCars = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`http://127.0.0.1:8000/api/Voiture?page=${currentPage}&perPage=${carsPerPage}&search=${searchCar}`);
         setCars(response.data.voitures.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     };
@@ -75,15 +82,37 @@ function DisplayAllCars({handleVehicule}) {
               <button onClick={previousPage} disabled={currentPage === 1} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='text-xl rotate-180' /></button>
               <button onClick={nextPage} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='text-xl' /></button>
           </div>
-          <div className='w-full h-full flex flex-col gap-5 overflow-y-auto'>
+          <div className='w-full h-full flex flex-col gap-5 overflow-y-auto relative'>
             {
-              cars.map((row, key) => {
-                return (
-                  <CarBox key={key} handleVehicule={handleVehicule} carId={row.id} libelleMarque={row.marque_libelle} libelleModele={row.modele_libelle} image={'http://localhost:8000/cars_pics/'+row.image} seats={row.nombre_places} carburant={row.carburant} vitesse={row.boîte_vitesse}  />
-                )
-              })
+              loading ? 
+              (
+                <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]'>
+                    <ThreeDots 
+                        height="50" 
+                        width="50" 
+                        radius="9"
+                        color="#EF4444"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true}
+                    />
+                </div>
+              ) : (
+                <div className='w-full h-full flex flex-col gap-5 overflow-y-auto'>
+                  {
+                    cars.map((row, key) => {
+                      return (
+                        <CarBox key={key} handleVehicule={handleVehicule} carId={row.id} libelleMarque={row.marque_libelle} libelleModele={row.modele_libelle} image={'http://localhost:8000/cars_pics/'+row.image} seats={row.nombre_places} carburant={row.carburant} vitesse={row.boîte_vitesse}  />
+                      )
+                    })
+                  }
+                  {emptyResult}
+                </div>
+              )
             }
-            {emptyResult}
+            
+            
           </div>
         </div>
         <Outlet />

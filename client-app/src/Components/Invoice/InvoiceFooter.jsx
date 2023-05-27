@@ -15,7 +15,7 @@ function InvoiceFooter({price, pickUp, Return}) {
     returnTime = date2.getTime();
 
     const hours = Math.abs(returnTime - pickUpTime) / 3600000;
-    return hours;
+    return parseFloat(hours).toFixed(2);
   }
   // Calcul Total 
   const total = (subTotal, hours) => {

@@ -4,6 +4,9 @@ import axios from 'axios';
 //Components
 import Logo from '../Partials/Logo';
 
+// React Spinner
+import { ThreeDots } from 'react-loader-spinner';
+
 //React icons
 import {BsPerson} from 'react-icons/bs';
 import {CgProfile} from 'react-icons/cg';
@@ -17,6 +20,8 @@ import {BiMessageRoundedError} from 'react-icons/bi';
 import Pic from '../Pics/dmitry-novikov-dowzTvFVT3M-unsplash.jpg';
 
 function ContactForm() {
+    const [loading, setLoading] = useState(false);
+
     const [mailData, setMailData] = useState({
         FirstName: '',
         LastName: '',
@@ -113,9 +118,10 @@ function ContactForm() {
             var content = document.getElementById('messageContent');
 
             try {
+                setLoading(true);
                 const response = await axios.post('http://127.0.0.1:8000/api/sendEmail', mailData);
                 console.log(response.data.message);
-          
+                
                 setMailData({
                   FirstName: '',
                   LastName: '',
@@ -124,10 +130,11 @@ function ContactForm() {
                   Message: '',
                 });
 
+                setLoading(false);
                 content.textContent = 'Success! Message sent successfully';
                 status.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
-                reset();
             } catch (error) {
+                setLoading(false);
                 console.error(error);
                 content.textContent = error;
                 status.style.backgroundColor = 'rgb(239 68 68 / 0.5)';
@@ -140,13 +147,6 @@ function ContactForm() {
         };
     }
 
-    const reset = () => {
-        document.getElementById('FirstName').value = '';
-        document.getElementById('LastName').value = '';
-        document.getElementById('Email').value = '';
-        document.getElementById('PhoneNumber').value = '';
-        document.getElementById('Message').value = '';
-    }
     return (
       <div className='w-[100%] h-[80vh] bg-slate-100/20 flex justify-between shadow-black shadow-2xl'>
         <div className='h-full w-[40%]'>
@@ -161,75 +161,93 @@ function ContactForm() {
                 <span className='text-2xl text-gray-200 font-extrabold'>Feel free to get in touch</span>
             </div>
             
-            <form action="" className='w-full flex flex-col items-center gap-10 text-sm overflow-y-auto' onSubmit={handleSubmit}>
-                {/* Full Name */}
-                <div className='w-[70%] flex justify-between gap-5'>
-                    {/* First Name */}
-                    <div>
-                        <div className="flex items-center relative">
-                            <BsPerson className='absolute left-2 text-lg' />
-                            <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="text" placeholder='First name' id='FirstName' name='FirstName' onChange={handleFirstName} required />
+            {
+                loading ? 
+                (
+                    <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]'>
+                        <ThreeDots 
+                            height="50" 
+                            width="50" 
+                            radius="9"
+                            color="#EF4444"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClassName=""
+                            visible={true}
+                        />
+                    </div>
+                ) : (
+                    <form action="" className='w-full flex flex-col items-center gap-10 text-sm overflow-y-auto' onSubmit={handleSubmit}>
+                        {/* Full Name */}
+                        <div className='w-[70%] flex justify-between gap-5'>
+                            {/* First Name */}
+                            <div>
+                                <div className="flex items-center relative">
+                                    <BsPerson className='absolute left-2 text-lg' />
+                                    <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="text" placeholder='First name' id='FirstName' name='FirstName' onChange={handleFirstName} required />
+                                </div>
+                                {/* First name error */}
+                                <div id='firstNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                    <BiMessageRoundedError className='text-xl' />
+                                    <span className='text-xs'>First Name is required</span>
+                                </div>
+                            </div>
+                            {/* Last Name */}
+                            <div>
+                                <div className="flex items-center relative">
+                                    <CgProfile className='absolute left-2 text-lg' />
+                                    <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="text" placeholder='Last name' id='LastName' name='LastName' onChange={handleLastName} required />
+                                </div>
+                                {/* Last name error */}
+                                <div id='lastNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                    <BiMessageRoundedError className='text-xl' />
+                                    <span className='text-xs'>Last Name is required</span>
+                                </div>
+                            </div>
                         </div>
-                        {/* First name error */}
-                        <div id='firstNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>First Name is required</span>
+                        {/* Email */}
+                        <div className="w-[70%] flex flex-col">
+                            <div className='w-full flex items-center relative'>
+                                <MdOutlineAlternateEmail className='absolute left-2 text-lg' />
+                                <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id='Email' name='Email' onChange={handleEmail} required />
+                            </div>
+                            {/* Email error */}
+                            <div id='emailMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                <BiMessageRoundedError className='text-xl' />
+                                <span className='text-xs'>Invalid email / ex: xxxxxx@yyyy.zzz</span>
+                            </div>
                         </div>
-                    </div>
-                    {/* Last Name */}
-                    <div>
-                        <div className="flex items-center relative">
-                            <CgProfile className='absolute left-2 text-lg' />
-                            <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="text" placeholder='Last name' id='LastName' name='LastName' onChange={handleLastName} required />
+                        {/* Phone number */}
+                        <div className="w-[70%] flex flex-col">
+                            <div className='w-full flex items-center relative'>
+                                <BsTelephone className='absolute left-2 text-lg' />
+                                <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="tel" placeholder='Phone number' id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} required />
+                            </div>
+                            {/* Phone Number error */}
+                            <div id='phoneNumberMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                <BiMessageRoundedError className='text-xl' />
+                                <span className='text-xs'>Phone Number should not contain any text letters / ex: (+212) 620429392</span>
+                            </div>
                         </div>
-                        {/* Last name error */}
-                        <div id='lastNameMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                            <BiMessageRoundedError className='text-xl' />
-                            <span className='text-xs'>Last Name is required</span>
+                        {/* Message Area */}
+                        <div className="w-[70%] flex flex-col">
+                            <div className='w-full flex items-center relative'>
+                                <BiMessageRounded className='absolute left-2 text-lg' />
+                                <textarea className='w-full px-8 py-2 bg-slate-100/20 outline-none' name="Message" id="Message" cols="30" rows="1" placeholder='Type your Message here...' onChange={handleMessageArea} required></textarea>
+                            </div>
+                            {/* Message area error */}
+                            <div id='msgAreaMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                <BiMessageRoundedError className='text-xl' />
+                                <span className='text-xs'>Text should contain 3 characters long at least</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                {/* Email */}
-                <div className="w-[70%] flex flex-col">
-                    <div className='w-full flex items-center relative'>
-                        <MdOutlineAlternateEmail className='absolute left-2 text-lg' />
-                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id='Email' name='Email' onChange={handleEmail} required />
-                    </div>
-                    {/* Email error */}
-                    <div id='emailMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>Invalid email / ex: xxxxxx@yyyy.zzz</span>
-                    </div>
-                </div>
-                {/* Phone number */}
-                <div className="w-[70%] flex flex-col">
-                    <div className='w-full flex items-center relative'>
-                        <BsTelephone className='absolute left-2 text-lg' />
-                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="tel" placeholder='Phone number' id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} required />
-                    </div>
-                    {/* Phone Number error */}
-                    <div id='phoneNumberMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>Phone Number should not contain any text letters / ex: (+212) 620429392</span>
-                    </div>
-                </div>
-                {/* Message Area */}
-                <div className="w-[70%] flex flex-col">
-                    <div className='w-full flex items-center relative'>
-                        <BiMessageRounded className='absolute left-2 text-lg' />
-                        <textarea className='w-full px-8 py-2 bg-slate-100/20 outline-none' name="Message" id="Message" cols="30" rows="1" placeholder='Type your Message here...' onChange={handleMessageArea} required></textarea>
-                    </div>
-                    {/* Message area error */}
-                    <div id='msgAreaMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>Text should contain 3 characters long at least</span>
-                    </div>
-                </div>
-                {/* Submit */}
-                <div className="w-[70%]">
-                    <button type='submit' className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex items-center justify-center gap-1'><span>Contact Us </span><FiSend className='text-lg' /></button>
-                </div>
-            </form>
+                        {/* Submit */}
+                        <div className="w-[70%]">
+                            <button type='submit' className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex items-center justify-center gap-1'><span>Contact Us </span><FiSend className='text-lg' /></button>
+                        </div>
+                    </form>
+                )
+            }
         </div>
     </div>
     )

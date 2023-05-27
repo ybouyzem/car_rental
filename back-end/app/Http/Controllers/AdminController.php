@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -34,9 +35,19 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Admin $admin)
+    public function show(Request $request, $email)
     {
-        //
+        $password = $request->query('password');
+        $admin = Admin::where('email', $email)->first();
+        if($admin && Hash::check($password, $admin->password)){
+            return response()->json([
+                'url' => 'http://127.0.0.1:8000/index'
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Not Found'
+            ]);
+        }
     }
 
     /**

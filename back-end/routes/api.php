@@ -10,6 +10,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,9 @@ Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
 
 // Route for Verification the email
 Route::get('/verify-email/{id}', [VerificationController::class, 'verify'])->name('verify-email');
+
+// Route for 'Reservation' Model
+Route::resource('Admin', AdminController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
