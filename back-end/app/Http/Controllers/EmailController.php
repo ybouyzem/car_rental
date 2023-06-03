@@ -85,7 +85,8 @@ class EmailController extends Controller
 
 
             return redirect()->route('index')->with(compact('rentedCars', 'carsNumber','clientsNumber','reservationsNumber','employersNumber','income','employee'));
-        } else {
+        }
+         else {
             return view('loginError');
         }
     }

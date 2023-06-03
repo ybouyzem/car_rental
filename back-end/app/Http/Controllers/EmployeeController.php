@@ -7,6 +7,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\hash;
 
 class EmployeeController extends Controller
 {
@@ -153,7 +154,9 @@ class EmployeeController extends Controller
         $id_employer = $result->id;
         $admin->id_employee=$id_employer;
         $admin->email=$request->input('email');
-        $admin->password=Crypt::encrypt($request->input('password'));
+        // $admin->password=Crypt::encrypt($request->input('password'));
+        $admin->password= Hash::make($request->input('password'));
+
         $admin->save();
 
         return redirect()->back()->with('success', 'employer added successfully.');
