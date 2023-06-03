@@ -8,6 +8,14 @@ module.exports = {
       fontFamily: {
         Poppins : "Poppins",
         Fasthand: "Fasthand"
+      },
+      animation: {
+        'typing' : 'typing 4s infinite',
+      },
+      keyframes: {
+        typing: {
+          '100%': { left: '100%' },
+        },
       }
     },
   },
