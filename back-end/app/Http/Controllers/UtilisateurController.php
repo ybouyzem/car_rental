@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\UploadedFile;
 
 class UtilisateurController extends Controller
 {
@@ -38,6 +39,7 @@ class UtilisateurController extends Controller
         $request->validate([
             'nom' => 'required',
             'prenom' => 'required',
+            'photo' => 'nullable',
             'email' => 'required',
             'password' => 'required',
         ]);
@@ -46,6 +48,7 @@ class UtilisateurController extends Controller
         $user = Utilisateur::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
+            'photo' => null,
             'email' =>  $request->email,
             'password' => Hash::make($request->password),
             'email_verifie_le' => null,
@@ -127,23 +130,58 @@ class UtilisateurController extends Controller
         // Update user's last name if provided in the request
         if ($request->has('nom')) {
             $utilisateur->nom = $request->nom;
+            // Save changes to the user's record
+            $utilisateur->save();
+
+            return response()->json([
+                'message' => 'User modified successfully'
+            ]);
         }
 
         // Update user's first name if provided in the request
         if ($request->has('prenom')) {
             $utilisateur->prenom = $request->prenom;
+            // Save changes to the user's record
+            $utilisateur->save();
+
+            return response()->json([
+                'message' => 'User modified successfully'
+            ]);
         }
 
         // Update user's password if provided in the request
         if ($request->has('password')) {
             $utilisateur->password = Hash::make($request->password);
+            // Save changes to the user's record
+            $utilisateur->save();
+
+            return response()->json([
+                'message' => 'User modified successfully'
+            ]);
         }
 
-        // Save changes to the user's record
-        $utilisateur->save();
+        if($request->hasFile('photo')) {
+            $picture = $request->file('photo');
+
+            // Store the photo in the 'public' disk under the 'users' directory
+            $fileName = uniqid() . '.' . $picture->getClientOriginalExtension();
+
+            // Store the image file
+            $imagePath = $picture->storeAs('public/users', $fileName);
+
+            // save the path in database
+            $utilisateur->photo = $fileName;
+
+            // Save changes to the user's record
+            $utilisateur->save();
+
+            return response()->json([
+                'message' => 'User modified successfully'
+            ]);
+        }
 
         return response()->json([
-            'message' => 'User modified successfully'
+            'message' => 'Warning'
         ]);
     }
 

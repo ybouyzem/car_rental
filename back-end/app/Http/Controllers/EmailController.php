@@ -40,7 +40,7 @@ class EmailController extends Controller
 
         // Mail::to('alahyane900@gmail.com')->send(new SendEmail($request->all()));
 
-        Mail::raw('From: Mr. '.$data['last_name'].' '.$data['first_name']."\n".'Phone Number : '.$data['phone_number']."\n"."Message : \n".$data['message'],
+        Mail::raw('From: Mr. '.$data['last_name'].' '.$data['first_name']."\n".'Email : '.$data['email']."\n".'Phone Number : '.$data['phone_number']."\n"."Message : \n".$data['message'],
         function ($message) use ($data) {
             $message->to('alahyane900@gmail.com')
                     ->subject('Mail from Car Rental Website')

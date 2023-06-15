@@ -16,7 +16,7 @@ function CarBox ({handleVehicule, carId, libelleMarque, libelleModele, image, se
 
       {/* Picture */}
       <div className='h-full w-[30%] flex justify-center items-center'>
-          <img src={image} alt="Not Found" />
+          <img src={image} alt="Not Found" loading='lazy' />
       </div>
 
       <div className='h-full w-[70%] flex flex-col justify-between py-[2%] px-[5%]'>

@@ -17,12 +17,14 @@ function Profile ({ authorized, onLogout, idUser }) {
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
+  const [pic, setPic] = useState('');
   const userData = async (id) => {
     try{
       const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${id}`);
       setPrenom(response.data.message.prenom);
       setNom(response.data.message.nom);
       setEmail(response.data.message.email);
+      setPic(response.data.message.photo);
     }catch(error){
       console.log(error);
     }
@@ -36,10 +38,13 @@ function Profile ({ authorized, onLogout, idUser }) {
         userData(idUser);
       }
   }, [idUser, authorized, navigate]);
+  if(pic === '' || pic === null){
+    setPic('profile.png');
+  }
   
     return (
       <div className='h-full w-full flex flex-col justify-center items-center gap-10'>
-        <ProfileData onLogout={onLogout} idUser={idUser} nom={nom} prenom={prenom} email={email} />
+        <ProfileData onLogout={onLogout} idUser={idUser} nom={nom} prenom={prenom} pic={'http://localhost:8000/storage/users/'+pic} email={email} />
         <History idUser={idUser} />
       </div>
     )

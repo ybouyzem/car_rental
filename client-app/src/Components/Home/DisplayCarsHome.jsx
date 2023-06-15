@@ -87,7 +87,7 @@ function DisplayCarsHome() {
             </div>
           </div>
           <div className='h-full flex items-center' data-aos="fade-left">
-            <img src={Pic} alt="" />
+            <img src={Pic} alt="" loading='lazy' />
           </div>
         </div>
         <div className='w-full flex justify-center gap-10 text-5xl px-[5%] absolute bottom-10 '>

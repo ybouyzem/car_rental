@@ -14,6 +14,7 @@ class Utilisateur extends Model
         'nom',
         'prenom',
         'email',
+        'photo',
         'password',
     ];
 
