@@ -19,7 +19,7 @@ class About extends Component {
                 <span className='text-red-500 text-5xl font-extrabold flex justify-center items-center gap-5'><RiSteeringFill className='animate-spin' /><span className='text-white bg-red-500 p-2'>Car Rental</span></span>
               </div>
               <div className='overflow-y-auto'>
-                <p className='text-sm leading-7 text-center'>The rental car business is a thriving industry that provides short-term access to vehicles for customers who need them for various purposes. Whether for business or leisure, rental car businesses offer a convenient way to access a vehicle without the burden of ownership. Customers can choose from a variety of vehicles, from economy cars to luxury vehicles, depending on their needs and budget. In addition.</p>
+                <p className='text-sm leading-7 text-justify'>The rental car business is a thriving industry that provides short-term access to vehicles for customers who need them for various purposes. Whether for business or leisure, rental car businesses offer a convenient way to access a vehicle without the burden of ownership. Customers can choose from a variety of vehicles, from economy cars to luxury vehicles, depending on their needs and budget. In addition.</p>
               </div>
               <div className='w-full flex justify-center items-center'>
                 <Link to="/Contact" className='w-[50%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex justify-center items-center'>Contact Us</Link>

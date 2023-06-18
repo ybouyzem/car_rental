@@ -9,20 +9,27 @@ import { ThreeDots } from 'react-loader-spinner';
 import {MdOutlineAlternateEmail} from 'react-icons/md';
 import {RiLockPasswordLine} from 'react-icons/ri';
 import {BiMessageRoundedError} from 'react-icons/bi';
+import {BsArrowLeftShort} from 'react-icons/bs';
 
 //Components
 import Logo from '../Partials/Logo';
 
 //Pics
 import Pic from '../Pics/olav-tvedt--oVaYMgBMbs-unsplash.jpg';
+import forgotPasswordPic from '../Pics/forgotPassword.png';
 
 
 
 function SignIn ({onLogin, saveIdUser}){
   const [loading, setLoading] = useState(false);
+  const [loadingResetPassword, setLoadingResetPassword] = useState(false);
+
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [emailResetPassword, setEmailResetPassword] = useState('');
 
   //Forbid reloading the page.
   const handleSubmit = (event) => {
@@ -49,6 +56,7 @@ function SignIn ({onLogin, saveIdUser}){
             setLoading(false);
             content.textContent = error;
           }
+          status.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
           status.style.display = 'flex';
           setTimeout(() => {
               status.style.display = 'none';
@@ -78,6 +86,7 @@ function SignIn ({onLogin, saveIdUser}){
             content.textContent = error;
           }
           status.style.display = 'flex';
+          status.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
           setTimeout(() => {
               status.style.display = 'none';
           }, 2000);
@@ -129,14 +138,54 @@ function SignIn ({onLogin, saveIdUser}){
     return status;
   }
 
+  // handle reseting password
+  const handleSubmitResetPassword = async(e) => {
+    e.preventDefault();
+    const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${emailResetPassword}`);
+    if(response.data.message === 'Not Found'){
+      const errorMsg = document.getElementById('emailErrorMessage');
+      errorMsg.style.display = 'flex';
+      setTimeout(() => {
+          errorMsg.style.display = 'none';
+      }, 2000);
+    }else{
+      var status = document.getElementById('messageStatus'),
+      content = document.getElementById('messageContent');
+      try{
+        setLoadingResetPassword(true);
+        const response = await axios.post(`http://127.0.0.1:8000/api/resetPassword`, {email: emailResetPassword});
+        console.log(response.data.message);
+        content.textContent = 'We have sent a password reset link to your email address. Please check your inbox to proceed with resetting your password!'
+        status.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
+        setLoadingResetPassword(false);
+        setForgotPassword(false);
+        status.style.display = 'flex';
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 6000);
+      }catch(error){
+        console.log(error);
+        content.textContent = 'Some issues occurred during the processing of your request! Please try again later.';
+        status.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+        setLoadingResetPassword(false);
+        setForgotPassword(false);
+        status.style.display = 'flex';
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 6000);
+      }
+      
+    }
+  }
+
   
   return (
-    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl'>
+    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl relative'>
       <div className='h-full w-[40%]'>
         <img src={Pic} alt="" className='max-h-full min-h-full w-full' />
       </div>
       <div className='w-[60%] h-full flex flex-col justify-between items-center py-10 relative'>
-        <div id='messageStatus' className='w-full absolute top-0 py-5 bg-red-500/40 justify-center items-center duration-300 hidden'>
+        <div id='messageStatus' className='w-full absolute top-0 py-5 justify-center items-center duration-300 px-[2%] text-center hidden'>
             <span id='messageContent' className='text-sm'></span>
         </div>
         <div className='flex flex-col items-center gap-10'>
@@ -188,6 +237,10 @@ function SignIn ({onLogin, saveIdUser}){
                   <BiMessageRoundedError className='text-xl text-red-500' />
                   <span id='errMsgValue' className='text-xs'></span>
                 </div>
+                {/* forgotten password */}
+                <div id='' className='w-full mt-3'>
+                  <span onClick={() => {setForgotPassword(true)}} className='text-xs cursor-pointer text-gray-200 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-gray-200 hover:after:w-[80%] after:duration-300'>Forgot your password?</span>
+                </div>
               </div>
               {/* Submit */}
               <div className="w-[70%]">
@@ -201,6 +254,47 @@ function SignIn ({onLogin, saveIdUser}){
           <span className='text-sm text-gray-200'>Don't have an account? <Link to='/Sign_Up' className='text-red-500 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-red-500 hover:after:w-[80%] after:duration-300'>Sign up</Link></span>
         </div>
       </div>
+      {forgotPassword && 
+        <div className='w-[50%] h-[60%] bg-slate-500/80 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] shadow-black shadow-2xl'>
+          {loadingResetPassword ? (
+              <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]'>
+                <ThreeDots 
+                    height="50" 
+                    width="50" 
+                    radius="9"
+                    color="#EF4444"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true}
+                  />
+              </div>
+            ) : (
+              <div className='w-full h-full flex flex-col justify-center items-center gap-5 overflow-auto'>
+                <img src={forgotPasswordPic} alt="" className='w-[30%]' />
+                <div className='w-[80%]'>
+                    <span className="text-xs text-justify">Please enter the email address associated with your account and we'll send you a link to reset you password.</span>
+                </div>
+                <form action="" className='w-[80%] flex flex-col gap-3' onSubmit={handleSubmitResetPassword}>
+                  {/* Email */}
+                  <div className="w-full flex items-center relative">
+                    <MdOutlineAlternateEmail className='absolute left-2 text-lg text-red-500' />
+                    <input className='w-full px-8 py-2 bg-slate-50 outline-none text-slate-500 text-sm' type="email" placeholder='Email' id='' onChange={(e) => {setEmailResetPassword(e.target.value)}} required />
+                  </div>
+                  {/* Email Error */}
+                  <div id='emailErrorMessage' className='w-full items-center gap-2 text-red-500 hidden'>
+                      <BiMessageRoundedError className='text-xl text-red-500' />
+                      <span className='text-xs'>This email is not existe</span>
+                  </div>
+                  {/* Submit */}
+                  <input className='p-[3%] bg-red-500/40 cursor-pointer hover:bg-red-500/30 duration-300 text-sm' type="submit" value='Send link' />
+                </form>
+                <button onClick={() => {setForgotPassword(false)}} className='text-xs flex items-center'><BsArrowLeftShort className='text-lg' /> Go back to login</button>
+              </div>
+            )
+          }
+        </div>
+      }
     </div>
   )
 }

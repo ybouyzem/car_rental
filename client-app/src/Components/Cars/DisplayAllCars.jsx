@@ -62,7 +62,7 @@ function DisplayAllCars({handleVehicule}) {
       <div className='w-full h-[40%] flex flex-col items-center py-[2%] gap-10'>
           {/* Title */}
           <div>
-              <span className='text-3xl font-extrabold'>No Available Cars</span>
+              <span className='text-xl font-extrabold'>No Available Cars</span>
           </div>
           <div className='h-[80%]'>
               <img src={EmptyPic} alt="" className='h-full' />

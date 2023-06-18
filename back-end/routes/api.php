@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ResetPasswordController;
 
 
 /*
@@ -50,6 +51,12 @@ Route::get('/verify-email/{id}', [VerificationController::class, 'verify'])->nam
 
 // Route for 'Reservation' Model
 Route::resource('Admin', AdminController::class);
+
+// Route for Reseting the password
+Route::post('/resetPassword', [ResetPasswordController::class, 'sendResetPasswordLink']);
+
+// Route for decrypt the id User
+Route::post('/decryptIdUser', [ResetPasswordController::class, 'decryptIdUser']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

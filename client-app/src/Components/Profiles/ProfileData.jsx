@@ -10,51 +10,40 @@ import {TfiClose} from 'react-icons/tfi';
 import {BiMessageRoundedError} from 'react-icons/bi';
 import {AiOutlineCloudUpload} from 'react-icons/ai';
 import {TbSend} from 'react-icons/tb';
+import {RiLockPasswordLine} from 'react-icons/ri';
+import {VscRefresh} from 'react-icons/vsc';
+
+//React spinners
+import { ThreeDots } from 'react-loader-spinner';
 
 //Pics
 // import ProfilePic from '../Pics/photo profile.jpg';
+import resetPasswordPic from '../Pics/resetPassword.png';
 
 function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
+    const [loading, setLoading] = useState(false);
+    const [changePassword, setChangePassword] = useState(false);
+
     const navigate = useNavigate();
     const loggedOut = () => {
         onLogout();
         navigate("/");
     }
 
-    //opening & closing the reset password's div
+    //controlling the background when a div pop up
     const [picture, setPicture] = useState(null);
-    const openResetPassword = () =>{
-        var component = document.getElementById('re-setPassword'),
-        pic = document.getElementById('profilePic'),
+    const blurBG = () =>{
+        var pic = document.getElementById('profilePic'),
         data = document.getElementById('profileData');
-        component.style.opacity = 1;
-        component.style.scale = 1;
-        component.style.zIndex = 10;
         pic.className += " blur-sm";
         data.className += " blur-sm";
     }
     
-    const closeResetPassword = () =>{
-        var component = document.getElementById('re-setPassword'),
-        pic = document.getElementById('profilePic'),
-        data = document.getElementById('profileData'),
-        oldPassword = document.getElementById('OldPassword'),
-        newPassword = document.getElementById('NewPassword'),
-        confirmNewPassword = document.getElementById('ConfirmNewPassword'),
-        errMsgOld = document.getElementById('oldPasswordMsg'),
-        errMsgNew = document.getElementById('newPasswordMsg'),
-        errMsgConfirmNew = document.getElementById('confirmNewPasswordMsg');
-        component.style.opacity = 0;
-        component.style.scale = 0;
-        component.style.zIndex = -10;
+    const unBlurBG = () => {
+        var pic = document.getElementById('profilePic'),
+        data = document.getElementById('profileData');
         pic.className = "w-[40%] h-full flex flex-col justify-center items-center duration-300 gap-5";
         data.className = "w-[60%] h-full flex flex-col justify-center gap-5 duration-300";
-        oldPassword.value = '';
-        newPassword.value = '';
-        confirmNewPassword.value = '';
-        errMsgOld.style.display = 'none';
-        errMsgNew.style.display = 'none';
-        errMsgConfirmNew.style.display = 'none';
     }
 
     //opening & closing the picture's div
@@ -102,6 +91,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
                 });
                 console.log(response.data.message);
                 closePicture();
+                unBlurBG();
                 messageContentSpan.textContent = 'Picture has been changed successfully';
                 messageContent.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
                 messageContent.style.display = 'flex';
@@ -110,9 +100,10 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
                 }, 2000);
             }catch(error){
                 console.log(error);
-                closeResetPassword();
                 messageContentSpan.textContent = error;
                 messageContent.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+                closePicture();
+                unBlurBG();
                 messageContent.style.display = 'flex';
                 setTimeout(() => {
                     messageContent.style.display = 'none';
@@ -187,12 +178,15 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
             // updating password value
             const updatePassword = async (id, password) => {
                 try {
+                    setLoading(true);
                     const response = await axios.patch(`http://127.0.0.1:8000/api/Utilisateur/${id}`, {
                         password: password
                     });
             
                     console.log(response.data.message); // "User updated successfully"
-                    closeResetPassword();
+                    setLoading(false);
+                    setChangePassword(false);
+                    unBlurBG();
                     messageContentSpan.textContent = 'Password has been changed successfully';
                     messageContent.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
                     messageContent.style.display = 'flex';
@@ -200,9 +194,11 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
                         messageContent.style.display = 'none';
                     }, 2000);
                 } catch (error) {
-                    closeResetPassword();
                     messageContentSpan.textContent = error;
                     messageContent.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
+                    setLoading(false);
+                    setChangePassword(false);
+                    unBlurBG();
                     messageContent.style.display = 'flex';
                     setTimeout(() => {
                         messageContent.style.display = 'none';
@@ -365,7 +361,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
             <div className='w-full flex items-end gap-5'>
                 <span className='font-bold'>Password :</span>
                 <span className='text-sm'>********</span>
-                <button onClick={openResetPassword}><MdOutlineModeEditOutline className='text-red-500' /></button>
+                <button onClick={() => {setChangePassword(true);blurBG()}}><MdOutlineModeEditOutline className='text-red-500' /></button>
             </div>
             {/* Log out */}
             <div className='w-full flex items-center gap-5'>
@@ -374,49 +370,77 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
             </div>
         </div>
         {/* Re-setting Password */}
-        <div id='re-setPassword' className='w-[35%] h-full bg-slate-500/80 absolute top-0 left-[50%] -translate-x-[50%] flex items-center p-[1%] overflow-auto opacity-0 -z-10 duration-300'>
-            <button onClick={closeResetPassword}><TfiClose className='absolute right-5 top-5' /></button>
-            <form action="" className='w-full flex flex-col gap-5 text-sm' onSubmit={handleSubmitResetPassword}>
-                <div className='w-full flex flex-col'>
-                    <div className='w-full flex justify-between gap-1'>
-                        <span>Old password</span>
-                        <input type="password" className='bg-white/40 outline-none' min='8' id='OldPassword' name='OldPassword' onChange={handleOldPassword} required />
-                    </div>
-                    {/* Error message */}
-                    <div id='oldPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>Incorrect password</span>
-                    </div>
-                </div>
-                <div className='w-full flex flex-col'>
-                    <div className='w-full flex justify-between gap-1'>
-                        <span>New password</span>
-                        <input type="password" className='bg-white/40 outline-none' min='8' id='NewPassword' name='NewPassword' onChange={handleNewPassword} required />
-                    </div>
-                    {/* Error message */}
-                    <div id='newPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span id='newPasswordMsgSpan' className='text-xs'></span>
-                    </div>
-                </div>
-                <div className='w-full flex flex-col'>
-                    <div className='w-full flex justify-between gap-1'>
-                        <span>Confirm password</span>
-                        <input type="password" className='bg-white/40 outline-none' min='8' id='ConfirmNewPassword' name='ConfirmNewPassword' onChange={handleConfirmNewPassword} required />
-                    </div>
-                    {/* Error message */}
-                    <div id='confirmNewPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                        <BiMessageRoundedError className='text-xl' />
-                        <span className='text-xs'>There is a mistake in password!! Please check again</span>
-                    </div>
-                </div>
-                <div className='w-full'>
-                    <input type="submit" value="Confirm" className='w-full flex justify-center items-center bg-white/40 hover:bg-white/30 duration-300 py-3 cursor-pointer'  />
-                </div>
-            </form>
-        </div>
-        <div id='Picture' className='absolute w-[50%] h-full top-0 left-[50%] -translate-x-[50%] bg-slate-500/80 flex-col justify-center items-center gap-5 opacity-0 -z-10 hidden'>
-            <button onClick={closePicture}><TfiClose className='absolute right-5 top-5' /></button>
+        {changePassword &&
+            <div className='w-[55%] h-full bg-gray-500/80 absolute top-0 left-[50%] -translate-x-[50%] flex flex-col justify-center items-center gap-2 p-[1%] py-[2%] overflow-auto duration-300'>
+                <button onClick={() => {setChangePassword(false); unBlurBG()}}><TfiClose className='absolute right-5 top-5' /></button>
+                <span className='text-xl capitalize font-extrabold'>Change Password</span>
+                {
+                    loading ? (
+                        <div className=''>
+                            <ThreeDots 
+                                height="50" 
+                                width="50" 
+                                radius="9"
+                                color="#EF4444"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClassName=""
+                                visible={true}
+                            />
+                        </div>
+                    ) : (
+                        <div className='w-full flex'>
+                            <form action="" className='w-[60%] flex flex-col gap-5 text-xs' onSubmit={handleSubmitResetPassword}>
+                                <div className='w-full flex flex-col'>
+                                    <div className="w-full flex items-center relative">
+                                        <RiLockPasswordLine className='absolute left-2 text-lg' />
+                                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Old Password' id='OldPassword' min="8" onChange={handleOldPassword} required />
+                                    </div>
+                                    {/* Error message */}
+                                    <div id='oldPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                        <BiMessageRoundedError className='text-xl' />
+                                        <span className='text-xs'>Incorrect password</span>
+                                    </div>
+                                </div>
+                                <div className='w-full flex flex-col'>
+                                    <div className="w-full flex items-center relative">
+                                        <RiLockPasswordLine className='absolute left-2 text-lg' />
+                                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='New Password' id='NewPassword' min="8" onChange={handleNewPassword} required />
+                                    </div>
+                                    {/* Error message */}
+                                    <div id='newPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                        <BiMessageRoundedError className='text-xl' />
+                                        <span id='newPasswordMsgSpan' className='text-xs'></span>
+                                    </div>
+                                </div>
+                                <div className='w-full flex flex-col'>
+                                    <div className="w-full flex items-center relative">
+                                        <VscRefresh className='absolute left-2 text-lg' />
+                                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Confirm New Password' id='ConfirmNewPassword' min="8" onChange={handleConfirmNewPassword} required />
+                                    </div>
+                                    {/* Error message */}
+                                    <div id='confirmNewPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                        <BiMessageRoundedError className='text-xl' />
+                                        <span className='text-xs'>There is a mistake in password!! Please check again</span>
+                                    </div>
+                                </div>
+                                <div className='w-full'>
+                                    <input type="submit" value="Confirm" className='w-full flex justify-center items-center bg-red-500/40 hover:bg-red-500/30 duration-300 py-3 cursor-pointer'  />
+                                </div>
+                            </form>
+
+                            <div className='w-[50%] h-full flex justify-center items-center'>
+                                <img src={resetPasswordPic} alt="" className='max-w-[80%] max-h-full' />
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
+        }
+        
+
+        <div id='Picture' className='absolute w-[50%] h-full top-0 left-[50%] -translate-x-[50%] bg-gray-500/80 flex-col justify-center items-center gap-5 opacity-0 -z-10 hidden'>
+            <button onClick={() => {closePicture(); unBlurBG()}}><TfiClose className='absolute right-5 top-5' /></button>
             <div className='w-[180px] h-[180px] rounded-full flex justify-center items-center overflow-hidden'>
                 <img src={pic} alt="" className='w-full h-full object-cover'/>
             </div>

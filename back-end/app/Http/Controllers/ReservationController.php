@@ -330,7 +330,7 @@ if ($row->isEmpty()) {
         $currentDateTime = Carbon::now();
         DB::table('reservations')
         ->where('id', $id_order)
-        ->update(['reservation_verifie_le' => '2023-05-24 00:00:00']);
+        ->update(['reservation_verifie_le' => $currentDateTime]);
 
         return redirect()->back()->with('success', 'order updated successfully.');
     }

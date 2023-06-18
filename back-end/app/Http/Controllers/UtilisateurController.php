@@ -54,7 +54,9 @@ class UtilisateurController extends Controller
             'email_verifie_le' => null,
         ]);
 
-        $verificationLink = url('/api/verify-email/' . $user->id);
+        $token = Crypt::encryptString($user->id);
+
+        $verificationLink = url('/api/verify-email/' . $token);
 
         $email = $request->email;
 
