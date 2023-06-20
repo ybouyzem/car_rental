@@ -107,7 +107,7 @@ class ReservationController extends Controller
         $reservationsNumber = DB::table('reservations')->count();
 
         $startDate = DB::table('reservations')
-            ->select(DB::raw('UNIX_TIMESTAMP(created_at) AS seconds'))
+            ->select(DB::raw('UNIX_TIMESTAMP(location) AS seconds'))
             ->get();
         $endDate = DB::table('reservations')
         ->select(DB::raw('UNIX_TIMESTAMP(retour) AS seconds'))

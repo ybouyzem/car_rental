@@ -29,7 +29,12 @@ function ResetPassword() {
         const decryptIdUser = async() => {
             try{
                 const response = await axios.post('http://127.0.0.1:8000/api/decryptIdUser', { token: idUser });
-                setIdUserDecrypted(response.data.idUser);
+                if(response.data.message === 'Invalid token'){
+                    navigate('/');
+                }else{
+                    setIdUserDecrypted(response.data.message);
+                }
+                
             }catch(error){
                 console.log(error);
             }

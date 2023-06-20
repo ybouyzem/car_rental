@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
-// React Spinner
+// React Spinners
 import { ThreeDots } from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner';
 
 //React icons
 import {MdOutlineAlternateEmail} from 'react-icons/md';
@@ -24,14 +25,17 @@ function SignIn ({onLogin, saveIdUser}){
   const [loading, setLoading] = useState(false);
   const [loadingResetPassword, setLoadingResetPassword] = useState(false);
 
-  const [forgotPassword, setForgotPassword] = useState(false);
-
+  //Those variables for sign in
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  //Those variables if the user forgot his password
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [emailResetPassword, setEmailResetPassword] = useState('');
+  const [checkEmailResetPassword, setCheckEmailResetPassword] = useState(false);
+  const [emailErrorMessageVisible, setEmailErrorMessageVisible] = useState(false);
 
-  //Forbid reloading the page.
+  //Forbid reloading the page + checking user's data.
   const handleSubmit = (event) => {
     event.preventDefault();
     if(checkEmail() && checkPassword()){
@@ -138,15 +142,32 @@ function SignIn ({onLogin, saveIdUser}){
     return status;
   }
 
+  // blurBG
+  const blurBG = () => {
+    const picBg = document.getElementById('bgImage'),
+    bgContent = document.getElementById('bgContent');
+    picBg.className += " blur-sm";
+    bgContent.className += " blur-sm";
+  }
+
+  const unBlurBG = () => {
+    const picBg = document.getElementById('bgImage'),
+    bgContent = document.getElementById('bgContent');
+    picBg.className = "h-full w-[40%] duration-300";
+    bgContent.className = "w-[60%] h-full flex flex-col justify-between items-center py-10 relative duration-300";
+  }
+
+
   // handle reseting password
   const handleSubmitResetPassword = async(e) => {
     e.preventDefault();
+    setCheckEmailResetPassword(true);
     const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${emailResetPassword}`);
+    setCheckEmailResetPassword(false);
     if(response.data.message === 'Not Found'){
-      const errorMsg = document.getElementById('emailErrorMessage');
-      errorMsg.style.display = 'flex';
+      setEmailErrorMessageVisible(true);
       setTimeout(() => {
-          errorMsg.style.display = 'none';
+        setEmailErrorMessageVisible(false);
       }, 2000);
     }else{
       var status = document.getElementById('messageStatus'),
@@ -159,6 +180,7 @@ function SignIn ({onLogin, saveIdUser}){
         status.style.backgroundColor = 'rgb(34 197 94 / 0.5)';
         setLoadingResetPassword(false);
         setForgotPassword(false);
+        unBlurBG();
         status.style.display = 'flex';
         setTimeout(() => {
             status.style.display = 'none';
@@ -169,6 +191,7 @@ function SignIn ({onLogin, saveIdUser}){
         status.style.backgroundColor = 'rgb(239 68 68 / 0.4)';
         setLoadingResetPassword(false);
         setForgotPassword(false);
+        unBlurBG();
         status.style.display = 'flex';
         setTimeout(() => {
             status.style.display = 'none';
@@ -181,10 +204,10 @@ function SignIn ({onLogin, saveIdUser}){
   
   return (
     <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl relative'>
-      <div className='h-full w-[40%]'>
+      <div id='bgImage' className='h-full w-[40%] duration-300'>
         <img src={Pic} alt="" className='max-h-full min-h-full w-full' />
       </div>
-      <div className='w-[60%] h-full flex flex-col justify-between items-center py-10 relative'>
+      <div id='bgContent' className='w-[60%] h-full flex flex-col justify-between items-center py-10 relative duration-300'>
         <div id='messageStatus' className='w-full absolute top-0 py-5 justify-center items-center duration-300 px-[2%] text-center hidden'>
             <span id='messageContent' className='text-sm'></span>
         </div>
@@ -239,7 +262,7 @@ function SignIn ({onLogin, saveIdUser}){
                 </div>
                 {/* forgotten password */}
                 <div id='' className='w-full mt-3'>
-                  <span onClick={() => {setForgotPassword(true)}} className='text-xs cursor-pointer text-gray-200 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-gray-200 hover:after:w-[80%] after:duration-300'>Forgot your password?</span>
+                  <span onClick={() => {setForgotPassword(true); blurBG()}} className='text-xs cursor-pointer text-gray-200 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-gray-200 hover:after:w-[80%] after:duration-300'>Forgot your password?</span>
                 </div>
               </div>
               {/* Submit */}
@@ -255,7 +278,7 @@ function SignIn ({onLogin, saveIdUser}){
         </div>
       </div>
       {forgotPassword && 
-        <div className='w-[50%] h-[60%] bg-slate-500/80 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] shadow-black shadow-2xl'>
+        <div className='w-[50%] h-[65%] bg-slate-500/80 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] shadow-black shadow-2xl py-[2%]'>
           {loadingResetPassword ? (
               <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]'>
                 <ThreeDots 
@@ -282,14 +305,34 @@ function SignIn ({onLogin, saveIdUser}){
                     <input className='w-full px-8 py-2 bg-slate-50 outline-none text-slate-500 text-sm' type="email" placeholder='Email' id='' onChange={(e) => {setEmailResetPassword(e.target.value)}} required />
                   </div>
                   {/* Email Error */}
-                  <div id='emailErrorMessage' className='w-full items-center gap-2 text-red-500 hidden'>
-                      <BiMessageRoundedError className='text-xl text-red-500' />
-                      <span className='text-xs'>This email is not existe</span>
-                  </div>
+                  {
+                    checkEmailResetPassword ? (
+                        <div className='mt-1'>
+                          <TailSpin
+                              height="20"
+                              width="20"
+                              color="#EF4444"
+                              ariaLabel="tail-spin-loading"
+                              radius="2"
+                              wrapperStyle={{}}
+                              wrapperClass=""
+                              visible={true}
+                          />
+                      </div>
+                    ) : (
+                      <div
+                          style={{ display: emailErrorMessageVisible ? 'flex' : 'none' }}
+                          className='w-full items-center gap-2 text-red-500'
+                        >
+                          <BiMessageRoundedError className='text-xl text-red-500' />
+                          <span className='text-xs'>This email is not existe</span>
+                      </div>
+                    )
+                  }
                   {/* Submit */}
                   <input className='p-[3%] bg-red-500/40 cursor-pointer hover:bg-red-500/30 duration-300 text-sm' type="submit" value='Send link' />
                 </form>
-                <button onClick={() => {setForgotPassword(false)}} className='text-xs flex items-center'><BsArrowLeftShort className='text-lg' /> Go back to login</button>
+                <button onClick={() => {setForgotPassword(false); unBlurBG()}} className='text-xs flex items-center'><BsArrowLeftShort className='text-lg' /> Go back to login</button>
               </div>
             )
           }

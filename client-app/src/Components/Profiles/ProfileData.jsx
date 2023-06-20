@@ -12,9 +12,11 @@ import {AiOutlineCloudUpload} from 'react-icons/ai';
 import {TbSend} from 'react-icons/tb';
 import {RiLockPasswordLine} from 'react-icons/ri';
 import {VscRefresh} from 'react-icons/vsc';
+import {BsCamera} from 'react-icons/bs';
 
 //React spinners
 import { ThreeDots } from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner';
 
 //Pics
 // import ProfilePic from '../Pics/photo profile.jpg';
@@ -23,6 +25,8 @@ import resetPasswordPic from '../Pics/resetPassword.png';
 function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
     const [loading, setLoading] = useState(false);
     const [changePassword, setChangePassword] = useState(false);
+    const [checkPasswordLoader, setCheckPasswordLoader] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const navigate = useNavigate();
     const loggedOut = () => {
@@ -72,6 +76,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
 
     const uploadPicture = (e) => {
         setPicture(e.target.files[0]);
+        setSelectedImage(URL.createObjectURL(e.target.files[0]));
     }
 
     const handleSubmitPicture = async(e) => {
@@ -120,7 +125,9 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
         errMsg = document.getElementById('oldPasswordMsg');
         const checkPassword = async(email, password) => {
             try{
+                setCheckPasswordLoader(true);
                 const response = await axios.get(`http://127.0.0.1:8000/api/Utilisateur/${email}`, { params: { password: password } });
+                setCheckPasswordLoader(false);
                 if(response.data.message === 'Invalid password'){
                     status = false;
                     errMsg.style.display = 'flex';
@@ -328,7 +335,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
         {/* Profile Photo */}
         <div id='profilePic' className='w-[40%] h-full flex flex-col justify-center items-center duration-300 gap-5'>
             <div className='w-[180px] h-[180px] rounded-full flex justify-center items-center  overflow-hidden'>
-                <img src={pic} alt="" className='w-full h-full object-cover'/>
+                <img src={pic} alt="" className='w-full h-full object-cover hover:object-top duration-300'/>
             </div>
             <button onClick={openPicture} className='w-9 h-9 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300 text-xl'><AiOutlineCloudUpload /></button>
         </div>
@@ -371,7 +378,7 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
         </div>
         {/* Re-setting Password */}
         {changePassword &&
-            <div className='w-[55%] h-full bg-gray-500/80 absolute top-0 left-[50%] -translate-x-[50%] flex flex-col justify-center items-center gap-2 p-[1%] py-[2%] overflow-auto duration-300'>
+            <div className='w-[55%] h-full bg-gray-500/80 absolute top-0 left-[50%] -translate-x-[50%] flex flex-col justify-center items-center gap-2 p-[1%] py-[2%] overflow-auto duration-300 shadow-black shadow-2xl'>
                 <button onClick={() => {setChangePassword(false); unBlurBG()}}><TfiClose className='absolute right-5 top-5' /></button>
                 <span className='text-xl capitalize font-extrabold'>Change Password</span>
                 {
@@ -394,13 +401,31 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
                                 <div className='w-full flex flex-col'>
                                     <div className="w-full flex items-center relative">
                                         <RiLockPasswordLine className='absolute left-2 text-lg' />
-                                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Old Password' id='OldPassword' min="8" onChange={handleOldPassword} required />
+                                        <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Old Password' id='OldPassword' min="8" onBlur={handleOldPassword} required />
                                     </div>
                                     {/* Error message */}
-                                    <div id='oldPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
-                                        <BiMessageRoundedError className='text-xl' />
-                                        <span className='text-xs'>Incorrect password</span>
-                                    </div>
+                                    {
+                                        checkPasswordLoader ? (
+                                            <div className='mt-1'>
+                                                <TailSpin
+                                                    height="20"
+                                                    width="20"
+                                                    color="#EF4444"
+                                                    ariaLabel="tail-spin-loading"
+                                                    radius="2"
+                                                    wrapperStyle={{}}
+                                                    wrapperClass=""
+                                                    visible={true}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div id='oldPasswordMsg' className='w-full items-center gap-2 text-red-500 hidden'>
+                                                <BiMessageRoundedError className='text-xl' />
+                                                <span className='text-xs'>Incorrect password</span>
+                                            </div>
+                                        )
+                                    }
+                                    
                                 </div>
                                 <div className='w-full flex flex-col'>
                                     <div className="w-full flex items-center relative">
@@ -439,14 +464,23 @@ function ProfileData({onLogout, idUser, nom, prenom, email, pic}) {
         }
         
 
-        <div id='Picture' className='absolute w-[50%] h-full top-0 left-[50%] -translate-x-[50%] bg-gray-500/80 flex-col justify-center items-center gap-5 opacity-0 -z-10 hidden'>
+        <div id='Picture' className='absolute w-[50%] h-full top-0 left-[50%] -translate-x-[50%] bg-gray-500/80 flex-col justify-center items-center gap-5 opacity-0 -z-10 hidden shadow-black shadow-2xl'>
             <button onClick={() => {closePicture(); unBlurBG()}}><TfiClose className='absolute right-5 top-5' /></button>
-            <div className='w-[180px] h-[180px] rounded-full flex justify-center items-center overflow-hidden'>
-                <img src={pic} alt="" className='w-full h-full object-cover'/>
-            </div>
-            <form action="" method='POST' className='w-[80%] flex items-center' onSubmit={handleSubmitPicture} encType="multipart/form-data">
-                <input className='text-sm' type="file" name="photo" id="" onChange={uploadPicture} />
-                <button className='text-sm flex justify-center items-center gap-1 bg-slate-600/40 rounded-md p-2 hover:bg-red-500/40 duration-300'>Upload <TbSend className='text-lg'/></button>
+            <form action="" method='POST' className='w-[80%] flex flex-col items-center gap-5' onSubmit={handleSubmitPicture} encType="multipart/form-data">
+                <div className='w-[180px] h-[180px] rounded-full flex justify-center items-center overflow-hidden relative'>
+                    {
+                        selectedImage ? (
+                            <img src={selectedImage} alt="" className='w-full h-full object-cover z-0'/>
+                        ) : (
+                            <img src={pic} alt="" className='w-full h-full object-cover z-0'/>
+                        )
+                    }
+                    <div className='w-full h-full group absolute'>
+                        <input className='w-full h-full text-sm absolute bottom-0 bg-transparent hover:bg-slate-700/80 z-10 cursor-pointer outline-none text-transparent file:text-transparent file:bg-transparent file:border-none duration-300' type="file" name="photo" id="" onChange={uploadPicture} />
+                        <BsCamera className='text-4xl absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] text-transparent group-hover:text-white duration-300' />
+                    </div>
+                </div>
+                <button className='text-sm flex justify-center items-center gap-1 bg-slate-600/40 rounded-md px-5 py-2 hover:bg-red-500/40 duration-300'>Save <TbSend className='text-lg'/></button>
             </form>
         </div>
     </div>

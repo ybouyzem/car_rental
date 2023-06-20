@@ -38,9 +38,9 @@ class ResetPasswordController extends Controller
         $token = $request->token;
         try {
             $decipheredIdUser = Crypt::decryptString($token);
-            return response()->json(['idUser' => $decipheredIdUser]);
+            return response()->json(['message' => $decipheredIdUser]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Invalid token'], 400);
+            return response()->json(['message' => 'Invalid token']);
         }
     }
 }
