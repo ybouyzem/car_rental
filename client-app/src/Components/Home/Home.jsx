@@ -32,11 +32,11 @@ class Home extends Component {
     }
     return (
       <div className='h-[100vh] w-full relative'>
-        <div id='next' onClick={nextbttn} className='absolute right-5 top-5 p-[1.5%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'>
-            <AiOutlineArrowRight className='text-xl' />
+        <div id='next' onClick={nextbttn} className='absolute right-5 top-5 md:p-[1.5%] p-3 rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'>
+            <AiOutlineArrowRight className='md:text-xl text-sm' />
         </div>
-        <div id='prev' onClick={prevbttn} className='absolute left-5 top-5 p-[1.5%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10 opacity-0'>
-            <AiOutlineArrowRight className='text-xl rotate-180' />
+        <div id='prev' onClick={prevbttn} className='absolute left-5 top-5 md:p-[1.5%] p-3 rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10 opacity-0'>
+            <AiOutlineArrowRight className='md:text-xl text-sm rotate-180' />
         </div>
         <div id='components' className='w-full h-full flex overflow-hidden scroll-smooth'>
           <DisplayCarsHome />

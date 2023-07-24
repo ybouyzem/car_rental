@@ -148,17 +148,17 @@ function ContactForm() {
     }
 
     return (
-      <div className='w-[100%] h-[80vh] bg-slate-100/20 flex justify-between shadow-black shadow-2xl'>
-        <div className='h-full w-[40%]'>
+      <div className='w-full h-[80vh] bg-slate-100/20 flex md:flex-row flex-col justify-between shadow-black md:shadow-2xl shadow-sm'>
+        <div className='h-full w-[40%] hidden md:block'>
             <img src={Pic} alt="" className='w-full max-h-full min-h-full' />
         </div>
-        <div className='w-[60%] h-full flex flex-col justify-between items-center py-10 gap-5 relative'>
+        <div className='md:w-[60%] w-full h-full flex flex-col justify-between items-center md:py-10 py-5 gap-5 relative'>
             <div id='messageStatus' className='w-full absolute top-0 py-5  justify-center items-center duration-300 hidden'>
                 <span id='messageContent' className='text-sm'></span>
             </div>
-            <div className='flex flex-col items-center gap-10'>
+            <div className='flex flex-col items-center gap-10 text-center'>
                 <Logo />
-                <span className='text-2xl text-gray-200 font-extrabold'>Feel free to get in touch</span>
+                <span className='md:text-2xl text-lg text-gray-200 font-extrabold'>Feel free to get in touch</span>
             </div>
             
             {
@@ -177,9 +177,9 @@ function ContactForm() {
                         />
                     </div>
                 ) : (
-                    <form action="" className='w-full flex flex-col items-center gap-10 text-sm overflow-y-auto' onSubmit={handleSubmit}>
+                    <form action="" className='w-full flex flex-col items-center md:gap-10 gap-5 md:text-sm text-xs overflow-y-auto' onSubmit={handleSubmit}>
                         {/* Full Name */}
-                        <div className='w-[70%] flex justify-between gap-5'>
+                        <div className='md:w-[70%] w-[90%] flex md:flex-row flex-col justify-between gap-5'>
                             {/* First Name */}
                             <div>
                                 <div className="flex items-center relative">
@@ -206,7 +206,7 @@ function ContactForm() {
                             </div>
                         </div>
                         {/* Email */}
-                        <div className="w-[70%] flex flex-col">
+                        <div className="md:w-[70%] w-[90%] flex flex-col">
                             <div className='w-full flex items-center relative'>
                                 <MdOutlineAlternateEmail className='absolute left-2 text-lg' />
                                 <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id='Email' name='Email' onChange={handleEmail} required />
@@ -218,7 +218,7 @@ function ContactForm() {
                             </div>
                         </div>
                         {/* Phone number */}
-                        <div className="w-[70%] flex flex-col">
+                        <div className="md:w-[70%] w-[90%] flex flex-col">
                             <div className='w-full flex items-center relative'>
                                 <BsTelephone className='absolute left-2 text-lg' />
                                 <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="tel" placeholder='Phone number' id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} required />
@@ -230,7 +230,7 @@ function ContactForm() {
                             </div>
                         </div>
                         {/* Message Area */}
-                        <div className="w-[70%] flex flex-col">
+                        <div className="md:w-[70%] w-[90%] flex flex-col">
                             <div className='w-full flex items-center relative'>
                                 <BiMessageRounded className='absolute left-2 text-lg' />
                                 <textarea className='w-full px-8 py-2 bg-slate-100/20 outline-none' name="Message" id="Message" cols="30" rows="1" placeholder='Type your Message here...' onChange={handleMessageArea} required></textarea>
@@ -242,7 +242,7 @@ function ContactForm() {
                             </div>
                         </div>
                         {/* Submit */}
-                        <div className="w-[70%]">
+                        <div className="md:w-[70%] w-[90%]">
                             <button type='submit' className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex items-center justify-center gap-1'><span>Contact Us </span><FiSend className='text-lg' /></button>
                         </div>
                     </form>

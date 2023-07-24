@@ -20,7 +20,7 @@ class ResetPasswordController extends Controller
 
         $resetPasswordLink = url('http://localhost:3000/ResetPassword/' . $token);
 
-        Mail::raw("Click the following link to reset your password :: <a href='$resetPasswordLink'>Car Rental</a>",
+        Mail::raw("Click the following link to reset your password :: $resetPasswordLink",
         function ($message) use ($email) {
             $message->to($email)
                     ->subject('Reset Password')

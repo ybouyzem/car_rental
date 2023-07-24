@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Crypt;
 
 class UtilisateurController extends Controller
 {
@@ -60,7 +61,7 @@ class UtilisateurController extends Controller
 
         $email = $request->email;
 
-        Mail::raw("Click the following link to verify your email :: <a href='$verificationLink'>Car Rental</a>",
+        Mail::raw("Click the following link to verify your email :: $verificationLink",
         function ($message) use ($email) {
             $message->to($email)
                     ->subject('Email verification')

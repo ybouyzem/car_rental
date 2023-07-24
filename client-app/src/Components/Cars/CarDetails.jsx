@@ -328,7 +328,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
 
     if(loading){
         return ( 
-            <div className='w-[50%] h-full flex flex-col justify-center items-center'>
+            <div className='md:w-[50%] w-full h-full flex flex-col justify-center items-center'>
                 <ThreeDots 
                     height="50" 
                     width="50" 
@@ -343,37 +343,37 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
         )
     }else{
         return (
-            <div className='w-[50%] h-full flex flex-col justify-between items-center py-[2%] relative'>
+            <div className='md:w-[50%] w-full md:h-full h-[50%] flex flex-col justify-between items-center py-[2%] relative overflow-y-auto'>
                 {/* Picture */}
-                <div className='w-[50%] h-[40%] flex justify-center items-center'>
+                <div className='w-[50%] md:h-[40%] h-[20%] flex justify-center items-center'>
                     <img className='w-full' src={'http://localhost:8000/cars_pics/'+image} alt="Not Found" />
                 </div>
                 {/* Features */}
-                <div className='w-[50%] flex justify-between text-sm'>
+                <div className='md:w-[50%] sm:w-[70%] w-[80%] flex justify-between sm:text-sm text-xs'>
                     <div className='flex flex-col gap-5'>
-                        <div className='flex items-center gap-1'><BsPerson className='text-lg' /><span>{seats} Seats</span></div>
-                        <div className='flex items-center gap-1'><TbGasStation className='text-lg' /><span>{carburant}</span></div>
+                        <div className='flex items-center gap-1'><BsPerson className='sm:text-lg text-sm' /><span>{seats} Seats</span></div>
+                        <div className='flex items-center gap-1'><TbGasStation className='sm:text-lg text-sm' /><span>{carburant}</span></div>
                     </div>
                     <div className='flex flex-col gap-5'>
-                        <div className='flex items-center gap-1'><GiGearStick className='text-lg' /><span>{vitesse}</span></div>
-                        <button onClick={OpenDescription} className='flex items-center gap-1'><TbFileDescription className='text-lg' /><span>View More</span></button>
+                        <div className='flex items-center gap-1'><GiGearStick className='sm:text-lg text-sm' /><span>{vitesse}</span></div>
+                        <button onClick={OpenDescription} className='flex items-center gap-1'><TbFileDescription className='sm:text-lg text-sm' /><span>View More</span></button>
                     </div>
                 </div>
                 {/* Price */}
-                <div className='w-[50%] flex flex-col items-end'>
-                    <div><span className='text-sm text-gray-200'>Price for <span className='text-red-500'>24 hours</span> :</span></div>
-                    <div><span className='text-xl font-bold'>MAD <span className='text-red-500'>{price}</span></span></div>
+                <div className='md:w-[50%] sm:w-[70%] w-[80%] flex flex-col items-end'>
+                    <div><span className='sm:text-sm text-xs text-gray-200'>Price for <span className='text-red-500'>24 hours</span> :</span></div>
+                    <div><span className='md:text-xl sm:text-lg text-sm font-bold'>MAD <span className='text-red-500'>{price}</span></span></div>
                 </div>
                 {/* Button Checkout */}
-                <button className='w-[70%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer' onClick={OpenCheckout}>Checkout</button>
+                <button className='md:w-[70%] w-[80%] bg-red-500/20 hover:bg-red-600/20 duration-300 md:py-5 py-4 md:text-sm text-xs cursor-pointer' onClick={OpenCheckout}>Checkout</button>
                 {/* Description */}
                 <div id='Description' className='absolute left-0 top-0 w-full h-full bg-black/80 flex flex-col justify-end gap-5 px-[4%] py-[10%] opacity-0 -z-10 duration-300'>
                     <button className='absolute right-5 top-5 text-lg cursor-pointer' onClick={Close}><TfiClose /></button> 
                     <div>
-                        <span className='text-2xl font-extrabold'>Description :</span>
+                        <span className='md:text-2xl text-lg font-extrabold'>Description :</span>
                     </div>
                     <div className='overflow-y-auto'>
-                        <p className='text-sm text-gray-200 leading-6'>{description}</p>
+                        <p className='md:text-sm text-xs text-gray-200 leading-6'>{description}</p>
                     </div>
                 </div>
 
@@ -400,13 +400,13 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                 />
                             </div>
                         ) : (
-                            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black' onSubmit={handleFormSubmit}>
+                            <form action='' className='w-full h-full flex flex-col justify-between gap-5 text-black md:text-sm text-xs' onSubmit={handleFormSubmit}>
                                 {/* Date & Time */}
-                                <div className='w-full flex items-center justify-between gap-5'>
+                                <div className='w-full flex md:flex-row flex-col items-center justify-between gap-5'>
                                     {/* Pick-up */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex flex-col'>
-                                            <label className='font-extrabold' htmlFor="">Pick-up</label>
+                                            <label className='font-extrabold md:text-lg text-sm' htmlFor="">Pick-up</label>
                                             <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='PickUp' id='PickUp' onChange={handlePickUp} required />
                                         </div>
                                         {/* Error Message */}
@@ -416,9 +416,9 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                         </div>
                                     </div>
                                     {/* Return */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex flex-col'>
-                                            <label className='font-extrabold' htmlFor="">Return</label>
+                                            <label className='font-extrabold md:text-lg text-sm' htmlFor="">Return</label>
                                             <input className='bg-transparent border-red-500/60 border-b-2 outline-none' type="datetime-local" name='Return' id='Return' onChange={handleReturn} required/>
                                         </div>
                                         {/* Error Message */}
@@ -429,9 +429,9 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                     </div>
                                 </div>
                                 
-                                <div className='w-full flex gap-5'>
+                                <div className='w-full flex md:flex-row flex-col gap-5'>
                                     {/* Location */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex items-center relative'>
                                             <IoLocationOutline className='absolute left-2 text-lg text-red-500' />
                                             <select defaultValue="none" className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Location" id="Location" onChange={handleLocation} required>
@@ -451,7 +451,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                         </div>
                                     </div>
                                     {/* Phone Number */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex items-center relative'>
                                             <BsPhone className='absolute left-2 text-lg text-red-500' />
                                             <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none appearance-none' type="tel" placeholder="Phone Number" id='PhoneNumber' name='PhoneNumber' onChange={handlePhoneNumber} min="0" required />
@@ -464,9 +464,9 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                     </div>
                                 </div>
                                 
-                                <div className='w-full flex gap-5'>
+                                <div className='w-full flex md:flex-row flex-col gap-5'>
                                     {/* License Number */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex items-center relative'>
                                             <TbLicense className='absolute left-2 text-lg text-red-500' />
                                             <input className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 placeholder:text-black outline-none' type="text" placeholder="License Number" id='LicenseNumber' name='LicenseNumber' onChange={handleLicenseNumber} required />
@@ -479,7 +479,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                                     </div>
 
                                     {/* Nationality */}
-                                    <div className='w-[50%] flex flex-col'>
+                                    <div className='md:w-[50%] w-full flex flex-col'>
                                         <div className='w-full flex items-center relative'>
                                             <AiOutlineIdcard className='absolute left-2 text-lg text-red-500' />
                                             <select defaultValue="none"  className='w-full px-8 py-2 bg-transparent border-red-500/60 border-b-2 outline-none appearance-none' name="Nationality" id="Nationality" onChange={handleNationality}>
@@ -513,7 +513,7 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
 
                                 {/* Checkout */}
                                 <div className='w-full flex justify-center'>
-                                    <input className='w-full bg-black/80 hover:bg-black/70 text-white duration-300 py-5 cursor-pointer' type="submit" name="" id="" value="Order now" />
+                                    <input className='w-full bg-black/80 hover:bg-black/70 text-white duration-300 md:py-5 py-4 cursor-pointer' type="submit" name="" id="" value="Order now" />
                                 </div>
                             </form>
                         )
@@ -521,19 +521,19 @@ function CarDetails({idCar, idUser, onPickUp, onReturn, onCity, onPhoneNumber, a
                     
                 </div>
                 {/* Sign in warning */}
-                <div id="signInWarning" className='w-[40%] h-[30%] absolute right-0 bottom-0 bg-slate-500/80 rounded-xl flex flex-col items-center justify-center py-2 opacity-0 -z-10 duration-300'>
-                    <IoWarningOutline className='text-5xl text-yellow-400' />
-                    <div className='w-full py-2 px-5 text-center'>
-                        <span className='text-sm'>You can not do any operation without account! Please Log into your account first.</span>
+                <div id="signInWarning" className='md:w-[40%] w-[60%] md:h-[30%] h-[40%] absolute right-0 bottom-0 bg-slate-500/80 rounded-xl flex flex-col items-center justify-center py-2 opacity-0 -z-10 duration-300'>
+                    <IoWarningOutline className='md:text-5xl text-lg text-yellow-400' />
+                    <div className='w-full md:py-2 py-1 md:px-5 px-2 text-center'>
+                        <span className='md:text-sm text-xs'>You can not do any operation without account! Please Log into your account first.</span>
                     </div>
-                    <button className='text-black relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-black hover:after:w-[80%] after:duration-300' onClick={Close}>Got it</button>
+                    <button className='text-black relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-black hover:after:w-[80%] after:duration-300 md:text-sm text-xs' onClick={Close}>Got it</button>
                 </div>
                 {showConfirmation && ( 
                     <div className='w-full h-[20%] absolute right-0 top-0 bg-yellow-500 flex flex-col items-center justify-center gap-5 py-2 z-20 duration-300'>
-                    <span className='text-white text-xl capitalize'>are you sure about the order</span>
-                    <div className='flex gap-10'>
-                        <button className='text-white bg-green-500/60 p-2' onClick={handleSubmit}>Confirm</button>
-                        <button className='text-white bg-red-500/60 p-2' onClick={() => setShowConfirmation(false)}>Cancel</button>
+                    <span className='text-white md:text-xl text-sm capitalize'>are you sure about the order</span>
+                    <div className='flex md:gap-10 gap-5'>
+                        <button className='text-white bg-green-500/60 p-2 text-xs md:text-sm' onClick={handleSubmit}>Confirm</button>
+                        <button className='text-white bg-red-500/60 p-2 text-xs md:text-sm' onClick={() => setShowConfirmation(false)}>Cancel</button>
                     </div>
                 </div>
                 )}

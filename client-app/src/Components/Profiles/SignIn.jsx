@@ -153,8 +153,8 @@ function SignIn ({onLogin, saveIdUser}){
   const unBlurBG = () => {
     const picBg = document.getElementById('bgImage'),
     bgContent = document.getElementById('bgContent');
-    picBg.className = "h-full w-[40%] duration-300";
-    bgContent.className = "w-[60%] h-full flex flex-col justify-between items-center py-10 relative duration-300";
+    picBg.className = "h-full hidden md:block w-[40%] duration-300";
+    bgContent.className = "md:w-[60%] w-full h-full flex flex-col justify-between items-center py-10 relative duration-300";
   }
 
 
@@ -203,17 +203,17 @@ function SignIn ({onLogin, saveIdUser}){
 
   
   return (
-    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl relative'>
-      <div id='bgImage' className='h-full w-[40%] duration-300'>
+    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black md:shadow-2xl shadow-sm relative'>
+      <div id='bgImage' className='h-full hidden md:block w-[40%] duration-300'>
         <img src={Pic} alt="" className='max-h-full min-h-full w-full' />
       </div>
-      <div id='bgContent' className='w-[60%] h-full flex flex-col justify-between items-center py-10 relative duration-300'>
+      <div id='bgContent' className='md:w-[60%] w-full h-full flex flex-col justify-between items-center py-10 relative duration-300'>
         <div id='messageStatus' className='w-full absolute top-0 py-5 justify-center items-center duration-300 px-[2%] text-center hidden'>
             <span id='messageContent' className='text-sm'></span>
         </div>
         <div className='flex flex-col items-center gap-10'>
           <Logo />
-          <span className='text-2xl text-gray-200 font-extrabold'>Fill out the information</span>
+          <span className='md:text-2xl text-lg text-center text-gray-200 font-extrabold'>Fill out the information</span>
         </div>
 
         {
@@ -231,9 +231,9 @@ function SignIn ({onLogin, saveIdUser}){
                 />
             </div>
           ) : (
-            <form action="" className='w-full flex flex-col items-center gap-10 text-sm' onSubmit={handleSubmit}>
+            <form action="" className='w-full flex flex-col items-center gap-10 text-xs sm:text-sm' onSubmit={handleSubmit}>
               {/* Email */}
-              <div className="w-[70%] flex flex-col">
+              <div className="md:w-[70%] w-[90%] flex flex-col">
                 <div className="w-full flex items-center relative">
                   <MdOutlineAlternateEmail className='absolute left-2 text-lg' />
                   <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id='Email' onChange={checkEmail} required />
@@ -245,7 +245,7 @@ function SignIn ({onLogin, saveIdUser}){
                 </div>
               </div>
               {/* Password */}
-              <div className="w-[70%] flex flex-col">
+              <div className="md:w-[70%] w-[90%] flex flex-col">
                 <div className="w-full flex items-center relative">
                   <RiLockPasswordLine className='absolute left-2 text-lg' />
                   <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Password' id='Password' onChange={checkPassword} min="8" required />
@@ -273,12 +273,12 @@ function SignIn ({onLogin, saveIdUser}){
           )
         }
 
-        <div>
-          <span className='text-sm text-gray-200'>Don't have an account? <Link to='/Sign_Up' className='text-red-500 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-red-500 hover:after:w-[80%] after:duration-300'>Sign up</Link></span>
+        <div className='text-center'>
+          <span className='sm:text-sm text-xs text-gray-200'>Don't have an account? <Link to='/Sign_Up' className='text-red-500 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-red-500 hover:after:w-[80%] after:duration-300'>Sign up</Link></span>
         </div>
       </div>
       {forgotPassword && 
-        <div className='w-[50%] h-[65%] bg-slate-500/80 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] shadow-black shadow-2xl py-[2%]'>
+        <div className='md:w-[50%] w-full md:h-[65%] h-full bg-slate-500/80 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] shadow-black shadow-2xl py-[2%]'>
           {loadingResetPassword ? (
               <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]'>
                 <ThreeDots 
@@ -294,15 +294,15 @@ function SignIn ({onLogin, saveIdUser}){
               </div>
             ) : (
               <div className='w-full h-full flex flex-col justify-center items-center gap-5 overflow-auto'>
-                <img src={forgotPasswordPic} alt="" className='w-[30%]' />
-                <div className='w-[80%]'>
-                    <span className="text-xs text-justify">Please enter the email address associated with your account and we'll send you a link to reset you password.</span>
+                <img src={forgotPasswordPic} alt="" className='md:w-[30%] w-[50%]' />
+                <div className='md:w-[80%] w-[95%] text-justify'>
+                    <span className="text-xs">Please enter the email address associated with your account and we'll send you a link to reset you password.</span>
                 </div>
-                <form action="" className='w-[80%] flex flex-col gap-3' onSubmit={handleSubmitResetPassword}>
+                <form action="" className='md:w-[80%] w-[95%] flex flex-col gap-3' onSubmit={handleSubmitResetPassword}>
                   {/* Email */}
                   <div className="w-full flex items-center relative">
                     <MdOutlineAlternateEmail className='absolute left-2 text-lg text-red-500' />
-                    <input className='w-full px-8 py-2 bg-slate-50 outline-none text-slate-500 text-sm' type="email" placeholder='Email' id='' onChange={(e) => {setEmailResetPassword(e.target.value)}} required />
+                    <input className='w-full px-8 py-2 bg-slate-50 outline-none text-slate-500 sm:text-sm text-xs' type="email" placeholder='Email' id='' onChange={(e) => {setEmailResetPassword(e.target.value)}} required />
                   </div>
                   {/* Email Error */}
                   {
@@ -330,7 +330,7 @@ function SignIn ({onLogin, saveIdUser}){
                     )
                   }
                   {/* Submit */}
-                  <input className='p-[3%] bg-red-500/40 cursor-pointer hover:bg-red-500/30 duration-300 text-sm' type="submit" value='Send link' />
+                  <input className='p-[3%] bg-red-500/40 cursor-pointer hover:bg-red-500/30 duration-300 sm:text-sm text-xs' type="submit" value='Send link' />
                 </form>
                 <button onClick={() => {setForgotPassword(false); unBlurBG()}} className='text-xs flex items-center'><BsArrowLeftShort className='text-lg' /> Go back to login</button>
               </div>

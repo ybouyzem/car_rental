@@ -88,7 +88,7 @@ function Invoice({idUser, idCar, pickUpValue, returnValue, cityValue, phoneNumbe
   }, [idModele]);
     return (
       <div className='w-full h-full relative overflow-auto'>
-        <div ref={componentRef} className='w-full h-full bg-white relative'>
+        <div ref={componentRef} className='w-full h-full bg-white relative overflow-auto'>
           {
             carLoading && userLoading && wordingLoading ?
             (
@@ -105,7 +105,7 @@ function Invoice({idUser, idCar, pickUpValue, returnValue, cityValue, phoneNumbe
                 />
               </div>
             ) : (
-              <div className='w-full h-full bg-white text-slate-500 flex flex-col items-center justify-between px-20 py-[2%]'>
+              <div className='min-w-full min-h-[100vh] bg-white text-slate-500 flex flex-col items-center justify-between px-20 py-[2%] overflow-x-auto'>
                 <InvoiceHeader nom={nom} prenom={prenom} email={email} city={cityValue} phoneNumber={phoneNumberValue} />
                 <InvoiceDescription idCar={idCar} carWording={carWording} price={prix} pickUp={pickUpValue} Return={returnValue} />
                 <InvoiceFooter price={prix} pickUp={pickUpValue} Return={returnValue} />
@@ -114,13 +114,13 @@ function Invoice({idUser, idCar, pickUpValue, returnValue, cityValue, phoneNumbe
           }
           
         </div>
-        <ReactToPrint
-          trigger={() => {
-            return (<button className='absolute bottom-[5%] left-[50%] w-12 h-12 flex justify-center items-center rounded-full cursor-pointer bg-red-500/80 hover:bg-red-500/60 duration-300'><FiPrinter className='text-xl' /></button>);
-          } }
-          content={() => componentRef.current}
-          documentTitle='Invoice'
-        />
+          <ReactToPrint
+            trigger={() => {
+              return (<button className='absolute bottom-[5%] left-[50%] w-12 h-12 flex justify-center items-center rounded-full cursor-pointer bg-red-500/80 hover:bg-red-500/60 duration-300'><FiPrinter className='md:text-xl text-lg' /></button>);
+            } }
+            content={() => componentRef.current}
+            documentTitle='Invoice'
+          />
       </div>
     )
 }

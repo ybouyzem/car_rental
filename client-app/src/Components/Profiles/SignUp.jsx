@@ -167,14 +167,14 @@ function SignUp() {
     return status;
   }
   return (
-    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black shadow-2xl'>
-      <div className='w-[60%] h-full flex flex-col justify-between items-center py-10 relative'>
+    <div className='w-[80%] h-[80%] bg-slate-100/20 flex justify-between shadow-black md:shadow-2xl shadow-sm'>
+      <div className='md:w-[60%] w-full h-full flex flex-col justify-between items-center md:py-10 py-5 relative'>
         <div id='messageStatus' className='w-full absolute top-0 py-5 bg-red-500/40 justify-center items-center duration-300 hidden'>
             <span id='messageContent' className='text-sm'></span>
         </div>
-        <div className='flex flex-col items-center gap-10'>
+        <div className='flex flex-col items-center gap-10 text-center'>
           <Logo />
-          <span className='text-2xl text-gray-200 font-extrabold'>Create an Account</span>
+          <span className='md:text-2xl text-lg text-gray-200 font-extrabold'>Create an Account</span>
         </div>
         
         {
@@ -192,9 +192,9 @@ function SignUp() {
                 />
             </div>
           ) : (
-            <form action="" className='w-full flex flex-col items-center gap-10 text-sm overflow-y-auto' onSubmit={handleSubmit}>
+            <form action="" className='w-full flex flex-col items-center md:gap-10 gap-5 md:text-sm text-xs overflow-y-auto' onSubmit={handleSubmit}>
               {/* Full Name */}
-              <div className='w-[70%] flex justify-between gap-5'>
+              <div className='md:w-[70%] w-[90%] flex md:flex-row flex-col justify-between gap-5'>
                 {/* First Name */}
                 <div className="flex flex-col">
                   <div className="flex items-center relative">
@@ -221,7 +221,7 @@ function SignUp() {
                 </div>
               </div>
               {/* Email */}
-              <div className="w-[70%] flex flex-col">
+              <div className="md:w-[70%] w-[90%] flex flex-col">
                 <div className='w-full flex items-center relative'>
                   <MdOutlineAlternateEmail className='absolute left-2 text-lg' />
                   <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="email" placeholder='Email' id="email" name='email' onChange={handleEmail} required />
@@ -233,7 +233,7 @@ function SignUp() {
                 </div>
               </div>
               {/* Password */}
-              <div className="w-[70%] flex flex-col">
+              <div className="md:w-[70%] w-[90%] flex flex-col">
                 <div className="w-full flex items-center relative">
                   <RiLockPasswordLine className='absolute left-2 text-lg' />
                   <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Password' min="8" id='password' name='password' onChange={handlePassword} required />
@@ -245,7 +245,7 @@ function SignUp() {
                 </div>
               </div>
               {/* Confirm Password */}
-              <div className="w-[70%] flex flex-col">
+              <div className="md:w-[70%] w-[90%] flex flex-col">
                 <div className='w-full flex items-center relative'>
                   <VscRefresh className='absolute left-2 text-lg' />
                   <input className='w-full px-8 py-2 bg-slate-100/20 outline-none' type="password" placeholder='Confirm Password' min="8" id='confirmPassword' onChange={handleConfirmPassword} required />
@@ -257,19 +257,19 @@ function SignUp() {
                 </div>
               </div>
               {/* Submit */}
-              <div className="w-[70%]">
+              <div className="md:w-[70%] w-[90%]">
                 <input className='w-full bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer' type="submit" value="Get Started" />
               </div>
             </form>
           )
         }
 
-        
-        <div>
-          <span className='text-sm text-gray-200'>Already have an account? <Link to='/Sign_In' className='text-red-500 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-red-500 hover:after:w-[80%] after:duration-300'>Log in</Link></span>
+        <div className='text-center'>
+          <span className='sm:text-sm text-xs text-gray-200'>Already have an account? <Link to='/Sign_In' className='text-red-500 relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[1.5px] after:w-0 after:bg-red-500 hover:after:w-[80%] after:duration-300'>Log in</Link></span>
         </div>
       </div>
-      <div className='h-full w-[40%]'>
+
+      <div className='h-full w-[40%] hidden md:block'>
         <img src={Pic} alt="" className='w-full max-h-full min-h-full' />
       </div>
     </div>

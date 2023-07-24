@@ -67,10 +67,10 @@ function App() {
   return (
     <BrowserRouter>
         <div className='w-full h-[100vh] bg-gradient-to-r from-gray-900 to-gray-800 flex font-Poppins text-white selection:bg-red-400/80 selection:text-white'>
-          <div className='min-w-[15%] h-full flex flex-col items-center justify-between py-10'>
+          <div className='md:min-w-[15%] min-w-[10%] h-full flex flex-col items-center justify-between md:py-10 py-5 px-6 text-center'>
               <NavBar isLoggedIn={isLoggedIn} idUser={idUser} />
           </div>
-          <div className='min-w-[85%] flex justify-center items-center overflow-hidden'>
+          <div className='min-w-[85%] h-[100vh] flex justify-center items-center overflow-hidden'>
             <Routes>
               <Route exact path='/' element={<Home />}></Route>
               <Route path='/Display_Cars' element={<DisplayAllCars handleVehicule={handleVehicule} />}>

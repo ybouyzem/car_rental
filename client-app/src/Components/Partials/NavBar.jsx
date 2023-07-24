@@ -18,9 +18,9 @@ function NavBar({isLoggedIn, idUser}) {
   var [prenom, setPrenom] = useState('');
 
   var nav = [
-    {icon: <AiOutlineHome className='text-2xl' />, navigate: "/"},
-    {icon: <IoCarSportOutline className='text-2xl' />, navigate: "/Display_Cars"},
-    {icon: <TbMessageCircle className='text-2xl' />, navigate: "/Contact"},
+    {icon: <AiOutlineHome className='md:text-2xl text-lg' />, navigate: "/"},
+    {icon: <IoCarSportOutline className='md:text-2xl text-lg' />, navigate: "/Display_Cars"},
+    {icon: <TbMessageCircle className='md:text-2xl text-lg' />, navigate: "/Contact"},
   ];
   if(isLoggedIn){
     // extract user data
@@ -37,20 +37,20 @@ function NavBar({isLoggedIn, idUser}) {
 
     nav.push ({icon: `${nom.charAt(0).toUpperCase()}${prenom.charAt(0).toUpperCase()}`, navigate: "/Profile"});
   }else{
-    nav.push({icon: <AiOutlineUserAdd className='text-2xl' />, navigate: "/Sign_Up"},
-             {icon: <CgProfile className='text-2xl' />, navigate: "/Sign_In"});
+    nav.push({icon: <AiOutlineUserAdd className='md:text-2xl text-lg' />, navigate: "/Sign_Up"},
+             {icon: <CgProfile className='md:text-2xl text-lg' />, navigate: "/Sign_In"});
   }
   
   const myNav = nav.map((item, key) => {
     return(
-      <li key={key}><Link className='w-12 h-12 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to={item.navigate}>{item.icon}</Link></li>
+      <li key={key}><Link className='md:w-12 md:h-12 w-10 h-10 flex justify-center items-center bg-slate-100/20 rounded-full cursor-pointer hover:bg-red-500/20 hover:text-red-500 duration-300' to={item.navigate}>{item.icon}</Link></li>
     )
   });
   return (
     <header className='w-full h-full flex flex-col justify-between items-center'>
       <Logo />
       <nav className='flex flex-col justify-center items-center'>
-        <ul className='flex flex-col gap-10 text-white'>
+        <ul className='flex flex-col md:gap-10 gap-5 text-white text-xs md:text-sm'>
           {myNav}
         </ul>
       </nav>

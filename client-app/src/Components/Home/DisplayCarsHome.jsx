@@ -72,25 +72,25 @@ function DisplayCarsHome() {
 
     return (
       <div className='min-w-full h-full flex flex-col justify-center px-[2%] relative'>
-        <div className='w-full h-full flex'>
-          <div className='h-full min-w-[50%] flex flex-col justify-center gap-10'>
-            <div data-aos="fade-down-right" className='text-7xl font-extrabold capitalized flex flex-col'>
+        <div className='w-full h-full flex sm:flex-row flex-col items-center justify-center'>
+          <div className='sm:h-full h-[50%] min-w-[50%] flex flex-col justify-center gap-10 z-10'>
+            <div data-aos="fade-down-right" className='2xl:text-7xl xl:text-6xl md:text-5xl sm:text-4xl text-4xl font-extrabold capitalized flex flex-col'>
               <span className='text-white'>Find, book, and rent a car in </span>
               <span id='sec-text' className='text-red-500'>{displayText}</span>
             </div>
             <div data-aos="fade-right">
-              <p className='text-xl text-gray-200 leading-7 font-Fasthand'>Welcome to our car rental service, where we provide you with a hassle-free and convenient way to rent a car for all your transportation needs.</p>
+              <p className='md:text-xl text-xs text-gray-200 leading-7 font-Fasthand'>Welcome to our car rental service, where we provide you with a hassle-free and convenient way to rent a car for all your transportation needs.</p>
             </div>
-            <div className='w-[80%] flex gap-5' data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
+            <div className='w-[80%] flex gap-5 sm:text-sm text-xs md:text-lg' data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
               <Link to="/Display_Cars" className='w-[50%] bg-red-500/20 hover:bg-red-600/20 duration-300 py-5 cursor-pointer flex justify-center items-center'>Rental Car</Link>
               <Link to="/Contact" className='w-[50%] border-2 border-red-500/20 hover:border-red-600/20 duration-300 py-5 cursor-pointer flex justify-center items-center'>Get in touch</Link>
             </div>
           </div>
-          <div className='h-full flex items-center' data-aos="fade-left">
+          <div className='sm:h-full h-[20%] hidden sm:flex items-center' data-aos="fade-left">
             <img src={Pic} alt="" loading='lazy' />
           </div>
         </div>
-        <div className='w-full flex justify-center gap-10 text-5xl px-[5%] absolute bottom-10 '>
+        <div className='w-full flex justify-center sm:gap-5 md:gap-10 gap-3 text-5xl px-[5%] absolute bottom-10 '>
           <SiMercedes />
           <SiFord />
           <SiLamborghini />

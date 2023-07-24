@@ -62,7 +62,7 @@ function DisplayAllCars({handleVehicule}) {
       <div className='w-full h-[40%] flex flex-col items-center py-[2%] gap-10'>
           {/* Title */}
           <div>
-              <span className='text-xl font-extrabold'>No Available Cars</span>
+              <span className='md:text-xl text-sm font-extrabold'>No Available Cars</span>
           </div>
           <div className='h-[80%]'>
               <img src={EmptyPic} alt="" className='h-full' />
@@ -72,15 +72,15 @@ function DisplayAllCars({handleVehicule}) {
   }
 
   return (
-      <div className='w-full h-full flex gap-5 pt-[8%] pb-[2%] pr-[1%] relative overflow-hidden'>
-        <form className="w-[20%] flex items-center absolute right-5 top-5" onSubmit={(e)=>e.preventDefault()}>
+      <div className='w-full h-full flex md:flex-row flex-col gap-5 pt-[8%] pb-[2%] pr-[1%] relative overflow-hidden'>
+        <form className="md:w-[20%] w-[90%] flex items-center absolute right-5 top-5" onSubmit={(e)=>e.preventDefault()}>
           <FiSearch className='absolute left-2' />
           <input className='w-full px-8 py-2 bg-transparent border-b-2 border-gray-100/20 outline-none focus:border-red-500' type="text" placeholder='Search...' name='search' value={searchCar} onChange={(e)=>setSearchCar(e.target.value)} />
         </form>
-        <div className='w-[50%] h-full flex flex-col gap-5'>
+        <div className='md:w-[50%] md:h-full w-full h-[50%] flex flex-col gap-5'>
           <div className='w-full flex justify-between items-center gap-5'>
-              <button onClick={previousPage} disabled={currentPage === 1} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='text-xl rotate-180' /></button>
-              <button onClick={nextPage} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='text-xl' /></button>
+              <button onClick={previousPage} disabled={currentPage === 1} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='md:text-xl text-sm rotate-180' /></button>
+              <button onClick={nextPage} className='p-[3%] rounded-full bg-red-500/20 hover:bg-red-600/20 duration-300 cursor-pointer z-10'><AiOutlineArrowRight className='md:text-xl text-sm' /></button>
           </div>
           <div className='w-full h-full flex flex-col gap-5 overflow-y-auto relative'>
             {
@@ -111,7 +111,6 @@ function DisplayAllCars({handleVehicule}) {
                 </div>
               )
             }
-            
             
           </div>
         </div>

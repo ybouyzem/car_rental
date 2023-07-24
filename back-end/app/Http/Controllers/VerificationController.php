@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class VerificationController extends Controller
 {
 
     // verify the email
-    public function verify($id) {
+    public function verify($encryptedToken) {
+
+        $id = Crypt::decryptString($encryptedToken);
         $user = Utilisateur::find($id);
 
         if (!$user) {
